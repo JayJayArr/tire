@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NbIconModule, NbLayoutModule, NbUserModule } from '@nebular/theme';
+import { User } from './types';
 
 @Component({
   selector: 'app-root',
@@ -11,4 +12,8 @@ import { NbIconModule, NbLayoutModule, NbUserModule } from '@nebular/theme';
 })
 export class AppComponent {
   title = 'tire';
+  user = signal<User>({
+    cardno: '10490',
+    role: 'user',
+  });
 }

@@ -7,6 +7,11 @@
         [options]="{ animation: { type: 'shake' } }"
       ></nb-icon>
     </h1>
+    <nb-user
+      name="{{ user().cardno }}"
+      title="{{ user().role }}"
+      showInitials="true"
+    ></nb-user>
   </nb-layout-header>
   <nb-layout-column>
     <router-outlet> </router-outlet>

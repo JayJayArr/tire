@@ -1,19 +1,7 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { NbCardModule, NbTreeGridModule } from '@nebular/theme';
-
-interface TreeNode<T> {
-  data: T;
-  children?: TreeNode<T>[];
-  expanded?: boolean;
-}
-
-interface FSEntry {
-  name: string;
-  size: string;
-  kind: string;
-  items?: number;
-}
+import { FSEntry, TreeNode } from '../types';
 
 @Component({
   selector: 'app-personal',

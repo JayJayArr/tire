@@ -1,19 +1,8 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { NbCardModule, NbTreeGridModule } from '@nebular/theme';
+import { FSEntry, TreeNode } from '../types';
 
-interface TreeNode<T> {
-  data: T;
-  children?: TreeNode<T>[];
-  expanded?: boolean;
-}
-
-interface FSEntry {
-  name: string;
-  size: string;
-  kind: string;
-  items?: number;
-}
 @Component({
   selector: 'app-admin',
   standalone: true,
