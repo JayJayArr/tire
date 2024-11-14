@@ -1,8 +1,7 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { NbIconModule, NbLayoutModule, NbUserModule } from '@nebular/theme';
 import { User } from './types';
-import { NbAuthModule, NbPasswordAuthStrategy } from '@nebular/auth';
 
 @Component({
   selector: 'app-root',
@@ -12,10 +11,15 @@ import { NbAuthModule, NbPasswordAuthStrategy } from '@nebular/auth';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
+  constructor(private router: Router) { }
   title = 'tire';
   user = signal<User>({
     email: 'jakob.janus@nutz.com',
     role: 'user',
     cardno: '10234',
   });
+
+  onAvatar() {
+    this.router.navigate(['/settings']);
+  }
 }

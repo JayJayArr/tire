@@ -11,6 +11,8 @@
       name="{{ user().email }}"
       title="{{ user().cardno }}"
       showInitials="true"
+      (click)="onAvatar()"
+      clickable
     ></nb-user>
   </nb-layout-header>
   <nb-layout-column>
