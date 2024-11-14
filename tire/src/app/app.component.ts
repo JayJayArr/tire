@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NbIconModule, NbLayoutModule, NbUserModule } from '@nebular/theme';
 import { User } from './types';
+import { NbAuthModule, NbPasswordAuthStrategy } from '@nebular/auth';
 
 @Component({
   selector: 'app-root',
