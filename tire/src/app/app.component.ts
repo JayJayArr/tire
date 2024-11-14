@@ -14,7 +14,8 @@ import { NbAuthModule, NbPasswordAuthStrategy } from '@nebular/auth';
 export class AppComponent {
   title = 'tire';
   user = signal<User>({
-    cardno: '10490',
+    email: 'jakob.janus@nutz.com',
     role: 'user',
+    cardno: '10234',
   });
 }

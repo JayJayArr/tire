@@ -21,6 +21,7 @@ export interface TimeEntry {
 }
 
 export interface User {
+  email: string;
   cardno: string;
   role: string;
 }
