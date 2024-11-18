@@ -17,13 +17,13 @@ export class AuthGuard implements CanActivate {
   constructor(
     private authService: NbAuthService,
     private router: Router,
-  ) {}
+  ) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
   ): MaybeAsync<GuardResult> {
-    return this.authService.isAuthenticated().pipe(
+    return this.authService.isAuthenticatedOrRefresh().pipe(
       tap((authenticated) => {
         if (!authenticated) {
           this.router.navigate(['auth/login']);

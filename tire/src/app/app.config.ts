@@ -33,13 +33,12 @@ export const appConfig: ApplicationConfig = {
             name: 'email',
             token: {
               class: NbAuthJWTToken,
-              key: 'token',
             },
             baseEndpoint: 'http://localhost:3000/api/v1',
             login: {
               endpoint: '/auth/login',
               redirect: {
-                success: '/',
+                success: '/personal',
                 failure: null,
               },
             },

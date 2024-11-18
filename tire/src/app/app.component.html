@@ -7,13 +7,13 @@
         [options]="{ animation: { type: 'shake' } }"
       ></nb-icon>
     </h1>
-    <nb-user
-      name="{{ user().email }}"
-      title="{{ user().cardno }}"
-      showInitials="true"
-      (click)="onAvatar()"
-      clickable
-    ></nb-user>
+    <button (click)="onAvatar()" nbButton outline>
+      <nb-user
+        [name]="user.email"
+        [title]="user.cardno"
+        showInitials="true"
+      ></nb-user>
+    </button>
   </nb-layout-header>
   <nb-layout-column>
     <router-outlet> </router-outlet>
