@@ -1,5 +1,5 @@
 <nb-layout>
-  <nb-layout-header fixed class>
+  <nb-layout-header>
     <h1>
       {{ title }}
       <nb-icon
@@ -7,13 +7,14 @@
         [options]="{ animation: { type: 'shake' } }"
       ></nb-icon>
     </h1>
-    <button (click)="onAvatar()" nbButton outline>
-      <nb-user
-        [name]="user.email"
-        [title]="user.cardno"
-        showInitials="true"
-      ></nb-user>
-    </button>
+    <nb-user
+      [name]="user.email"
+      [title]="user.cardno"
+      showInitials="true"
+      [nbContextMenu]="items"
+      nbContextMenuTag="usercontextmenu"
+      nbContextMenuTrigger="hover"
+    ></nb-user>
   </nb-layout-header>
   <nb-layout-column>
     <router-outlet> </router-outlet>

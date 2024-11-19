@@ -23,10 +23,10 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
   ): MaybeAsync<GuardResult> {
-    return this.authService.isAuthenticatedOrRefresh().pipe(
+    return this.authService.isAuthenticated().pipe(
       tap((authenticated) => {
         if (!authenticated) {
-          this.router.navigate(['auth/login']);
+          this.router.navigate(['auth/login/']);
         }
       }),
     );

@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { PersonalComponent } from './personal/personal.component';
+import { OverviewComponent } from './overview/overview.component';
 import { AdminComponent } from './admin/admin.component';
-import { SettingsComponent } from './settings/settings.component';
 import { NbAuthComponent, NbLoginComponent } from '@nebular/auth';
 import { AuthGuard } from './auth-guard.service';
 import { HomeComponent } from './home/home.component';
@@ -21,19 +21,18 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'settings',
-    component: SettingsComponent,
-    canActivate: [AuthGuard],
-  },
-  {
     path: 'admin',
     component: AdminComponent,
     canActivate: [AuthGuard],
   },
   {
-    path: '',
+    path: 'overview',
+    component: OverviewComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: '*',
     redirectTo: 'home',
-    pathMatch: 'full',
   },
   {
     path: 'home',

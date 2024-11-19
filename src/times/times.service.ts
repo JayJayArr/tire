@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TimeEntry, TreeNode } from 'tire/src/app/types';
+import { TimeEntry } from 'tire/src/app/types';
 
 @Injectable()
 export class TimesService {
