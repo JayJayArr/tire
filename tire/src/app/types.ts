@@ -14,11 +14,11 @@ export interface FSEntry {
 export interface TimeEntry {
   name?: string;
   indevice: string;
-  outdevice: string;
-  intime: Date;
-  outtime: Date;
-  difference: number;
+  outdevice?: string;
+  intime?: Date;
+  outtime?: Date;
 }
+//TODO: Remove the option on the intime, if a line exists it should always have a intime
 
 export interface User {
   email: string;

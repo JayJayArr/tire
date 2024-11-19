@@ -7,7 +7,7 @@ import {
   NbUserModule,
 } from '@nebular/theme';
 import { User } from './types';
-import { NbAuthJWTToken, NbAuthService, NbAuthToken } from '@nebular/auth';
+import { NbAuthService } from '@nebular/auth';
 
 @Component({
   selector: 'app-root',
@@ -34,7 +34,7 @@ export class AppComponent {
     private router: Router,
     private authService: NbAuthService,
   ) {
-    this.authService.onTokenChange().subscribe((token: NbAuthToken) => {
+    this.authService.onTokenChange().subscribe((token) => {
       if (token.isValid()) {
         this.user = token.getPayload();
         console.log(this.user);

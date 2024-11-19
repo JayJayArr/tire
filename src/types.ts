@@ -9,4 +9,5 @@ export interface User {
 export enum Role {
   user,
   admin,
+  poweruser,
 }
