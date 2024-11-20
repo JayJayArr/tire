@@ -49,6 +49,9 @@ export const appConfig: ApplicationConfig = {
                 failure: null,
               },
             },
+            logout: {
+              endpoint: '',
+            },
           }),
         ],
         forms: {

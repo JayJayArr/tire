@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterContentChecked,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import {
   NbButtonModule,
@@ -13,7 +20,6 @@ import {
 } from '@nebular/theme';
 import { User } from './types';
 import { NbAuthService, NbTokenService } from '@nebular/auth';
-import { filter, map } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -31,10 +37,10 @@ import { filter, map } from 'rxjs';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements AfterContentChecked {
   user: User = {
-    email: 'login',
     cardno: '',
+    email: '',
     role: '',
   };
 
@@ -42,7 +48,7 @@ export class AppComponent implements OnInit, OnDestroy {
   clickhandler: any;
   items: NbMenuItem[] = [
     { title: 'Personal times', link: 'personal', icon: 'clock-outline' },
-    { title: 'Overview', link: 'overview', icon: 'clock-outline' },
+    { title: 'Overview', link: 'overview', icon: 'person-outline' },
     { title: 'Global Settings', link: 'admin', icon: 'settings-2-outline' },
     { title: 'Log out', link: 'auth/logout', icon: 'unlock-outline' },
   ];
@@ -52,31 +58,21 @@ export class AppComponent implements OnInit, OnDestroy {
     private tokenService: NbTokenService,
     private authService: NbAuthService,
     private nbMenuService: NbMenuService,
+    private ref: ChangeDetectorRef,
   ) {
     this.authService.onTokenChange().subscribe((token) => {
       if (token.isValid()) {
         this.user = token.getPayload();
-        console.log(this.user);
+      } else {
+        this.user = {
+          cardno: '',
+          email: '',
+          role: '',
+        };
       }
     });
   }
-  ngOnInit(): void {
-    this.clickhandler = this.nbMenuService
-      .onItemClick()
-      .pipe(
-        filter(({ tag }) => tag === 'usercontextmenu'),
-        map(({ item: { title } }) => title),
-      )
-      .subscribe((title) => {
-        if (title == 'Log out') {
-          this.tokenService.clear();
-          this.authService.logout('email');
-          this.router.navigate(['home']);
-          console.log('Log Out clicked');
-        }
-      });
-  }
-  ngOnDestroy(): void {
-    this.clickhandler.unsubscribe();
+  ngAfterContentChecked(): void {
+    this.ref.detectChanges();
   }
 }
