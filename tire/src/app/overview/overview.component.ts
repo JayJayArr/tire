@@ -4,10 +4,11 @@ import { NbCardModule, NbTreeGridModule } from '@nebular/theme';
 import { FSEntry, TreeNode } from '../types';
 
 @Component({
-    selector: 'app-overview',
-    imports: [NbCardModule, NbTreeGridModule, NgFor, NgIf],
-    templateUrl: './overview.component.html',
-    styleUrl: './overview.component.css'
+  selector: 'app-overview',
+  standalone: true,
+  imports: [NbCardModule, NbTreeGridModule, NgFor, NgIf],
+  templateUrl: './overview.component.html',
+  styleUrl: './overview.component.css',
 })
 export class OverviewComponent {
   customColumn = 'name';

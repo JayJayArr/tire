@@ -6,10 +6,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Component({
-    selector: 'app-personal',
-    imports: [NbTreeGridModule, NbCardModule, NgFor, NgIf],
-    templateUrl: './personal.component.html',
-    styleUrl: './personal.component.css'
+  selector: 'app-personal',
+  standalone: true,
+  imports: [NbTreeGridModule, NbCardModule, NgFor, NgIf],
+  templateUrl: './personal.component.html',
+  styleUrl: './personal.component.css',
 })
 export class PersonalComponent {
   private apiUrl = 'http://localhost:3000/api/vi/times';
