@@ -7,15 +7,17 @@
         [options]="{ animation: { type: 'shake' } }"
       ></nb-icon>
     </h1>
-    <nb-user
-      [name]="user.email"
-      [title]="user.cardno"
-      showInitials="true"
-      [nbContextMenu]="items"
-      nbContextMenuTag="usercontextmenu"
-      nbContextMenuTrigger="hover"
-    ></nb-user>
+    @if (user.cardno != '') {
+      <nb-user
+        [name]="user.email"
+        [title]="user.cardno"
+        showInitials="true"
+      ></nb-user>
+    }
   </nb-layout-header>
+  <nb-sidebar>
+    <nb-menu [items]="items"> </nb-menu>
+  </nb-sidebar>
   <nb-layout-column>
     <router-outlet> </router-outlet>
   </nb-layout-column>

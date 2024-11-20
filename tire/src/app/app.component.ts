@@ -5,8 +5,10 @@ import {
   NbContextMenuModule,
   NbIconModule,
   NbLayoutModule,
+  NbMenuItem,
   NbMenuModule,
   NbMenuService,
+  NbSidebarModule,
   NbUserModule,
 } from '@nebular/theme';
 import { User } from './types';
@@ -24,6 +26,7 @@ import { filter, map } from 'rxjs';
     NbButtonModule,
     NbContextMenuModule,
     NbMenuModule,
+    NbSidebarModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -37,9 +40,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   title = 'tire';
   clickhandler: any;
-  items = [
+  items: NbMenuItem[] = [
+    { title: 'Personal times', link: 'personal', icon: 'clock-outline' },
+    { title: 'Overview', link: 'overview', icon: 'clock-outline' },
     { title: 'Global Settings', link: 'admin', icon: 'settings-2-outline' },
-    { title: 'Log out', icon: 'unlock-outline' },
+    { title: 'Log out', link: 'auth/logout', icon: 'unlock-outline' },
   ];
 
   constructor(
