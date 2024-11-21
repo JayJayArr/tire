@@ -20,6 +20,7 @@ import {
 } from '@nebular/theme';
 import { User } from './types';
 import { NbAuthService, NbTokenService } from '@nebular/auth';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -54,12 +55,12 @@ export class AppComponent implements AfterContentChecked {
   ];
 
   constructor(
-    private router: Router,
-    private tokenService: NbTokenService,
     private authService: NbAuthService,
     private nbMenuService: NbMenuService,
     private ref: ChangeDetectorRef,
   ) {
+    console.log(environment);
+
     this.authService.onTokenChange().subscribe((token) => {
       if (token.isValid()) {
         this.user = token.getPayload();

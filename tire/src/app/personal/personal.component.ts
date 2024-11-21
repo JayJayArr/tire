@@ -1,9 +1,8 @@
 import { NgFor, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NbCardModule, NbTreeGridModule } from '@nebular/theme';
-import { TimeEntry, TreeNode } from '../types';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { TimeEntry } from '../types';
+import { TimesService } from '../services/times.service';
 
 @Component({
   selector: 'app-personal',
@@ -12,18 +11,17 @@ import { Observable } from 'rxjs';
   templateUrl: './personal.component.html',
   styleUrl: './personal.component.css',
 })
-export class PersonalComponent {
-  private apiUrl = 'http://localhost:3000/api/vi/times';
-  constructor(private http: HttpClient) { }
-  getTimes(): Observable<any> {
-    return this.http.get(this.apiUrl, {
-      headers: { Accept: 'application/json' },
-    });
-  }
+export class PersonalComponent implements OnInit {
+  constructor(private timesService: TimesService) { }
 
   customColumn = 'name';
-  defaultColumns = ['size', 'kind', 'items'];
+  defaultColumns = ['indevice', 'outdevice', 'intime', 'outtime'];
   allColumns = [this.customColumn, ...this.defaultColumns];
 
-  data: TreeNode<TimeEntry>[] = [];
+  data: TimeEntry[] = [];
+
+  async ngOnInit() {
+    this.data = await this.timesService.gettimes();
+    console.log(this.data);
+  }
 }

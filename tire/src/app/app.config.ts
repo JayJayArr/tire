@@ -13,13 +13,22 @@ import {
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { routes } from './app.routes';
-import { provideHttpClient } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from '@angular/common/http';
 import {
   NbPasswordAuthStrategy,
   NbAuthModule,
   NbAuthJWTToken,
+  NbAuthSimpleInterceptor,
+  NbAuthJWTInterceptor,
 } from '@nebular/auth';
-import { AuthGuard } from './auth-guard.service';
+import { AuthGuard } from './services/auth-guard.service';
+import { environment } from '../environments/environment';
+import { ApiInterceptor } from './api.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -28,7 +37,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(NbThemeModule.forRoot({ name: 'dark' })),
     importProvidersFrom(NbEvaIconsModule),
     importProvidersFrom(BrowserAnimationsModule),
-    provideHttpClient(),
+    provideHttpClient(withFetch(), withInterceptors([ApiInterceptor])),
     importProvidersFrom(AuthGuard),
     importProvidersFrom(NbMenuModule.forRoot()),
     importProvidersFrom(NbContextMenuModule),
@@ -41,9 +50,9 @@ export const appConfig: ApplicationConfig = {
             token: {
               class: NbAuthJWTToken,
             },
-            baseEndpoint: 'http://localhost:3000/api/v1/',
+            baseEndpoint: environment.apiBaseUrl,
             login: {
-              endpoint: 'auth/login',
+              endpoint: '/auth/login',
               redirect: {
                 success: 'home',
                 failure: null,

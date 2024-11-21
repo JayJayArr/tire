@@ -1,11 +1,13 @@
-import { Body, Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, UseGuards } from '@nestjs/common';
 import { TimesService } from './times.service';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('times')
 export class TimesController {
   constructor(private timesService: TimesService) { }
+  @UseGuards(AuthGuard)
   @Get()
-  gettimes(@Body() cardno: String) {
+  gettimes() {
     return this.timesService.gettimes();
   }
 }
