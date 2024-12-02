@@ -16,8 +16,7 @@ export class PersonalComponent implements OnInit {
 
   allColumns = ['name', 'indevice', 'outdevice', 'intime', 'outtime'];
 
-  // data: TimeEntry[] = [];
-  data: any[] = [];
+  data: { data: TimeEntry }[] = [];
 
   async ngOnInit() {
     this.data = await this.timesService.gettimes();
