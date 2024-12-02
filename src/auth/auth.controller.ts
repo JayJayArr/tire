@@ -11,11 +11,10 @@ import { SignInDto } from 'src/pipes/signInDto';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
   @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(@Body(new ValidationPipe()) signInDto: SignInDto) {
-    console.log('received login request:', signInDto.email);
     return this.authService.signIn(signInDto.email, signInDto.password);
   }
 }

@@ -13,7 +13,6 @@ export const ApiInterceptor: HttpInterceptorFn = (req, next) => {
   if (authenticated) {
     authService.getToken().subscribe((token) => {
       if (token.isValid()) {
-        console.log(token.getValue());
         authToken = token.getValue();
       }
     });

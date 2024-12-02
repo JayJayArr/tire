@@ -14,11 +14,10 @@ import { TimesService } from '../services/times.service';
 export class PersonalComponent implements OnInit {
   constructor(private timesService: TimesService) { }
 
-  customColumn = 'name';
-  defaultColumns = ['indevice', 'outdevice', 'intime', 'outtime'];
-  allColumns = [this.customColumn, ...this.defaultColumns];
+  allColumns = ['name', 'indevice', 'outdevice', 'intime', 'outtime'];
 
-  data: TimeEntry[] = [];
+  // data: TimeEntry[] = [];
+  data: any[] = [];
 
   async ngOnInit() {
     this.data = await this.timesService.gettimes();

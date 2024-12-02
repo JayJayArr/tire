@@ -15,8 +15,8 @@ export interface TimeEntry {
   name?: string;
   indevice: string;
   outdevice?: string;
-  intime?: Date;
-  outtime?: Date;
+  intime: Date;
+  outtime: Date;
 }
 //TODO: Remove the option on the intime, if a line exists it should always have a intime
 
