@@ -14,7 +14,7 @@ import { TimesService } from '../services/times.service';
 export class PersonalComponent implements OnInit {
   constructor(private timesService: TimesService) { }
 
-  allColumns = ['name', 'indevice', 'outdevice', 'intime', 'outtime'];
+  allColumns = ['name', 'indevice', 'outdevice', 'intime', 'outtime', 'diff'];
 
   data: { data: TimeEntry }[] = [];
 

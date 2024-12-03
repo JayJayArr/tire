@@ -1,13 +1,13 @@
-export interface User {
+export class User {
   userId: number;
   email: string;
   password: string;
   cardno: string;
-  role: Role;
+  roles: Role[];
 }
 
 export enum Role {
-  user,
-  admin,
-  poweruser,
+  User = 'user',
+  Admin = 'admin',
+  Poweruser = 'poweruser',
 }

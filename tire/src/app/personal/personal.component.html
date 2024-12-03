@@ -26,13 +26,19 @@
       <ng-container nbTreeGridColumnDef="intime">
         <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>intime</th>
         <td nbTreeGridCell *nbTreeGridCellDef="let row">
-          {{ row.intime || '-' }}
+          {{ row.data.intime || '-' }}
         </td>
       </ng-container>
       <ng-container nbTreeGridColumnDef="outtime">
         <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>outtime</th>
         <td nbTreeGridCell *nbTreeGridCellDef="let row">
-          {{ row.outtime || '-' }}
+          {{ row.data.outtime || '-' }}
+        </td>
+      </ng-container>
+      <ng-container nbTreeGridColumnDef="diff">
+        <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>diff</th>
+        <td nbTreeGridCell *nbTreeGridCellDef="let row">
+          {{ row.data.outtime - row.data.intime || '-' }}
         </td>
       </ng-container>
     </table>

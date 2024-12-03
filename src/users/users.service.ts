@@ -9,14 +9,14 @@ export class UsersService {
       email: 'jakob.janus@nutz.com',
       password: 'changeme',
       cardno: '1234',
-      role: Role.admin,
+      roles: [Role.Admin],
     },
     {
       userId: 2,
       email: 'jakob.rietdorf@nutz.com',
       password: 'guess',
       cardno: '7890',
-      role: Role.user,
+      roles: [Role.User, Role.Poweruser],
     },
   ];
 
