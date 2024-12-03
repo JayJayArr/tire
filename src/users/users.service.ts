@@ -8,7 +8,7 @@ export class UsersService {
       userId: 1,
       email: 'jakob.janus@nutz.com',
       password: 'changeme',
-      cardno: '1234',
+      cardno: '12345678',
       roles: [Role.Admin],
     },
     {
