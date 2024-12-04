@@ -16,7 +16,7 @@ export class UsersService {
       email: 'jakob.rietdorf@nutz.com',
       password: 'guess',
       cardno: '7890',
-      roles: [Role.User, Role.Poweruser],
+      roles: [Role.User, Role.PowerUser],
     },
   ];
 

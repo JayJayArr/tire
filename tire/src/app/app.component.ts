@@ -1,12 +1,9 @@
 import {
   AfterContentChecked,
-  AfterViewInit,
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  OnInit,
 } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import {
   NbButtonModule,
   NbContextMenuModule,
@@ -14,12 +11,11 @@ import {
   NbLayoutModule,
   NbMenuItem,
   NbMenuModule,
-  NbMenuService,
   NbSidebarModule,
   NbUserModule,
 } from '@nebular/theme';
 import { User } from './types';
-import { NbAuthService, NbTokenService } from '@nebular/auth';
+import { NbAuthService } from '@nebular/auth';
 import { environment } from '../environments/environment';
 
 @Component({
@@ -49,14 +45,17 @@ export class AppComponent implements AfterContentChecked {
   clickhandler: any;
   items: NbMenuItem[] = [
     { title: 'Personal times', link: 'personal', icon: 'clock-outline' },
-    { title: 'Overview', link: 'overview', icon: 'person-outline' },
+    {
+      title: 'Overview',
+      link: 'overview',
+      icon: 'person-outline',
+    },
     { title: 'Global Settings', link: 'admin', icon: 'settings-2-outline' },
     { title: 'Log out', link: 'auth/logout', icon: 'unlock-outline' },
   ];
 
   constructor(
     private authService: NbAuthService,
-    private nbMenuService: NbMenuService,
     private ref: ChangeDetectorRef,
   ) {
     console.log(environment);

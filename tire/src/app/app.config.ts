@@ -14,7 +14,6 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { routes } from './app.routes';
 import {
-  HTTP_INTERCEPTORS,
   provideHttpClient,
   withFetch,
   withInterceptors,
@@ -23,12 +22,12 @@ import {
   NbPasswordAuthStrategy,
   NbAuthModule,
   NbAuthJWTToken,
-  NbAuthSimpleInterceptor,
-  NbAuthJWTInterceptor,
 } from '@nebular/auth';
 import { AuthGuard } from './services/auth-guard.service';
 import { environment } from '../environments/environment';
 import { ApiInterceptor } from './api.interceptor';
+import { NbRoleProvider, NbSecurityModule } from '@nebular/security';
+import { RoleProvider } from './services/role.provider';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -42,6 +41,22 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(NbMenuModule.forRoot()),
     importProvidersFrom(NbContextMenuModule),
     importProvidersFrom(NbSidebarModule.forRoot()),
+    { provide: NbRoleProvider, useClass: RoleProvider },
+    importProvidersFrom(
+      NbSecurityModule.forRoot({
+        accessControl: {
+          user: {
+            view: ['/personal'],
+          },
+          admin: {
+            view: ['/admin'],
+          },
+          poweruser: {
+            view: ['/overview'],
+          },
+        },
+      }),
+    ),
     importProvidersFrom(
       NbAuthModule.forRoot({
         strategies: [

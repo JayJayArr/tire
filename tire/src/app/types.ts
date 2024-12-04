@@ -25,3 +25,9 @@ export interface User {
   cardno: string;
   role: string;
 }
+
+export enum Role {
+  User = 'user',
+  Admin = 'admin',
+  PowerUser = 'poweruser',
+}

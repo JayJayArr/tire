@@ -7,13 +7,12 @@ import { User } from 'src/users/users.decorator';
 
 @Controller('times')
 export class TimesController {
-  constructor(private timesService: TimesService) {}
+  constructor(private timesService: TimesService) { }
 
   @UseGuards(AuthGuard)
   @Roles(Role.Admin)
   @Get()
   gettimes(@User('cardno') cardno: string) {
-    console.log(cardno);
     return this.timesService.gettimes(cardno);
   }
 }

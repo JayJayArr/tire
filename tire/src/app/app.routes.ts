@@ -10,6 +10,7 @@ import {
 } from '@nebular/auth';
 import { AuthGuard } from './services/auth-guard.service';
 import { HomeComponent } from './home/home.component';
+import { RoleGuard } from './services/role-guard.service';
 
 export const routes: Routes = [
   {
@@ -30,12 +31,12 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
   },
   {
     path: 'overview',
     component: OverviewComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
   },
   {
     path: '*',

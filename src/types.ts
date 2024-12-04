@@ -9,5 +9,5 @@ export class User {
 export enum Role {
   User = 'user',
   Admin = 'admin',
-  Poweruser = 'poweruser',
+  PowerUser = 'poweruser',
 }
