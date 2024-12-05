@@ -3,7 +3,7 @@ export class User {
   email: string;
   password: string;
   cardno: string;
-  roles: Role[];
+  roles: Role[] = [Role.User];
 }
 
 export enum Role {

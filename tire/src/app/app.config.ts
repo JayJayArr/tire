@@ -9,6 +9,7 @@ import {
   NbMenuModule,
   NbSidebarModule,
   NbThemeModule,
+  NbToastrModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -34,6 +35,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     importProvidersFrom(RouterModule.forRoot(routes, { useHash: false })),
     importProvidersFrom(NbThemeModule.forRoot({ name: 'dark' })),
+    importProvidersFrom(NbToastrModule.forRoot()),
     importProvidersFrom(NbEvaIconsModule),
     importProvidersFrom(BrowserAnimationsModule),
     provideHttpClient(withFetch(), withInterceptors([ApiInterceptor])),

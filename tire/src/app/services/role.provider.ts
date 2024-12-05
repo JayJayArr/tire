@@ -11,7 +11,6 @@ export class RoleProvider implements NbRoleProvider {
   getRole(): Observable<string> {
     return this.authService.onTokenChange().pipe(
       map((token: NbAuthToken) => {
-        console.log(token.getPayload()['roles']);
         return token.isValid() ? token.getPayload()['roles'] : [];
       }),
     );

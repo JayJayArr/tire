@@ -8,6 +8,7 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { NbAccessChecker } from '@nebular/security';
+import { NbToastrService } from '@nebular/theme';
 import { tap } from 'rxjs';
 
 @Injectable({
@@ -16,6 +17,7 @@ import { tap } from 'rxjs';
 export class RoleGuard implements CanActivate {
   constructor(
     private router: Router,
+    private toastrService: NbToastrService,
     public accessChecker: NbAccessChecker,
   ) {}
 
@@ -23,10 +25,13 @@ export class RoleGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
   ): MaybeAsync<GuardResult> {
-    console.log(state.url);
     return this.accessChecker.isGranted('view', state.url).pipe(
       tap((granted) => {
         if (!granted) {
+          this.toastrService.warning(
+            'Sorry, this requires elevated rights',
+            'Oops!',
+          );
           this.router.navigate(['auth/login/']);
         }
       }),

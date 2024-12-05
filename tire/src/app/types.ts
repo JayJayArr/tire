@@ -17,6 +17,7 @@ export interface TimeEntry {
   outdevice?: string;
   intime: Date;
   outtime: Date;
+  diff: { hour: number; minute: number; second: number };
 }
 //TODO: Remove the option on the intime, if a line exists it should always have a intime
 
