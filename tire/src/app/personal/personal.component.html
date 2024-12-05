@@ -1,11 +1,13 @@
 <nb-card>
   <nb-card-header>
+    <h1>My personal time information</h1>
     <input
       nbInput
       [nbDatepicker]="rangepicker"
       placeholder="Pick Date Range"
       id="rangepicker"
       [(ngModel)]="dateRange"
+      class="datepicker"
     />
     <nb-rangepicker #rangepicker></nb-rangepicker>
     <button
@@ -18,83 +20,6 @@
     </button>
   </nb-card-header>
   <nb-card-body>
-    <h1>My personal time information</h1>
-    <table
-      [nbTreeGrid]="dataSource"
-      [nbSort]="dataSource"
-      (sort)="changeSort($event)"
-    >
-      <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef="allColumns"></tr>
-      <tr nbTreeGridRow *nbTreeGridRowDef="let row; columns: allColumns"></tr>
-
-      <!-- <ng-container nbTreeGridColumnDef="name"> -->
-      <!--   <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>name</th> -->
-      <!--   <td nbTreeGridCell *nbTreeGridCellDef="let row"> -->
-      <!--     {{ row.data.name.substring(0, 8) }} -->
-      <!--   </td> -->
-      <!-- </ng-container> -->
-      <ng-container nbTreeGridColumnDef="indevice">
-        <th
-          nbTreeGridHeaderCell
-          *nbTreeGridHeaderCellDef
-          class="header"
-          [nbSortHeader]="getSortDirection('indevice')"
-        >
-          Coming Device
-        </th>
-        <td nbTreeGridCell *nbTreeGridCellDef="let row">
-          {{ row.data.indevice }}
-        </td>
-      </ng-container>
-      <ng-container nbTreeGridColumnDef="outdevice">
-        <th
-          nbTreeGridHeaderCell
-          *nbTreeGridHeaderCellDef
-          class="header"
-          [nbSortHeader]="getSortDirection('outdevice')"
-        >
-          Leaving Device
-        </th>
-        <td nbTreeGridCell *nbTreeGridCellDef="let row">
-          {{ row.data.outdevice }}
-        </td>
-      </ng-container>
-      <ng-container nbTreeGridColumnDef="intime">
-        <th
-          nbTreeGridHeaderCell
-          *nbTreeGridHeaderCellDef
-          class="header"
-          [nbSortHeader]="getSortDirection('intime')"
-        >
-          Coming Time
-        </th>
-        <td nbTreeGridCell *nbTreeGridCellDef="let row">
-          {{ row.data.intime.toLocaleString() || '-' }}
-        </td>
-      </ng-container>
-      <ng-container nbTreeGridColumnDef="outtime">
-        <th
-          nbTreeGridHeaderCell
-          *nbTreeGridHeaderCellDef
-          class="header"
-          [nbSortHeader]="getSortDirection('outtime')"
-        >
-          Leaving Time
-        </th>
-        <td nbTreeGridCell *nbTreeGridCellDef="let row">
-          {{ row.data.outtime.toLocaleString() || '-' }}
-        </td>
-      </ng-container>
-      <ng-container nbTreeGridColumnDef="diff">
-        <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef class="header">
-          Difference (hh:mm:ss)
-        </th>
-        <td nbTreeGridCell *nbTreeGridCellDef="let row">
-          {{ row.data.diff.hour || '-' }}:{{ row.data.diff.minute || '-' }}:{{
-            row.data.diff.second || '-'
-          }}
-        </td>
-      </ng-container>
-    </table>
+    <app-timetable [data]="data"></app-timetable>
   </nb-card-body>
 </nb-card>
