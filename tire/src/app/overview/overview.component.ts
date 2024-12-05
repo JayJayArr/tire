@@ -1,61 +1,63 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { NbCardModule, NbTreeGridModule } from '@nebular/theme';
-import { FSEntry, TreeNode } from '../types';
+import {
+  NbCardModule,
+  NbInputModule,
+  NbSortDirection,
+  NbSortRequest,
+  NbTreeGridDataSource,
+  NbTreeGridDataSourceBuilder,
+  NbTreeGridModule,
+} from '@nebular/theme';
+import { TimesService } from '../services/times.service';
+import { TimeEntry, TreeNode } from '../types';
+import { getDataDiff } from '../helpers';
 
 @Component({
   selector: 'app-overview',
   standalone: true,
-  imports: [NbCardModule, NbTreeGridModule, NgFor, NgIf],
+  imports: [NbCardModule, NbTreeGridModule, NbInputModule],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.css',
 })
 export class OverviewComponent {
-  customColumn = 'name';
-  defaultColumns = ['size', 'kind', 'items'];
+  constructor(
+    private timesService: TimesService,
+    private dataSourceBuilder: NbTreeGridDataSourceBuilder<TimeEntry>,
+  ) {
+    this.dataSource = this.dataSourceBuilder.create(this.data);
+  }
+  customColumn = 'indevice';
+  defaultColumns = ['outdevice', 'intime', 'outtime', 'diff'];
   allColumns = [this.customColumn, ...this.defaultColumns];
 
-  data: TreeNode<FSEntry>[] = [
-    {
-      data: { name: 'Projects', size: '1.8 MB', items: 5, kind: 'dir' },
-      children: [
-        { data: { name: 'project-1.doc', kind: 'doc', size: '240 KB' } },
-        { data: { name: 'project-2.doc', kind: 'doc', size: '290 KB' } },
-        {
-          data: { name: 'project-3', kind: 'dir', size: '466 KB', items: 3 },
-          children: [
-            { data: { name: 'project-3A.doc', kind: 'doc', size: '200 KB' } },
-            { data: { name: 'project-3B.doc', kind: 'doc', size: '266 KB' } },
-            { data: { name: 'project-3C.doc', kind: 'doc', size: '0' } },
-          ],
-        },
-        { data: { name: 'project-4.docx', kind: 'docx', size: '900 KB' } },
-      ],
-    },
-    {
-      data: { name: 'Reports', kind: 'dir', size: '400 KB', items: 2 },
-      children: [
-        {
-          data: { name: 'Report 1', kind: 'dir', size: '100 KB', items: 1 },
-          children: [
-            { data: { name: 'report-1.doc', kind: 'doc', size: '100 KB' } },
-          ],
-        },
-        {
-          data: { name: 'Report 2', kind: 'dir', size: '300 KB', items: 2 },
-          children: [
-            { data: { name: 'report-2.doc', kind: 'doc', size: '290 KB' } },
-            { data: { name: 'report-2-note.txt', kind: 'txt', size: '10 KB' } },
-          ],
-        },
-      ],
-    },
-    {
-      data: { name: 'Other', kind: 'dir', size: '109 MB', items: 2 },
-      children: [
-        { data: { name: 'backup.bkp', kind: 'bkp', size: '107 MB' } },
-        { data: { name: 'secret-note.txt', kind: 'txt', size: '2 MB' } },
-      ],
-    },
-  ];
+  data: TreeNode<TimeEntry>[] = [];
+  dataSource: NbTreeGridDataSource<any>;
+
+  sortColumn: string = '';
+  sortDirection: NbSortDirection = NbSortDirection.NONE;
+
+  async ngOnInit() {
+    this.data = await this.timesService.gettimes();
+    this.data.forEach((row) => {
+      row.data.intime = new Date(row.data.intime);
+      if (row.data.outtime) {
+        row.data.outtime = new Date(row.data.outtime);
+        row.data.diff = getDataDiff(row.data.intime, row.data.outtime);
+      }
+    });
+    this.dataSource = this.dataSourceBuilder.create(this.data);
+  }
+
+  changeSort(sortRequest: NbSortRequest): void {
+    this.sortColumn = sortRequest.column;
+    this.sortDirection = sortRequest.direction;
+  }
+
+  getSortDirection(column: string): NbSortDirection {
+    if (column === this.sortColumn) {
+      return this.sortDirection;
+    }
+    return NbSortDirection.NONE;
+  }
 }

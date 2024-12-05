@@ -9,6 +9,7 @@ import {
 } from '@nebular/theme';
 import { TimeEntry, TreeNode } from '../types';
 import { TimesService } from '../services/times.service';
+import { getDataDiff } from '../helpers';
 
 @Component({
   selector: 'app-personal',
@@ -38,23 +39,15 @@ export class PersonalComponent implements OnInit {
     this.data = await this.timesService.gettimes();
     this.data.forEach((row) => {
       row.data.intime = new Date(row.data.intime);
-      row.data.outtime = new Date(row.data.outtime);
-      row.data.diff = this.getDataDiff(row.data.intime, row.data.outtime);
+      if (row.data.outtime) {
+        row.data.outtime = new Date(row.data.outtime);
+        row.data.diff = getDataDiff(row.data.intime, row.data.outtime);
+      }
     });
     this.dataSource = this.dataSourceBuilder.create(this.data);
-    console.log(this.data);
-    console.log(this.dataSource);
-  }
-  private getDataDiff(startDate: Date, endDate: Date) {
-    var diff = endDate.getTime() - startDate.getTime();
-    var hours = Math.floor(diff / (60 * 60 * 1000));
-    var minutes = Math.floor(diff / (60 * 1000)) - hours * 60;
-    var seconds = Math.floor(diff / 1000) - (hours * 60 * 60 + minutes * 60);
-    return { hour: hours, minute: minutes, second: seconds };
   }
 
   changeSort(sortRequest: NbSortRequest): void {
-    // this.dataSource.sort(sortRequest);
     this.sortColumn = sortRequest.column;
     this.sortDirection = sortRequest.direction;
   }

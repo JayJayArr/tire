@@ -1,27 +1,87 @@
-<h1>Overview over all the Users</h1>
 <nb-card>
   <nb-card-body>
-    <table [nbTreeGrid]="data" equalColumnsWidth>
+    <h1>Global Overview</h1>
+    <label class="search-label" for="search">Search:</label>
+    <input
+      nbInput
+      [nbFilterInput]="dataSource"
+      id="search"
+      class="search-input"
+    />
+    <table
+      [nbTreeGrid]="dataSource"
+      [nbSort]="dataSource"
+      (sort)="changeSort($event)"
+    >
+      <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef="allColumns"></tr>
       <tr nbTreeGridRow *nbTreeGridRowDef="let row; columns: allColumns"></tr>
 
-      <ng-container [nbTreeGridColumnDef]="customColumn">
+      <!-- <ng-container nbTreeGridColumnDef="name"> -->
+      <!--   <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>name</th> -->
+      <!--   <td nbTreeGridCell *nbTreeGridCellDef="let row"> -->
+      <!--     {{ row.data.name.substring(0, 8) }} -->
+      <!--   </td> -->
+      <!-- </ng-container> -->
+      <ng-container nbTreeGridColumnDef="indevice">
+        <th
+          nbTreeGridHeaderCell
+          *nbTreeGridHeaderCellDef
+          class="header"
+          [nbSortHeader]="getSortDirection('indevice')"
+        >
+          Coming Device
+        </th>
         <td nbTreeGridCell *nbTreeGridCellDef="let row">
-          <nb-tree-grid-row-toggle
-            [expanded]="row.expanded"
-            *ngIf="row.data.kind === 'dir'"
-          >
-          </nb-tree-grid-row-toggle>
-
-          {{ row.data.name }}
+          {{ row.data.indevice }}
         </td>
       </ng-container>
-
-      <ng-container
-        *ngFor="let column of defaultColumns"
-        [nbTreeGridColumnDef]="column"
-      >
+      <ng-container nbTreeGridColumnDef="outdevice">
+        <th
+          nbTreeGridHeaderCell
+          *nbTreeGridHeaderCellDef
+          class="header"
+          [nbSortHeader]="getSortDirection('outdevice')"
+        >
+          Leaving Device
+        </th>
         <td nbTreeGridCell *nbTreeGridCellDef="let row">
-          {{ row.data[column] }}
+          {{ row.data.outdevice }}
+        </td>
+      </ng-container>
+      <ng-container nbTreeGridColumnDef="intime">
+        <th
+          nbTreeGridHeaderCell
+          *nbTreeGridHeaderCellDef
+          class="header"
+          [nbSortHeader]="getSortDirection('intime')"
+        >
+          Coming Time
+        </th>
+        <td nbTreeGridCell *nbTreeGridCellDef="let row">
+          {{ row.data.intime.toLocaleString() || '-' }}
+        </td>
+      </ng-container>
+      <ng-container nbTreeGridColumnDef="outtime">
+        <th
+          nbTreeGridHeaderCell
+          *nbTreeGridHeaderCellDef
+          class="header"
+          [nbSortHeader]="getSortDirection('outtime')"
+        >
+          Leaving Time
+        </th>
+        <td nbTreeGridCell *nbTreeGridCellDef="let row">
+          {{ row.data.outtime.toLocaleString() || '-' }}
+        </td>
+      </ng-container>
+      <ng-container nbTreeGridColumnDef="diff">
+        <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef class="header">
+          Difference (hh:mm:ss)
+        </th>
+        <td nbTreeGridCell *nbTreeGridCellDef="let row">
+          {{ row.data.diff.hour || '-' }}:{{ row.data.diff.minute || '-' }}:{{
+            row.data.diff.second || '-'
+          }}
         </td>
       </ng-container>
     </table>

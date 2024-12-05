@@ -16,11 +16,15 @@ export interface TimeEntry {
   indevice: string;
   outdevice?: string;
   intime: Date;
-  outtime: Date;
-  diff: { hour: number; minute: number; second: number };
+  outtime?: Date;
+  diff?: { hour: number; minute: number; second: number };
 }
-//TODO: Remove the option on the intime, if a line exists it should always have a intime
 
+export interface TimeDiff {
+  hour: number;
+  minute: number;
+  second: number;
+}
 export interface User {
   email: string;
   cardno: string;
