@@ -1,4 +1,22 @@
 <nb-card>
+  <nb-card-header>
+    <input
+      nbInput
+      [nbDatepicker]="rangepicker"
+      placeholder="Pick Date Range"
+      id="rangepicker"
+      [(ngModel)]="dateRange"
+    />
+    <nb-rangepicker #rangepicker></nb-rangepicker>
+    <button
+      nbButton
+      status="primary"
+      class="refresh-button"
+      (click)="refresh()"
+    >
+      Refresh<nb-icon icon="refresh-outline"></nb-icon>
+    </button>
+  </nb-card-header>
   <nb-card-body>
     <h1>My personal time information</h1>
     <table

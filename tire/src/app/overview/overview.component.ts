@@ -1,8 +1,11 @@
-import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import {
+  NbButtonModule,
   NbCardModule,
+  NbDatepickerModule,
+  NbIconModule,
   NbInputModule,
+  NbSelectModule,
   NbSortDirection,
   NbSortRequest,
   NbTreeGridDataSource,
@@ -12,11 +15,21 @@ import {
 import { TimesService } from '../services/times.service';
 import { TimeEntry, TreeNode } from '../types';
 import { getDataDiff } from '../helpers';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-overview',
   standalone: true,
-  imports: [NbCardModule, NbTreeGridModule, NbInputModule],
+  imports: [
+    NbCardModule,
+    NbTreeGridModule,
+    NbInputModule,
+    NbSelectModule,
+    NbButtonModule,
+    NbIconModule,
+    NbDatepickerModule,
+    FormsModule,
+  ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.css',
 })
@@ -36,6 +49,13 @@ export class OverviewComponent {
 
   sortColumn: string = '';
   sortDirection: NbSortDirection = NbSortDirection.NONE;
+  selectedCardno = '';
+  availableCardnos = ['1234', '5678'];
+  date = new Date();
+  dateRange = {
+    start: new Date(this.date.getFullYear(), this.date.getMonth()),
+    end: this.date,
+  };
 
   async ngOnInit() {
     this.data = await this.timesService.gettimes();
@@ -59,5 +79,10 @@ export class OverviewComponent {
       return this.sortDirection;
     }
     return NbSortDirection.NONE;
+  }
+
+  refresh() {
+    console.log(this.dateRange);
+    console.log(this.selectedCardno);
   }
 }

@@ -1,13 +1,33 @@
 <nb-card>
-  <nb-card-body>
+  <nb-card-header>
     <h1>Global Overview</h1>
-    <label class="search-label" for="search">Search:</label>
+    <nb-select
+      placeholder="Select Card Number"
+      [(selected)]="selectedCardno"
+      class="cardno-select"
+    >
+      @for (cardno of availableCardnos; track cardno) {
+        <nb-option value="{{ cardno }}">{{ cardno }}</nb-option>
+      }
+    </nb-select>
     <input
       nbInput
-      [nbFilterInput]="dataSource"
-      id="search"
-      class="search-input"
+      [nbDatepicker]="rangepicker"
+      placeholder="Pick Date Range"
+      id="rangepicker"
+      [(ngModel)]="dateRange"
     />
+    <nb-rangepicker #rangepicker></nb-rangepicker>
+    <button
+      nbButton
+      status="primary"
+      class="refresh-button"
+      (click)="refresh()"
+    >
+      Refresh<nb-icon icon="refresh-outline"></nb-icon>
+    </button>
+  </nb-card-header>
+  <nb-card-body>
     <table
       [nbTreeGrid]="dataSource"
       [nbSort]="dataSource"

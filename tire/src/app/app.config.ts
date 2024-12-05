@@ -6,6 +6,7 @@ import {
 import { RouterModule } from '@angular/router';
 import {
   NbContextMenuModule,
+  NbDatepickerModule,
   NbMenuModule,
   NbSidebarModule,
   NbThemeModule,
@@ -43,6 +44,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(NbMenuModule.forRoot()),
     importProvidersFrom(NbContextMenuModule),
     importProvidersFrom(NbSidebarModule.forRoot()),
+    importProvidersFrom(NbDatepickerModule.forRoot()),
     { provide: NbRoleProvider, useClass: RoleProvider },
     importProvidersFrom(
       NbSecurityModule.forRoot({
