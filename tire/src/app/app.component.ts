@@ -13,6 +13,8 @@ import {
   NbMenuModule,
   NbSidebarModule,
   NbUserModule,
+  NbActionsModule,
+  NbSidebarState,
 } from '@nebular/theme';
 import { User } from './types';
 import { NbAuthService } from '@nebular/auth';
@@ -30,19 +32,19 @@ import { environment } from '../environments/environment';
     NbContextMenuModule,
     NbMenuModule,
     NbSidebarModule,
+    NbActionsModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent implements AfterContentChecked {
+  title = 'tire';
+  sidebarstatus: NbSidebarState = 'expanded';
   user: User = {
     cardno: '',
     email: '',
     role: '',
   };
-
-  title = 'tire';
-  clickhandler: any;
   items: NbMenuItem[] = [
     { title: 'Personal times', link: 'personal', icon: 'clock-outline' },
     {
@@ -74,5 +76,11 @@ export class AppComponent implements AfterContentChecked {
   }
   ngAfterContentChecked(): void {
     this.ref.detectChanges();
+  }
+
+  toggleSidebar() {
+    if (this.sidebarstatus === 'expanded') {
+      this.sidebarstatus = 'compacted';
+    } else this.sidebarstatus = 'expanded';
   }
 }

@@ -19,7 +19,7 @@ export class RoleGuard implements CanActivate {
     private router: Router,
     private toastrService: NbToastrService,
     public accessChecker: NbAccessChecker,
-  ) {}
+  ) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,

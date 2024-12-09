@@ -36,13 +36,13 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     importProvidersFrom(RouterModule.forRoot(routes, { useHash: false })),
     importProvidersFrom(NbThemeModule.forRoot({ name: 'dark' })),
-    importProvidersFrom(NbToastrModule.forRoot()),
     importProvidersFrom(NbEvaIconsModule),
     importProvidersFrom(BrowserAnimationsModule),
     provideHttpClient(withFetch(), withInterceptors([ApiInterceptor])),
     importProvidersFrom(AuthGuard),
     importProvidersFrom(NbMenuModule.forRoot()),
     importProvidersFrom(NbContextMenuModule),
+    importProvidersFrom(NbToastrModule.forRoot()),
     importProvidersFrom(NbSidebarModule.forRoot()),
     importProvidersFrom(NbDatepickerModule.forRoot()),
     { provide: NbRoleProvider, useClass: RoleProvider },
@@ -73,7 +73,7 @@ export const appConfig: ApplicationConfig = {
             login: {
               endpoint: '/auth/login',
               redirect: {
-                success: 'home',
+                success: 'personal',
                 failure: null,
               },
             },

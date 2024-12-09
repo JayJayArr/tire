@@ -10,7 +10,7 @@ export class TimesController {
   constructor(private timesService: TimesService) { }
 
   @UseGuards(AuthGuard)
-  @Roles(Role.Admin)
+  @Roles(Role.User)
   @Get()
   gettimes(@User('cardno') cardno: string) {
     return this.timesService.gettimes(cardno);

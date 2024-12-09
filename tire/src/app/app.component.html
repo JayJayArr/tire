@@ -1,21 +1,31 @@
 <nb-layout>
-  <nb-layout-header fixed>
-    <h1>
-      {{ title }}
-      <nb-icon
-        icon="clock-outline"
-        [options]="{ animation: { type: 'shake' } }"
-      ></nb-icon>
-    </h1>
-    @if (user.cardno != '') {
-      <nb-user
-        [name]="user.email"
-        [title]="user.cardno"
-        showInitials="true"
-      ></nb-user>
+  <nb-layout-header>
+    <nb-actions size="small">
+      <nb-action icon="menu-2-outline" (click)="toggleSidebar()"></nb-action>
+      <nb-action>
+        <h1>{{ title }}</h1>
+        <nb-icon
+          icon="clock-outline"
+          [options]="{ animation: { type: 'shake' } }"
+          class="clock-icon"
+        ></nb-icon
+      ></nb-action>
+    </nb-actions>
+    @if (user.email != '') {
+      <div class="header-container">
+        <nb-actions>
+          <nb-action>
+            <nb-user
+              [name]="user.email"
+              [title]="user.cardno"
+              showInitials="true"
+            ></nb-user>
+          </nb-action>
+        </nb-actions>
+      </div>
     }
   </nb-layout-header>
-  <nb-sidebar>
+  <nb-sidebar [state]="sidebarstatus">
     <nb-menu [items]="items"> </nb-menu>
     <nb-sidebar-footer>
       provided with

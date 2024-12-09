@@ -4,11 +4,7 @@ import { TimeEntry } from 'tire/src/app/types';
 @Injectable()
 export class TimesService {
   gettimes(cardno: string) {
-    if (cardno === '12345678') {
-      return this.dummydata;
-    } else {
-      return [];
-    }
+    return this.dummydata;
   }
 
   private readonly dummydata: { data: TimeEntry }[] = [

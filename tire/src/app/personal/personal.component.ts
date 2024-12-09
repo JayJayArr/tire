@@ -42,7 +42,8 @@ export class PersonalComponent implements OnInit {
     this.data = await this.timesService.gettimes();
   }
 
-  refresh() {
+  async refresh() {
     console.log(this.dateRange);
+    this.data = await this.timesService.gettimes();
   }
 }
