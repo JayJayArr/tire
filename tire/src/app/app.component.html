@@ -1,5 +1,5 @@
 <nb-layout>
-  <nb-layout-header>
+  <nb-layout-header fixed>
     <nb-actions size="small">
       <nb-action icon="menu-2-outline" (click)="toggleSidebar()"></nb-action>
       <nb-action>
@@ -27,17 +27,16 @@
   </nb-layout-header>
   <nb-sidebar [state]="sidebarstatus">
     <nb-menu [items]="items"> </nb-menu>
-    <nb-sidebar-footer>
-      provided with
-      <nb-icon
-        icon="heart-outline"
-        [options]="{ animation: { type: 'pulse' } }"
-      ></nb-icon>
-      by Nutz
-    </nb-sidebar-footer>
   </nb-sidebar>
   <nb-layout-column>
     <router-outlet> </router-outlet>
   </nb-layout-column>
-  <nb-layout-footer fixed></nb-layout-footer>
+  <nb-layout-footer fixed>
+    provided with
+    <nb-icon
+      icon="heart-outline"
+      [options]="{ animation: { type: 'pulse' } }"
+    ></nb-icon>
+    by Nutz
+  </nb-layout-footer>
 </nb-layout>
