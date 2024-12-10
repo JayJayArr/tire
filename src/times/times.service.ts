@@ -1,10 +1,28 @@
-import { Injectable } from '@nestjs/common';
-import { TimeEntry } from 'tire/src/app/types';
+import { Injectable, OnModuleInit } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { TimeEntry } from 'src/entities/timeentry.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
-export class TimesService {
-  gettimes(cardno: string) {
-    return this.dummydata;
+export class TimesService implements OnModuleInit {
+  constructor(
+    @InjectRepository(TimeEntry)
+    private timeEntryRepository: Repository<TimeEntry>,
+  ) {}
+  async gettimes(cardno: string) {
+    let data = await this.timeEntryRepository.find();
+
+    let prepared = [];
+    data.forEach((entry) => {
+      prepared.push({ data: entry });
+    });
+    return data;
+  }
+
+  onModuleInit() {
+    // this.dummydata.forEach((entry) => {
+    //   this.timeEntryRepository.insert(entry.data);
+    // });
   }
 
   private readonly dummydata: { data: TimeEntry }[] = [

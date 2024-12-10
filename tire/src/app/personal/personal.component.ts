@@ -29,7 +29,7 @@ import { TimetableComponent } from '../timetable/timetable.component';
   styleUrl: './personal.component.css',
 })
 export class PersonalComponent implements OnInit {
-  constructor(private timesService: TimesService) { }
+  constructor(private timesService: TimesService) {}
   data: TreeNode<TimeEntry>[] = [];
 
   date = new Date();
