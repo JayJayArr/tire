@@ -1,8 +1,14 @@
-import { Injectable } from '@nestjs/common';
-import { Role, User } from 'src/types';
+import { Injectable, OnModuleInit } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from 'src/entities/user.entity';
+import { Role } from 'src/types';
+import { Repository } from 'typeorm';
 
 @Injectable()
-export class UsersService {
+export class UsersService implements OnModuleInit {
+  constructor(
+    @InjectRepository(User) private usersRepository: Repository<User>,
+  ) {}
   private readonly users: User[] = [
     {
       userId: 1,
@@ -20,7 +26,13 @@ export class UsersService {
     },
   ];
 
-  async findOne(username: string): Promise<User | undefined> {
-    return this.users.find((user) => user.email === username);
+  async findOne(email: string): Promise<User | undefined> {
+    return this.usersRepository.findOneBy({ email });
+  }
+
+  onModuleInit() {
+    // this.users.forEach((user) => {
+    //   this.usersRepository.insert(user);
+    // });
   }
 }

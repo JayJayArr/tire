@@ -5,6 +5,8 @@ import { TimesModule } from './times/times.module';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './roles/roles.guard';
 import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { dataSourceOptions } from './db/data-source';
 
 @Module({
   imports: [
@@ -15,6 +17,7 @@ import { ConfigModule } from '@nestjs/config';
       envFilePath: ['.development.env', '.env'],
       isGlobal: true,
     }),
+    TypeOrmModule.forRoot(dataSourceOptions),
   ],
   controllers: [],
   providers: [{ provide: APP_GUARD, useClass: RolesGuard }],

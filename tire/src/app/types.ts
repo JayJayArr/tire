@@ -12,7 +12,7 @@ export interface FSEntry {
 }
 
 export interface TimeEntry {
-  name?: string;
+  name: string;
   indevice: string;
   outdevice?: string;
   intime: Date;
