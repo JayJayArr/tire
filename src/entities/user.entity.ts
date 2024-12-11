@@ -17,4 +17,7 @@ export class User {
 
   @Column('simple-array')
   roles: Role[];
+
+  @Column()
+  active: boolean;
 }

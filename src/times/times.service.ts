@@ -10,13 +10,7 @@ export class TimesService implements OnModuleInit {
     private timeEntryRepository: Repository<TimeEntry>,
   ) {}
   async gettimes(cardno: string) {
-    let data = await this.timeEntryRepository.find();
-
-    let prepared = [];
-    data.forEach((entry) => {
-      prepared.push({ data: entry });
-    });
-    return data;
+    return await this.timeEntryRepository.find();
   }
 
   onModuleInit() {

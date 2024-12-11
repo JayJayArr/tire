@@ -5,10 +5,10 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 
 export const dataSourceOptions: DataSourceOptions = {
   type: 'sqlite',
-  synchronize: process.env.DEVELOPMENT == 'true',
+  synchronize: true,
   database: './tire.db',
   entities: [User, TimeEntry, TimeCheckpoint],
-  // migrations: ['src/migrations/*.ts'],
+  // migrations: ['../migrations/*.ts'],
   // migrationsRun: process.env.DEVELOPMENT == 'true',
   logging: process.env.DEVELOPMENT == 'true',
 };

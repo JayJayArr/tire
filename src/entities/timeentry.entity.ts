@@ -19,4 +19,7 @@ export class TimeEntry {
 
   @Column()
   outtime?: Date;
+
+  @Column()
+  cardno: string;
 }

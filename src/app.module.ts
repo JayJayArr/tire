@@ -7,17 +7,36 @@ import { RolesGuard } from './roles/roles.guard';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from './db/data-source';
+import { ProWatchModule } from './pro-watch/pro-watch.module';
+import { TimeEntry } from './entities/timeentry.entity';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
     AuthModule,
     UsersModule,
     TimesModule,
+    ProWatchModule,
     ConfigModule.forRoot({
       envFilePath: ['.development.env', '.env'],
       isGlobal: true,
     }),
+    ScheduleModule.forRoot(),
     TypeOrmModule.forRoot(dataSourceOptions),
+    TypeOrmModule.forRoot({
+      name: 'ProWatchConnection',
+      type: 'mssql',
+      port: parseInt(process.env.PROWATCH_PORT),
+      host: process.env.PROWATCH_HOST,
+      username: process.env.PROWATCH_USERNAME,
+      password: process.env.PROWATCH_PASSWORD,
+      database: process.env.PROWATCH_DATABASE,
+      synchronize: false,
+      entities: [TimeEntry],
+      options: {
+        trustServerCertificate: true,
+      },
+    }),
   ],
   controllers: [],
   providers: [{ provide: APP_GUARD, useClass: RolesGuard }],
