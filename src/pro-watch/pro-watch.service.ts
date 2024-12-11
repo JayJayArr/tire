@@ -4,7 +4,7 @@ import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 import { TimeCheckpoint } from 'src/entities/timecheckpoint.entity';
 import { TimeEntry } from 'src/entities/timeentry.entity';
 import { User } from 'src/entities/user.entity';
-import { EntityManager, Repository } from 'typeorm';
+import { EntityManager, IsNull, Repository } from 'typeorm';
 
 @Injectable()
 export class ProWatchService implements OnModuleInit {
@@ -13,7 +13,7 @@ export class ProWatchService implements OnModuleInit {
   @InjectRepository(TimeCheckpoint)
   private timeCheckPointRepository: Repository<TimeCheckpoint>;
   @InjectRepository(User)
-  private usersRepository: Repository<TimeCheckpoint>;
+  private usersRepository: Repository<User>;
   @InjectRepository(TimeEntry)
   private timeEntryRepository: Repository<TimeEntry>;
   private readonly logger = new Logger(ProWatchService.name);
@@ -21,33 +21,113 @@ export class ProWatchService implements OnModuleInit {
   @Cron(CronExpression.EVERY_30_SECONDS)
   async proWatchPuller() {
     this.logger.debug('Starting Pull from ProWatch');
+
     let runbegin = new Date(); //Save the current time as a max date
-    let before = await this.timeCheckPointRepository.findOneBy({
+    let lastrun = await this.timeCheckPointRepository.findOneBy({
       name: 'ProWatch',
     });
+    //TODO: check for the existence of a lastrun value and handle the error appropriately
 
-    let usedCardnos = [];
-    let rawCardnos = await this.usersRepository
+    let usedCardnos = []; // get the cardnumbers of all active users out of the Repository
+    await this.usersRepository
       .createQueryBuilder('user')
-      .select(['cardno'])
+      .select('user.cardno')
       .where('user.active == true')
-      .getRawMany()
+      .getMany()
       .then((result) => {
         result.forEach((row) => {
           usedCardnos.push(row.cardno);
         });
       });
-    console.log(usedCardnos);
-    // let querystring = `SELECT * FROM EV_LOG WHERE EVNT_ADDR=500 AND EVNT_DAT >= CAST('${before.timestamp.toISOString()}' as datetime) AND EVNT_DAT < CAST('${runbegin.toISOString()}' as datetime) AND cardno in ${usedCardnos}`;
-    let querystring = `SELECT * FROM EV_LOG WHERE EVNT_ADDR=500 AND EVNT_DAT >= CAST('${before.timestamp.toISOString()}' as datetime) AND EVNT_DAT < CAST('${runbegin.toISOString()}' as datetime)`;
 
-    const rawPWData = await this.pwEntityManager.query(querystring);
-    //TODO: Pull all events from ProWatch that are newer than the ProWatch Timestamp in the sqlite db
-    //TODO: Parse each event into an in- or outbound event and save to the database, outbound only if the last in-event was less than 12 hours ago
+    this.logger.debug(`Found ${usedCardnos.length} active cards`);
+    this.logger.debug(
+      `Searching for events between ${lastrun.timestamp.toISOString()} and ${runbegin.toISOString()}`,
+    );
 
-    rawPWData.forEach((row) => {
-      console.log(row.CARDNO);
+    let querystring = `SELECT EVNT_DAT, BADGE_C.CARDNO, LOGDEVDESCRP 
+      FROM EV_LOG 
+      INNER JOIN BADGE_C on EV_LOG.BADGENO = BADGE_C.ID
+      WHERE EVNT_ADDR=500 
+        AND EVNT_DAT >= CAST('${lastrun.timestamp.toISOString()}' as datetime) 
+        AND EVNT_DAT < CAST('${runbegin.toISOString()}' as datetime) 
+        AND CAST(BADGE_C.CARDNO as bigint) IN (${usedCardnos.toLocaleString()})
+        ORDER BY EVNT_DAT ASC`;
+    const pwEvents = await this.pwEntityManager.query(querystring);
+    if (!pwEvents.length) {
+      this.logger.debug(`No events found`);
+    } else {
+      this.parseEntries(pwEvents);
+      //Update the timestamp in the DB
+      lastrun.timestamp = runbegin;
+      this.timeCheckPointRepository.save(lastrun);
+    }
+  }
+
+  async parseEntries(
+    entries: { EVNT_DAT: Date; CARDNO: string; LOGDEVDESCRP: string }[],
+  ) {
+    let openTransactionMap = new Map<string, TimeEntry>();
+    this.logger.debug(`Parsing ${entries.length} events`);
+    ///getting open transactions from the db
+    let openTransactions = await this.timeEntryRepository.findBy({
+      outtime: IsNull(),
     });
+    //put open transactions into the hashmap
+    openTransactions.forEach((transaction) => {
+      openTransactionMap.set(transaction.cardno, transaction);
+    });
+    this.logger.debug(
+      `Found ${openTransactions.length} open transactions to match`,
+    );
+
+    entries.forEach((entry) => {
+      if (openTransactionMap.has(entry.CARDNO)) {
+        // match the transactions, if the last event is more than 12 hours ago mark as faulty => fires if the person worked longer than 12 hours
+        let openTransaction = openTransactionMap.get(entry.CARDNO);
+
+        if (
+          entry.EVNT_DAT.valueOf() - openTransaction.intime.valueOf() >=
+          43200000
+        ) {
+          //mark the transaction as faulty and save
+          openTransaction.faulty = true;
+          this.timeEntryRepository.save(openTransaction);
+
+          //create new transaction and save
+          let newEntry: TimeEntry = {
+            indevice: entry.LOGDEVDESCRP,
+            intime: entry.EVNT_DAT,
+            cardno: entry.CARDNO,
+          };
+          this.timeEntryRepository.create(newEntry);
+          //update Hashmap with new Entry
+          openTransactionMap.set(entry.CARDNO, newEntry);
+        } else {
+          //complete the openTransaction
+          openTransaction.outtime = entry.EVNT_DAT;
+          openTransaction.outdevice = entry.LOGDEVDESCRP;
+          //save the completed transaction to the db
+          this.timeEntryRepository.save(openTransaction);
+          //remove the completed transaction from the hashmap
+          openTransactionMap.delete(openTransaction.cardno);
+        }
+      } else {
+        // insert new entry into the db
+
+        let newEntry: TimeEntry = {
+          indevice: entry.LOGDEVDESCRP,
+          intime: entry.EVNT_DAT,
+          cardno: entry.CARDNO,
+        };
+        this.timeEntryRepository.create(newEntry);
+        // update the hashmap with that same entry
+        openTransactionMap.set(entry.CARDNO, newEntry);
+      }
+    });
+    this.logger.debug(
+      `After parsing there are ${openTransactionMap.size} open transactions left over`,
+    );
   }
 
   async onModuleInit() {

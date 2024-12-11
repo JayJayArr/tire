@@ -33,8 +33,8 @@ export class UsersService implements OnModuleInit {
   }
 
   onModuleInit() {
-    // this.users.forEach((user) => {
-    //   this.usersRepository.insert(user);
-    // });
+    this.users.forEach((user) => {
+      this.usersRepository.insert(user);
+    });
   }
 }

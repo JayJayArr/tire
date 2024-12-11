@@ -6,20 +6,20 @@ export class TimeEntry {
   id?: number;
 
   @Column()
-  name: string;
-
-  @Column()
   indevice: string;
 
-  @Column()
+  @Column({ nullable: true })
   outdevice?: string;
 
   @Column()
   intime: Date;
 
-  @Column()
+  @Column({ nullable: true })
   outtime?: Date;
 
   @Column()
   cardno: string;
+
+  @Column({ default: false })
+  faulty?: boolean;
 }

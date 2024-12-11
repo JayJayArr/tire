@@ -8,7 +8,6 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from './db/data-source';
 import { ProWatchModule } from './pro-watch/pro-watch.module';
-import { TimeEntry } from './entities/timeentry.entity';
 import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
@@ -32,7 +31,7 @@ import { ScheduleModule } from '@nestjs/schedule';
       password: process.env.PROWATCH_PASSWORD,
       database: process.env.PROWATCH_DATABASE,
       synchronize: false,
-      entities: [TimeEntry],
+      entities: [],
       options: {
         trustServerCertificate: true,
       },
