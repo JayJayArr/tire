@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
+@Entity('', { orderBy: { intime: 'DESC' } })
 export class TimeEntry {
   @PrimaryGeneratedColumn()
   id?: number;

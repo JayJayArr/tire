@@ -30,7 +30,7 @@ export class TimetableComponent implements OnChanges {
   dataSource: NbTreeGridDataSource<any>;
 
   sortColumn: string = 'intime';
-  sortDirection: NbSortDirection = NbSortDirection.ASCENDING;
+  sortDirection: NbSortDirection = NbSortDirection.DESCENDING;
 
   ngOnChanges(changes: SimpleChanges): void {
     this.data.forEach((row) => {
