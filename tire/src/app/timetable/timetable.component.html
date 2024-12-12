@@ -54,7 +54,9 @@
       Leaving Time
     </th>
     <td nbTreeGridCell *nbTreeGridCellDef="let row">
-      {{ row.data.outtime.toLocaleString() || '-' }}
+      @if (row.data.outtime) {
+        {{ row.data.outtime.toLocaleString() }}
+      }
     </td>
   </ng-container>
   <ng-container nbTreeGridColumnDef="diff">
@@ -62,9 +64,11 @@
       Difference (hh:mm:ss)
     </th>
     <td nbTreeGridCell *nbTreeGridCellDef="let row">
-      {{ row.data.diff.hour || '-' }}:{{ row.data.diff.minute || '-' }}:{{
-        row.data.diff.second || '-'
-      }}
+      @if (row.data.outtime) {
+        {{ row.data.diff.hour || '-' }}:{{ row.data.diff.minute || '-' }}:{{
+          row.data.diff.second || '-'
+        }}
+      }
     </td>
   </ng-container>
 </table>
