@@ -6,6 +6,7 @@ import {
   NbIconModule,
   NbInputModule,
   NbSelectModule,
+  NbToastrService,
   NbTreeGridModule,
 } from '@nebular/theme';
 import { TimesService } from '../services/times.service';
@@ -37,6 +38,7 @@ export class OverviewComponent {
     private timesService: TimesService,
     private authService: NbAuthService,
     private usersService: UsersService,
+    private toastrService: NbToastrService,
   ) { }
 
   data: TreeNode<TimeEntry>[] = [];
@@ -77,7 +79,14 @@ export class OverviewComponent {
 
   async refresh() {
     console.log(this.dateRange);
-    console.log(this.selectedCardno);
-    this.data = await this.timesService.getOverviewTimes(this.selectedCardno);
+    this.data = await this.timesService
+      .getOverviewTimes(this.selectedCardno)
+      .catch((error) => {
+        this.toastrService.danger(
+          'No Data found for this card number and time frame',
+          'No Data',
+        );
+        return [];
+      });
   }
 }

@@ -16,7 +16,6 @@ export class TimesService {
         if (res.length === 0) {
           reject([]);
         }
-        console.log(res);
         let prepared: { data: TimeEntry }[] = [];
         res.forEach((entry) => {
           prepared.push({ data: entry });
@@ -34,7 +33,6 @@ export class TimesService {
           if (res.length === 0) {
             reject([]);
           }
-          console.log(res);
           let prepared: { data: TimeEntry }[] = [];
           res.forEach((entry) => {
             prepared.push({ data: entry });

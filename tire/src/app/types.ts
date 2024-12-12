@@ -30,6 +30,7 @@ export interface User {
   email: string;
   cardno: string;
   role: string;
+  active: boolean;
 }
 
 export enum Role {

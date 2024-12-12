@@ -17,7 +17,9 @@ export class UsersService {
         if (res.length === 0) {
           reject([]);
         }
-        console.log(res);
+        res.filter((user) => {
+          user.active;
+        });
         resolve(res);
       });
     });

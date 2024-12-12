@@ -5,6 +5,7 @@ import {
   NbDatepickerModule,
   NbIconModule,
   NbInputModule,
+  NbToastrService,
   NbTreeGridModule,
 } from '@nebular/theme';
 import { TimeEntry, TreeNode } from '../types';
@@ -29,7 +30,10 @@ import { TimetableComponent } from '../timetable/timetable.component';
   styleUrl: './personal.component.css',
 })
 export class PersonalComponent implements OnInit {
-  constructor(private timesService: TimesService) { }
+  constructor(
+    private timesService: TimesService,
+    private toastrService: NbToastrService,
+  ) { }
   data: TreeNode<TimeEntry>[] = [];
 
   date = new Date();
@@ -44,6 +48,12 @@ export class PersonalComponent implements OnInit {
 
   async refresh() {
     console.log(this.dateRange);
-    this.data = await this.timesService.getPersonalTimes();
+    this.data = await this.timesService.getPersonalTimes().catch((error) => {
+      this.toastrService.danger(
+        'Have you been here in this time frame?',
+        'No Data',
+      );
+      return [];
+    });
   }
 }

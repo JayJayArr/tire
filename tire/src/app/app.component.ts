@@ -44,6 +44,7 @@ export class AppComponent implements AfterContentChecked {
     cardno: '',
     email: '',
     role: '',
+    active: false,
   };
   items: NbMenuItem[] = [
     { title: 'Personal times', link: 'personal', icon: 'clock-outline' },
@@ -70,6 +71,7 @@ export class AppComponent implements AfterContentChecked {
           cardno: '',
           email: '',
           role: '',
+          active: false,
         };
       }
     });

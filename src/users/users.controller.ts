@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Patch, UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { Roles } from 'src/roles/roles.decorator';
 import { Role } from 'src/types';
@@ -11,6 +11,13 @@ export class UsersController {
   @Roles(Role.PowerUser)
   @Get()
   getAvailableUsers() {
-    return this.usersService.findAllActive();
+    return this.usersService.findAll();
+  }
+
+  @UseGuards(AuthGuard)
+  @Roles(Role.PowerUser)
+  @Patch()
+  triggerProWatchUserPull() {
+    return this.usersService.pullFromProWatch();
   }
 }

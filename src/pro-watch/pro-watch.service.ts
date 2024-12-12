@@ -8,14 +8,16 @@ import { EntityManager, IsNull, Repository } from 'typeorm';
 
 @Injectable()
 export class ProWatchService implements OnModuleInit {
+  constructor(
+    @InjectRepository(TimeCheckpoint)
+    private timeCheckPointRepository: Repository<TimeCheckpoint>,
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
+    @InjectRepository(TimeEntry)
+    private timeEntryRepository: Repository<TimeEntry>,
+  ) { }
   @InjectEntityManager('ProWatchConnection')
   private pwEntityManager: EntityManager;
-  @InjectRepository(TimeCheckpoint)
-  private timeCheckPointRepository: Repository<TimeCheckpoint>;
-  @InjectRepository(User)
-  private usersRepository: Repository<User>;
-  @InjectRepository(TimeEntry)
-  private timeEntryRepository: Repository<TimeEntry>;
   private readonly logger = new Logger(ProWatchService.name);
 
   @Cron(CronExpression.EVERY_30_SECONDS)
@@ -72,6 +74,7 @@ export class ProWatchService implements OnModuleInit {
     ///getting open transactions from the db
     let openTransactions = await this.timeEntryRepository.findBy({
       outtime: IsNull(),
+      faulty: false,
     });
     //put open transactions into the hashmap
     openTransactions.forEach((transaction) => {
