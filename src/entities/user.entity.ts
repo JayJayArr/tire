@@ -1,19 +1,16 @@
 import { Role } from 'src/types';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-  userId: number;
-
   @Column()
+  cardno: string;
+
+  @PrimaryColumn()
   email: string;
 
   @Column()
   password: string;
-
-  @Column()
-  cardno: string;
 
   @Column('simple-array')
   roles: Role[];

@@ -9,10 +9,11 @@ import {
   NbTreeGridModule,
 } from '@nebular/theme';
 import { TimesService } from '../services/times.service';
-import { TimeEntry, TreeNode } from '../types';
+import { TimeEntry, TreeNode, User } from '../types';
 import { FormsModule } from '@angular/forms';
 import { TimetableComponent } from '../timetable/timetable.component';
 import { NbAuthService } from '@nebular/auth';
+import { UsersService } from '../services/users.service';
 
 @Component({
   selector: 'app-overview',
@@ -35,6 +36,7 @@ export class OverviewComponent {
   constructor(
     private timesService: TimesService,
     private authService: NbAuthService,
+    private usersService: UsersService,
   ) { }
 
   data: TreeNode<TimeEntry>[] = [];
@@ -45,7 +47,7 @@ export class OverviewComponent {
     email: '',
     role: '',
   };
-  availableCardnos = ['10490', '10635']; //TODO: Pull those from the backend
+  availableCardnos: string[] = [];
   date = new Date();
   dateRange = {
     start: new Date(this.date.getFullYear(), this.date.getMonth()),
@@ -66,6 +68,11 @@ export class OverviewComponent {
     });
     this.selectedCardno = this.user.cardno;
     this.data = await this.timesService.getOverviewTimes(this.selectedCardno);
+    await this.usersService.getAvailableUsers().then((response) =>
+      response.forEach((user) => {
+        this.availableCardnos.push(user.cardno);
+      }),
+    );
   }
 
   async refresh() {

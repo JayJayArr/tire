@@ -20,7 +20,6 @@ export class TimesController {
   @Roles(Role.PowerUser)
   @Get(':cardno')
   getOverviewTimes(@Param() params: any) {
-    console.log(params.cardno);
     return this.timesService.gettimes(params.cardno);
   }
 }

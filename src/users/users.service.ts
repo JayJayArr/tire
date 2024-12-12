@@ -2,7 +2,7 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
 import { Role } from 'src/types';
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService implements OnModuleInit {
@@ -11,7 +11,6 @@ export class UsersService implements OnModuleInit {
   ) { }
   private readonly users: User[] = [
     {
-      userId: 1,
       email: 'jakob.janus@nutz.com',
       password: 'changeme',
       cardno: '10490',
@@ -19,7 +18,6 @@ export class UsersService implements OnModuleInit {
       active: true,
     },
     {
-      userId: 2,
       email: 'dennis.molleker@nutz.com',
       password: 'guess',
       cardno: '10635',
@@ -30,6 +28,10 @@ export class UsersService implements OnModuleInit {
 
   async findOne(email: string): Promise<User | undefined> {
     return this.usersRepository.findOneBy({ email });
+  }
+
+  async findAllActive(): Promise<User[] | undefined> {
+    return this.usersRepository.findBy({ active: true });
   }
 
   onModuleInit() {
