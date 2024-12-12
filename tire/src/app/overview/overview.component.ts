@@ -12,6 +12,7 @@ import { TimesService } from '../services/times.service';
 import { TimeEntry, TreeNode } from '../types';
 import { FormsModule } from '@angular/forms';
 import { TimetableComponent } from '../timetable/timetable.component';
+import { NbAuthService } from '@nebular/auth';
 
 @Component({
   selector: 'app-overview',
@@ -31,12 +32,20 @@ import { TimetableComponent } from '../timetable/timetable.component';
   styleUrl: './overview.component.css',
 })
 export class OverviewComponent {
-  constructor(private timesService: TimesService) { }
+  constructor(
+    private timesService: TimesService,
+    private authService: NbAuthService,
+  ) { }
 
   data: TreeNode<TimeEntry>[] = [];
 
   selectedCardno = '';
-  availableCardnos = ['1234', '5678'];
+  user = {
+    cardno: '',
+    email: '',
+    role: '',
+  };
+  availableCardnos = ['10490', '10635']; //TODO: Pull those from the backend
   date = new Date();
   dateRange = {
     start: new Date(this.date.getFullYear(), this.date.getMonth()),
@@ -44,11 +53,24 @@ export class OverviewComponent {
   };
 
   async ngOnInit() {
-    this.data = await this.timesService.gettimes();
+    this.authService.onTokenChange().subscribe((token) => {
+      if (token.isValid()) {
+        this.user = token.getPayload();
+      } else {
+        this.user = {
+          cardno: '',
+          email: '',
+          role: '',
+        };
+      }
+    });
+    this.selectedCardno = this.user.cardno;
+    this.data = await this.timesService.getOverviewTimes(this.selectedCardno);
   }
 
-  refresh() {
+  async refresh() {
     console.log(this.dateRange);
     console.log(this.selectedCardno);
+    this.data = await this.timesService.getOverviewTimes(this.selectedCardno);
   }
 }

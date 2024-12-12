@@ -8,7 +8,7 @@ import { Repository } from 'typeorm';
 export class UsersService implements OnModuleInit {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
-  ) {}
+  ) { }
   private readonly users: User[] = [
     {
       userId: 1,
@@ -34,7 +34,7 @@ export class UsersService implements OnModuleInit {
 
   onModuleInit() {
     this.users.forEach((user) => {
-      this.usersRepository.insert(user);
+      this.usersRepository.save(user);
     });
   }
 }

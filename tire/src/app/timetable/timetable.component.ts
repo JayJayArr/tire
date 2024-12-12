@@ -29,8 +29,8 @@ export class TimetableComponent implements OnChanges {
   @Input() data: TreeNode<TimeEntry>[] = [];
   dataSource: NbTreeGridDataSource<any>;
 
-  sortColumn: string = '';
-  sortDirection: NbSortDirection = NbSortDirection.NONE;
+  sortColumn: string = 'intime';
+  sortDirection: NbSortDirection = NbSortDirection.ASCENDING;
 
   ngOnChanges(changes: SimpleChanges): void {
     this.data.forEach((row) => {

@@ -2,6 +2,7 @@
   [nbTreeGrid]="dataSource"
   [nbSort]="dataSource"
   (sort)="changeSort($event)"
+  style="table-layout: auto"
 >
   <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef="allColumns"></tr>
   <tr nbTreeGridRow *nbTreeGridRowDef="let row; columns: allColumns"></tr>
@@ -65,8 +66,8 @@
     </th>
     <td nbTreeGridCell *nbTreeGridCellDef="let row">
       @if (row.data.outtime) {
-        {{ row.data.diff.hour || '-' }}:{{ row.data.diff.minute || '-' }}:{{
-          row.data.diff.second || '-'
+        {{ row.data.diff.hour || '0' }}:{{ row.data.diff.minute || '00' }}:{{
+          row.data.diff.second || '00'
         }}
       }
     </td>

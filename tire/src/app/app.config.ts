@@ -34,13 +34,13 @@ import { RoleProvider } from './services/role.provider';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
+    importProvidersFrom(NbMenuModule.forRoot()),
     importProvidersFrom(RouterModule.forRoot(routes, { useHash: false })),
     importProvidersFrom(NbThemeModule.forRoot({ name: 'dark' })),
     importProvidersFrom(NbEvaIconsModule),
     importProvidersFrom(BrowserAnimationsModule),
     provideHttpClient(withFetch(), withInterceptors([ApiInterceptor])),
     importProvidersFrom(AuthGuard),
-    importProvidersFrom(NbMenuModule.forRoot()),
     importProvidersFrom(NbContextMenuModule),
     importProvidersFrom(NbToastrModule.forRoot()),
     importProvidersFrom(NbSidebarModule.forRoot()),
