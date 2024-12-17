@@ -48,12 +48,11 @@ export class PersonalComponent implements OnInit {
 
   async refresh() {
     console.log(this.dateRange);
-    this.data = await this.timesService.getPersonalTimes().catch((error) => {
-      this.toastrService.danger(
-        'Have you been here in this time frame?',
-        'No Data',
-      );
-      return [];
-    });
+    this.data = await this.timesService
+      .getPersonalTimes(this.dateRange.start, this.dateRange.end)
+      .catch((error) => {
+        this.toastrService.danger('No data found for this timeframe', 'Error');
+        return [];
+      });
   }
 }

@@ -82,11 +82,15 @@ export class OverviewComponent {
   async refresh() {
     console.log(this.dateRange);
     this.data = await this.timesService
-      .getOverviewTimes(this.selectedCardno)
+      .getOverviewTimes(
+        this.selectedCardno,
+        this.dateRange.start,
+        this.dateRange.end,
+      )
       .catch((error) => {
         this.toastrService.danger(
           'No Data found for this card number and time frame',
-          'No Data',
+          'Error',
         );
         return [];
       });

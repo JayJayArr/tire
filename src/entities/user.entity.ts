@@ -1,7 +1,7 @@
 import { Role } from 'src/types';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
-@Entity()
+@Entity('', { orderBy: { cardno: 'ASC' } })
 export class User {
   @PrimaryColumn()
   email: string;
