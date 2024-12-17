@@ -1,0 +1,5 @@
+.spaced-button {
+  break-before: always;
+  display: block;
+  margin-top: 1rem;
+}

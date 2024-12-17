@@ -9,6 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from './db/data-source';
 import { ProWatchModule } from './pro-watch/pro-watch.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { ConnectorModule } from './connector/connector.module';
 
 @Module({
   imports: [
@@ -36,8 +37,8 @@ import { ScheduleModule } from '@nestjs/schedule';
         trustServerCertificate: true,
       },
     }),
+    ConnectorModule,
   ],
-  controllers: [],
   providers: [{ provide: APP_GUARD, useClass: RolesGuard }],
 })
 export class AppModule {}

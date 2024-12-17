@@ -1,13 +1,21 @@
-<h1>Site for global settings</h1>
+<h3>Global Settings</h3>
 <nb-card>
   <nb-card-header> ProWatch Settings and Actions </nb-card-header>
   <nb-card-body>
+    <nb-toggle
+      status="danger"
+      labelPosition="start"
+      (checkedChange)="toggleConnector()"
+      [(checked)]="ProWatchConnectoractive"
+      >ProWatch Connector</nb-toggle
+    >
     <button
       nbButton
       status="primary"
       class="refresh-button"
       (click)="syncUsers()"
       [nbSpinner]="loading"
+      class="spaced-button"
     >
       Sync users from Access Control<nb-icon icon="refresh-outline"></nb-icon>
     </button>

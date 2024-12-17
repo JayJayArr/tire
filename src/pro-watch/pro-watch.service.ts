@@ -1,8 +1,7 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
-import { query } from 'express';
-import { TimeCheckpoint } from 'src/entities/timecheckpoint.entity';
+import { Connector } from 'src/entities/connector.entity';
 import { TimeEntry } from 'src/entities/timeentry.entity';
 import { User } from 'src/entities/user.entity';
 import { EntityManager, IsNull, Repository } from 'typeorm';
@@ -10,8 +9,8 @@ import { EntityManager, IsNull, Repository } from 'typeorm';
 @Injectable()
 export class ProWatchService implements OnModuleInit {
   constructor(
-    @InjectRepository(TimeCheckpoint)
-    private timeCheckPointRepository: Repository<TimeCheckpoint>,
+    @InjectRepository(Connector)
+    private connectorRepository: Repository<Connector>,
     @InjectRepository(User)
     private usersRepository: Repository<User>,
     @InjectRepository(TimeEntry)
@@ -23,14 +22,19 @@ export class ProWatchService implements OnModuleInit {
 
   @Cron(CronExpression.EVERY_30_SECONDS)
   async proWatchPuller() {
-    this.logger.log('Starting Pull from ProWatch');
-
     let runbegin = new Date(); //Save the current time as a max date
-    let lastrun = await this.timeCheckPointRepository.findOneBy({
+    let connector = await this.connectorRepository.findOneBy({
       name: 'ProWatch',
     });
-    //TODO: check for the existence of a lastrun value and handle the error appropriately
+    //TODO: check for the existence of a connector value and handle the error appropriately
 
+    if (!connector.active) {
+      this.logger.log(
+        'Connector deactivated, synchronization will not run until activated',
+      );
+      return;
+    }
+    this.logger.log('Starting Pull from ProWatch');
     let usedCardnos = []; // get the cardnumbers of all active users out of the Repository
     await this.usersRepository
       .createQueryBuilder('user')
@@ -45,7 +49,7 @@ export class ProWatchService implements OnModuleInit {
 
     this.logger.log(`Found ${usedCardnos.length} active cards`);
     this.logger.log(
-      `Searching for events between ${lastrun.timestamp.toISOString()} and ${runbegin.toISOString()}`,
+      `Searching for events between ${connector.timestamp.toISOString()} and ${runbegin.toISOString()}`,
     );
 
     let querystring = `SELECT EVNT_DAT, BADGE_C.CARDNO, LOGDEVDESCRP 
@@ -53,7 +57,7 @@ export class ProWatchService implements OnModuleInit {
       INNER JOIN BADGE_C on EV_LOG.BADGENO = BADGE_C.ID
       WHERE EVNT_ADDR=500 
         AND ISNUMERIC(BADGE_C.CARDNO) = 1
-        AND EVNT_DAT >= CAST('${lastrun.timestamp.toISOString()}' as datetime) 
+        AND EVNT_DAT >= CAST('${connector.timestamp.toISOString()}' as datetime) 
         AND EVNT_DAT < CAST('${runbegin.toISOString()}' as datetime) 
         AND CAST(BADGE_C.CARDNO as bigint) IN (${usedCardnos.toString()})
         ORDER BY EVNT_DAT ASC`;
@@ -63,8 +67,8 @@ export class ProWatchService implements OnModuleInit {
     } else {
       this.parseEntries(pwEvents);
       //Update the timestamp in the DB
-      lastrun.timestamp = runbegin;
-      this.timeCheckPointRepository.save(lastrun);
+      connector.timestamp = runbegin;
+      this.connectorRepository.save(connector);
     }
   }
 
@@ -133,19 +137,17 @@ export class ProWatchService implements OnModuleInit {
     this.logger.log(
       `After parsing there are ${openTransactionMap.size} open transactions left over`,
     );
-    console.log(openTransactionMap.get('10490'));
     openTransactionMap.forEach((value, key) => {
       this.timeEntryRepository.insert(value);
     });
   }
 
   async onModuleInit() {
-    if (
-      !(await this.timeCheckPointRepository.findOneBy({ name: 'ProWatch' }))
-    ) {
-      this.timeCheckPointRepository.insert({
+    if (!(await this.connectorRepository.findOneBy({ name: 'ProWatch' }))) {
+      this.connectorRepository.insert({
         name: 'ProWatch',
         timestamp: new Date('2023-01-02T00:00:00'),
+        active: false,
       });
     }
   }

@@ -4,13 +4,6 @@ export interface TreeNode<T> {
   expanded?: boolean;
 }
 
-export interface FSEntry {
-  name: string;
-  size: string;
-  kind: string;
-  items?: number;
-}
-
 export interface TimeEntry {
   id: number;
   name: string;
@@ -30,6 +23,11 @@ export interface User {
   email: string;
   cardno: string;
   role: string;
+  active: boolean;
+}
+
+export interface Connector {
+  name: String;
   active: boolean;
 }
 
