@@ -1,6 +1,7 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
+import { query } from 'express';
 import { TimeCheckpoint } from 'src/entities/timecheckpoint.entity';
 import { TimeEntry } from 'src/entities/timeentry.entity';
 import { User } from 'src/entities/user.entity';
@@ -15,7 +16,7 @@ export class ProWatchService implements OnModuleInit {
     private usersRepository: Repository<User>,
     @InjectRepository(TimeEntry)
     private timeEntryRepository: Repository<TimeEntry>,
-  ) { }
+  ) {}
   @InjectEntityManager('ProWatchConnection')
   private pwEntityManager: EntityManager;
   private readonly logger = new Logger(ProWatchService.name);
@@ -51,9 +52,10 @@ export class ProWatchService implements OnModuleInit {
       FROM EV_LOG 
       INNER JOIN BADGE_C on EV_LOG.BADGENO = BADGE_C.ID
       WHERE EVNT_ADDR=500 
+        AND ISNUMERIC(BADGE_C.CARDNO) = 1
         AND EVNT_DAT >= CAST('${lastrun.timestamp.toISOString()}' as datetime) 
         AND EVNT_DAT < CAST('${runbegin.toISOString()}' as datetime) 
-        AND CAST(BADGE_C.CARDNO as bigint) IN (${usedCardnos.toLocaleString()})
+        AND CAST(BADGE_C.CARDNO as bigint) IN (${usedCardnos.toString()})
         ORDER BY EVNT_DAT ASC`;
     const pwEvents = await this.pwEntityManager.query(querystring);
     if (!pwEvents.length) {

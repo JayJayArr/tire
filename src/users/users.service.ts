@@ -10,7 +10,7 @@ export class UsersService implements OnModuleInit {
     @InjectRepository(User) private usersRepository: Repository<User>,
     @InjectEntityManager('ProWatchConnection')
     private pwEntityManager: EntityManager,
-  ) { }
+  ) {}
   private readonly users: User[] = [
     {
       email: 'jakob.janus@nutz.com',
