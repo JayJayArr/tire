@@ -13,7 +13,6 @@ export class TimesController {
   @Roles(Role.User)
   @Post()
   getPersonalTimes(@User('cardno') cardno: string, @Body() body: any) {
-    console.log(body);
     return this.timesService.gettimes(cardno, body.start, body.end);
   }
 

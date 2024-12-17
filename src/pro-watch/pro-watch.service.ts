@@ -133,6 +133,10 @@ export class ProWatchService implements OnModuleInit {
     this.logger.log(
       `After parsing there are ${openTransactionMap.size} open transactions left over`,
     );
+    console.log(openTransactionMap.get('10490'));
+    openTransactionMap.forEach((value, key) => {
+      this.timeEntryRepository.insert(value);
+    });
   }
 
   async onModuleInit() {

@@ -68,10 +68,7 @@ export class UsersService implements OnModuleInit {
             };
             this.usersRepository.save(createUser);
           });
-          let totalUsers = await this.usersRepository.count();
-          this.logger.log(
-            `Finished pulling Users from Access Control, found ${response.length} Users, total Users in db: ${totalUsers}`,
-          );
+          this.logger.log(`Synced ${response.length} users`);
           resolve(response.length);
         })
         .catch((err) => reject(err));
