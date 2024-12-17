@@ -1,1 +1,15 @@
 <h1>Site for global settings</h1>
+<nb-card>
+  <nb-card-header> ProWatch Settings and Actions </nb-card-header>
+  <nb-card-body>
+    <button
+      nbButton
+      status="primary"
+      class="refresh-button"
+      (click)="syncUsers()"
+      [nbSpinner]="loading"
+    >
+      Sync users from Access Control<nb-icon icon="refresh-outline"></nb-icon>
+    </button>
+  </nb-card-body>
+</nb-card>

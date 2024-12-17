@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
 import { Role } from 'src/types';
@@ -11,6 +11,7 @@ export class UsersService implements OnModuleInit {
     @InjectEntityManager('ProWatchConnection')
     private pwEntityManager: EntityManager,
   ) {}
+  private readonly logger = new Logger(UsersService.name);
   private readonly users: User[] = [
     {
       email: 'jakob.janus@nutz.com',
@@ -43,15 +44,38 @@ export class UsersService implements OnModuleInit {
     return this.usersRepository.find();
   }
 
-  async pullFromProWatch() {
-    let querystring = `select EMAIL_PW, BADGE_C.STAT_COD, BADGE_C.CARDNO  from BADGE
-		inner join BADGE_V on BADGE_V.ID = BADGE.ID
-		inner join BADGE_C on BADGE_C.ID = BADGE.ID
-		WHERE BADGE_C.STAT_COD = 'A'
-		AND EMAIL_PW IS NOT NULL`;
-    await this.pwEntityManager
-      .query(querystring)
-      .then((response) => console.log(response));
+  async pullFromProWatch(): Promise<number | undefined> {
+    this.logger.log('Pulling Users from Access Control');
+    return new Promise(async (resolve, reject) => {
+      let querystring = `select EMAIL_PW as email, BADGE_C.STAT_COD as status, BADGE_C.CARDNO as cardno  from BADGE
+		    inner join BADGE_V on BADGE_V.ID = BADGE.ID
+		    inner join BADGE_C on BADGE_C.ID = BADGE.ID
+		    WHERE BADGE_C.STAT_COD = 'A'
+		    AND EMAIL_PW IS NOT NULL
+        AND STAT_COD IS NOT NULL
+        AND CARDNO IS NOT NULL
+        AND ISNUMERIC(CARDNO) = 1`;
+      await this.pwEntityManager
+        .query(querystring)
+        .then(async (response) => {
+          response.forEach(async (user) => {
+            let createUser: User = {
+              email: user.email,
+              cardno: user.cardno,
+              password: user.cardno,
+              roles: [Role.User],
+              active: user.status == 'A',
+            };
+            this.usersRepository.save(createUser);
+          });
+          let totalUsers = await this.usersRepository.count();
+          this.logger.log(
+            `Finished pulling Users from Access Control, found ${response.length} Users, total Users in db: ${totalUsers}`,
+          );
+          resolve(response.length);
+        })
+        .catch((err) => reject(err));
+    });
   }
 
   onModuleInit() {

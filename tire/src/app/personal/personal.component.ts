@@ -33,7 +33,7 @@ export class PersonalComponent implements OnInit {
   constructor(
     private timesService: TimesService,
     private toastrService: NbToastrService,
-  ) { }
+  ) {}
   data: TreeNode<TimeEntry>[] = [];
 
   date = new Date();
@@ -43,7 +43,7 @@ export class PersonalComponent implements OnInit {
   };
 
   async ngOnInit() {
-    this.data = await this.timesService.getPersonalTimes();
+    await this.refresh();
   }
 
   async refresh() {

@@ -24,4 +24,18 @@ export class UsersService {
       });
     });
   }
+
+  public triggerSyncFromAC(): Promise<number | undefined> {
+    return new Promise((resolve, reject) => {
+      try {
+        this.http.patch<number>(`${this.apiurl}/users`, {}).subscribe((res) => {
+          console.log('Synced users: ', res);
+
+          resolve(res);
+        });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
 }

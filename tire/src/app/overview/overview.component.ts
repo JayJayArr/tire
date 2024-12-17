@@ -39,7 +39,7 @@ export class OverviewComponent {
     private authService: NbAuthService,
     private usersService: UsersService,
     private toastrService: NbToastrService,
-  ) { }
+  ) {}
 
   data: TreeNode<TimeEntry>[] = [];
 
@@ -69,10 +69,12 @@ export class OverviewComponent {
       }
     });
     this.selectedCardno = this.user.cardno;
-    this.data = await this.timesService.getOverviewTimes(this.selectedCardno);
+    this.refresh();
     await this.usersService.getAvailableUsers().then((response) =>
       response.forEach((user) => {
-        this.availableCardnos.push(user.cardno);
+        if (!this.availableCardnos.includes(user.cardno)) {
+          this.availableCardnos.push(user.cardno);
+        }
       }),
     );
   }

@@ -23,7 +23,7 @@ export class ProWatchService implements OnModuleInit {
 
   @Cron(CronExpression.EVERY_30_SECONDS)
   async proWatchPuller() {
-    this.logger.debug('Starting Pull from ProWatch');
+    this.logger.log('Starting Pull from ProWatch');
 
     let runbegin = new Date(); //Save the current time as a max date
     let lastrun = await this.timeCheckPointRepository.findOneBy({
@@ -43,8 +43,8 @@ export class ProWatchService implements OnModuleInit {
         });
       });
 
-    this.logger.debug(`Found ${usedCardnos.length} active cards`);
-    this.logger.debug(
+    this.logger.log(`Found ${usedCardnos.length} active cards`);
+    this.logger.log(
       `Searching for events between ${lastrun.timestamp.toISOString()} and ${runbegin.toISOString()}`,
     );
 
@@ -59,7 +59,7 @@ export class ProWatchService implements OnModuleInit {
         ORDER BY EVNT_DAT ASC`;
     const pwEvents = await this.pwEntityManager.query(querystring);
     if (!pwEvents.length) {
-      this.logger.debug(`No events found`);
+      this.logger.log(`No events found`);
     } else {
       this.parseEntries(pwEvents);
       //Update the timestamp in the DB
@@ -72,7 +72,7 @@ export class ProWatchService implements OnModuleInit {
     entries: { EVNT_DAT: Date; CARDNO: string; LOGDEVDESCRP: string }[],
   ) {
     let openTransactionMap = new Map<string, TimeEntry>();
-    this.logger.debug(`Parsing ${entries.length} events`);
+    this.logger.log(`Parsing ${entries.length} events`);
     ///getting open transactions from the db
     let openTransactions = await this.timeEntryRepository.findBy({
       outtime: IsNull(),
@@ -82,7 +82,7 @@ export class ProWatchService implements OnModuleInit {
     openTransactions.forEach((transaction) => {
       openTransactionMap.set(transaction.cardno, transaction);
     });
-    this.logger.debug(
+    this.logger.log(
       `Found ${openTransactions.length} open transactions to match`,
     );
 
@@ -130,7 +130,7 @@ export class ProWatchService implements OnModuleInit {
         openTransactionMap.set(entry.CARDNO, newEntry);
       }
     });
-    this.logger.debug(
+    this.logger.log(
       `After parsing there are ${openTransactionMap.size} open transactions left over`,
     );
   }
