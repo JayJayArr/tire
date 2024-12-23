@@ -7,6 +7,6 @@ import { Connector } from 'src/entities/connector.entity';
 @Module({
   providers: [ConnectorService],
   controllers: [ConnectorController],
-  imports: [TypeOrmModule.forFeature([Connector])],
+  imports: [TypeOrmModule.forFeature([Connector], 'TireConnection')],
 })
-export class ConnectorModule {}
+export class ConnectorModule { }

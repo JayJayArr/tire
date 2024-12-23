@@ -7,9 +7,9 @@ import { Connector } from 'src/entities/connector.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Connector, User, TimeEntry]),
-    TypeOrmModule.forFeature([TimeEntry], 'ProWatchConnection'),
+    TypeOrmModule.forFeature([Connector, User, TimeEntry], 'TireConnection'),
+    TypeOrmModule.forFeature([], 'ProWatchConnection'),
   ],
   providers: [ProWatchService],
 })
-export class ProWatchModule {}
+export class ProWatchModule { }

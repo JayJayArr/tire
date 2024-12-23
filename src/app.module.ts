@@ -6,23 +6,20 @@ import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './roles/roles.guard';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { dataSourceOptions } from './db/data-source';
+// import { dataSourceOptions } from './db/data-source';
 import { ProWatchModule } from './pro-watch/pro-watch.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ConnectorModule } from './connector/connector.module';
+import { User } from './entities/user.entity';
+import { TimeEntry } from './entities/timeentry.entity';
+import { Connector } from './entities/connector.entity';
 
 @Module({
   imports: [
-    AuthModule,
-    UsersModule,
-    TimesModule,
-    ProWatchModule,
     ConfigModule.forRoot({
       envFilePath: ['.development.env', '.env'],
       isGlobal: true,
     }),
-    ScheduleModule.forRoot(),
-    TypeOrmModule.forRoot(dataSourceOptions),
     TypeOrmModule.forRoot({
       name: 'ProWatchConnection',
       type: 'mssql',
@@ -37,8 +34,36 @@ import { ConnectorModule } from './connector/connector.module';
         trustServerCertificate: true,
       },
     }),
+    TypeOrmModule.forRoot({
+      entities: [User, TimeEntry, Connector],
+      // migrations: ['../migrations/*.ts'],
+      migrationsRun: process.env.DEVELOPMENT == 'true',
+      type: 'mssql',
+      name: 'TireConnection',
+      port: parseInt(process.env.TIRE_PORT),
+      host: process.env.TIRE_HOST,
+      username: process.env.TIRE_USERNAME,
+      password: process.env.TIRE_PASSWORD,
+      database: process.env.TIRE_DATABASE,
+      // logging: process.env.DEVELOPMENT == 'true',
+      synchronize: true,
+      options: {
+        trustServerCertificate: true,
+      },
+      requestTimeout: 60000,
+      pool: {
+        max: 5,
+        min: 0,
+      },
+    }),
+
+    AuthModule,
+    UsersModule,
+    TimesModule,
+    ProWatchModule,
+    ScheduleModule.forRoot(),
     ConnectorModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: RolesGuard }],
 })
-export class AppModule {}
+export class AppModule { }

@@ -6,9 +6,9 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class ConnectorService {
   constructor(
-    @InjectRepository(Connector)
+    @InjectRepository(Connector, 'TireConnection')
     private connectorRepository: Repository<Connector>,
-  ) {}
+  ) { }
   async getConnectors() {
     return await this.connectorRepository.find();
   }

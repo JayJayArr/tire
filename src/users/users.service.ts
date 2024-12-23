@@ -7,26 +7,27 @@ import { EntityManager, Repository } from 'typeorm';
 @Injectable()
 export class UsersService implements OnModuleInit {
   constructor(
-    @InjectRepository(User) private usersRepository: Repository<User>,
+    @InjectRepository(User, 'TireConnection')
+    private usersRepository: Repository<User>,
     @InjectEntityManager('ProWatchConnection')
     private pwEntityManager: EntityManager,
-  ) {}
+  ) { }
   private readonly logger = new Logger(UsersService.name);
   private readonly users: User[] = [
-    {
-      email: 'jakob.janus@nutz.com',
-      password: 'changeme',
-      cardno: '10490',
-      roles: [Role.Admin, Role.PowerUser, Role.User],
-      active: true,
-    },
-    {
-      email: 'dennis.molleker@nutz.com',
-      password: 'guess',
-      cardno: '10635',
-      roles: [Role.User],
-      active: true,
-    },
+    // {
+    //   email: 'jakob.janus@nutz.com',
+    //   password: 'changeme',
+    //   cardno: '10490',
+    //   roles: [Role.Admin, Role.PowerUser, Role.User],
+    //   active: true,
+    // },
+    // {
+    //   email: 'dennis.molleker@nutz.com',
+    //   password: 'guess',
+    //   cardno: '10635',
+    //   roles: [Role.User],
+    //   active: true,
+    // },
     {
       email: 'admin@admin.com',
       password: 'admin',
