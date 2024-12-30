@@ -49,7 +49,6 @@ export class ProWatchService implements OnModuleInit {
       });
 
     this.logger.log(`Found ${usedCardnos.length} active cards`);
-    console.log('Timestamp before>', connector.timestamp);
     this.logger.log(
       `Searching for events between ${connector.timestamp.toISOString()} and ${runbegin.toISOString()}`,
     );
@@ -59,8 +58,8 @@ export class ProWatchService implements OnModuleInit {
       INNER JOIN BADGE_C on EV_LOG.BADGENO = BADGE_C.ID
       WHERE EVNT_ADDR=500 
         AND ISNUMERIC(BADGE_C.CARDNO) = 1
-        AND REC_DAT > CAST('${connector.timestamp.toISOString()}' as datetime2) 
-        AND REC_DAT <= CAST('${runbegin.toISOString()}' as datetime2) 
+        AND REC_DAT > CAST('${connector.timestamp.toISOString()}' as datetime) 
+        AND REC_DAT <= CAST('${runbegin.toISOString()}' as datetime) 
         AND CAST(BADGE_C.CARDNO as bigint) IN (${usedCardnos.toString()})
         ORDER BY EVNT_DAT ASC`;
     const pwEvents = await this.pwEntityManager.query(querystring);
@@ -77,9 +76,18 @@ export class ProWatchService implements OnModuleInit {
           }),
         ),
       );
-      // console.log(maxeventtimestamp);
-      maxeventtimestamp = new Date(maxeventtimestamp.toISOString());
-      console.log('Timestamp after>', maxeventtimestamp);
+      //convert the Date to UTC to ignore timezones
+      maxeventtimestamp = new Date(
+        Date.UTC(
+          maxeventtimestamp.getFullYear(),
+          maxeventtimestamp.getMonth(),
+          maxeventtimestamp.getDate(),
+          maxeventtimestamp.getHours(),
+          maxeventtimestamp.getMinutes(),
+          maxeventtimestamp.getSeconds(),
+          maxeventtimestamp.getMilliseconds(),
+        ),
+      );
       connector.timestamp = maxeventtimestamp;
       await this.connectorRepository.save(connector);
     }
@@ -99,9 +107,7 @@ export class ProWatchService implements OnModuleInit {
     openTransactions.forEach((transaction) => {
       openTransactionMap.set(transaction.cardno, transaction);
     });
-    this.logger.log(
-      `Found ${openTransactions.length} open transactions to match`,
-    );
+    this.logger.log(`${openTransactions.length} open transactions to match`);
 
     entries.forEach((entry) => {
       if (openTransactionMap.has(entry.CARDNO)) {
@@ -114,7 +120,10 @@ export class ProWatchService implements OnModuleInit {
         ) {
           //mark the transaction as faulty and save
           openTransaction.faulty = true;
-          this.timeEntryRepository.save(openTransaction);
+          this.timeEntryRepository.update(
+            { id: openTransaction.id },
+            { faulty: true },
+          );
 
           //create new transaction and save
           let newEntry: TimeEntry = {
@@ -132,7 +141,10 @@ export class ProWatchService implements OnModuleInit {
           //save the completed transaction to the db
           this.timeEntryRepository.update(
             { id: openTransaction.id },
-            openTransaction,
+            {
+              outtime: entry.EVNT_DAT,
+              outdevice: entry.LOGDEVDESCRP,
+            },
           );
           //remove the completed transaction from the hashmap
           openTransactionMap.delete(openTransaction.cardno);
@@ -150,19 +162,19 @@ export class ProWatchService implements OnModuleInit {
         openTransactionMap.set(entry.CARDNO, newEntry);
       }
     });
-    this.logger.log(
-      `After parsing there are ${openTransactionMap.size} open transactions left over`,
-    );
+    this.logger.log(`${openTransactionMap.size} transactions left open`);
     // openTransactionMap.forEach(async (value, key) => {
     //   this.timeEntryRepository.save(value);
     // });
+    //
+    //TODO: Set all entries as faulty where the intime is older than 12 hours before the timestamp
   }
 
   async onModuleInit() {
     if (!(await this.connectorRepository.findOneBy({ name: 'ProWatch' }))) {
       await this.connectorRepository.insert({
         name: 'ProWatch',
-        timestamp: new Date('2023-01-02T00:00:00'),
+        timestamp: new Date(0),
         active: false,
       });
     }

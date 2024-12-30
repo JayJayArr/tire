@@ -8,7 +8,7 @@ export class TimesService {
   constructor(
     @InjectRepository(TimeEntry, 'TireConnection')
     private timeEntryRepository: Repository<TimeEntry>,
-  ) { }
+  ) {}
   async gettimes(cardno: string, start?: Date, end?: Date) {
     if (start && end) {
       return await this.timeEntryRepository.findBy({

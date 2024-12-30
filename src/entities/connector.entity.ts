@@ -8,7 +8,7 @@ export class Connector {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ type: 'datetimeoffset' })
   timestamp: Date;
 
   @Column()

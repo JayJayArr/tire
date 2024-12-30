@@ -80,7 +80,6 @@ export class OverviewComponent {
   }
 
   async refresh() {
-    console.log(this.dateRange);
     this.data = await this.timesService
       .getOverviewTimes(
         this.selectedCardno,
