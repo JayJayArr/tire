@@ -130,7 +130,10 @@ export class ProWatchService implements OnModuleInit {
           openTransaction.outtime = entry.EVNT_DAT;
           openTransaction.outdevice = entry.LOGDEVDESCRP;
           //save the completed transaction to the db
-          this.timeEntryRepository.save(openTransaction);
+          this.timeEntryRepository.update(
+            { id: openTransaction.id },
+            openTransaction,
+          );
           //remove the completed transaction from the hashmap
           openTransactionMap.delete(openTransaction.cardno);
         }
