@@ -7,7 +7,6 @@ import {
   NbInputModule,
   NbSelectModule,
   NbToastrService,
-  NbTreeGridModule,
 } from '@nebular/theme';
 import { TimesService } from '../services/times.service';
 import { TimeEntry, TreeNode, User } from '../types';
@@ -21,7 +20,6 @@ import { UsersService } from '../services/users.service';
   standalone: true,
   imports: [
     NbCardModule,
-    NbTreeGridModule,
     NbInputModule,
     NbSelectModule,
     NbButtonModule,

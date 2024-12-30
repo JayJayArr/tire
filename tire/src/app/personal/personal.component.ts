@@ -6,7 +6,6 @@ import {
   NbIconModule,
   NbInputModule,
   NbToastrService,
-  NbTreeGridModule,
 } from '@nebular/theme';
 import { TimeEntry, TreeNode } from '../types';
 import { TimesService } from '../services/times.service';
@@ -17,7 +16,6 @@ import { TimetableComponent } from '../timetable/timetable.component';
   selector: 'app-personal',
   standalone: true,
   imports: [
-    NbTreeGridModule,
     NbCardModule,
     NbDatepickerModule,
     FormsModule,

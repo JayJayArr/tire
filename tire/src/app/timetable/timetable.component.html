@@ -5,7 +5,11 @@
   style="table-layout: auto"
 >
   <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef="allColumns"></tr>
-  <tr nbTreeGridRow *nbTreeGridRowDef="let row; columns: allColumns"></tr>
+  <tr
+    nbTreeGridRow
+    *nbTreeGridRowDef="let row; columns: allColumns"
+    class="row"
+  ></tr>
   <ng-container nbTreeGridColumnDef="indevice">
     <th
       nbTreeGridHeaderCell

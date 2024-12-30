@@ -1,0 +1,62 @@
+<nb-card>
+  <nb-card-header>
+    <h3>Users</h3>
+    <input
+      type=""
+      name=""
+      placeholder="Search users"
+      nbInput
+      [(ngModel)]="filterstring"
+      class="input"
+    />
+    <button
+      nbButton
+      status="primary"
+      class="refresh-button"
+      (click)="refresh()"
+    >
+      Refresh<nb-icon icon="refresh-outline"></nb-icon>
+    </button>
+  </nb-card-header>
+  <nb-card-body>
+    <table mat-table [dataSource]="data" class="mat-elevation-z8">
+      <!-- email Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.email }}
+        </td>
+      </ng-container>
+      <!-- cardno Column -->
+      <ng-container matColumnDef="cardno">
+        <th mat-header-cell *matHeaderCellDef>Cardno</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.cardno }}
+        </td>
+      </ng-container>
+      <!-- roles Column -->
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef>Roles</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.role }}
+        </td>
+      </ng-container>
+      <!-- active Column -->
+      <ng-container matColumnDef="active">
+        <th mat-header-cell *matHeaderCellDef>Active</th>
+        <td mat-cell *matCellDef="let element">{{ element.active }}</td>
+      </ng-container>
+
+      <tr
+        mat-header-row
+        *matHeaderRowDef="displayedColumns"
+        class="mat-header"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        class="mat-row"
+      ></tr>
+    </table>
+  </nb-card-body>
+</nb-card>

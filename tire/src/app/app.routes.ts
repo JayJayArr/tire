@@ -11,6 +11,7 @@ import {
 import { AuthGuard } from './services/auth-guard.service';
 import { HomeComponent } from './home/home.component';
 import { RoleGuard } from './services/role-guard.service';
+import { UserComponent } from './user/user.component';
 
 export const routes: Routes = [
   {
@@ -29,13 +30,18 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'admin',
-    component: AdminComponent,
+    path: 'overview',
+    component: OverviewComponent,
     canActivate: [AuthGuard, RoleGuard],
   },
   {
-    path: 'overview',
-    component: OverviewComponent,
+    path: 'users',
+    component: UserComponent,
+    canActivate: [AuthGuard, RoleGuard],
+  },
+  {
+    path: 'admin',
+    component: AdminComponent,
     canActivate: [AuthGuard, RoleGuard],
   },
   {

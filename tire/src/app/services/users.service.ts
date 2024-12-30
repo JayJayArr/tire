@@ -11,6 +11,24 @@ export class UsersService {
   constructor(private http: HttpClient) {
     this.getAvailableUsers();
   }
+  public getUsers(): Promise<User[]> {
+    return new Promise((resolve, reject) => {
+      this.http.get<User[]>(`${this.apiurl}/users`).subscribe((res) => {
+        if (res.length === 0) {
+          reject([]);
+        }
+        res.sort(function (a, b) {
+          if (a.email.toLowerCase() > b.email.toLowerCase()) {
+            return 1;
+          } else {
+            return -1;
+          }
+        });
+        resolve(res);
+      });
+    });
+  }
+
   public getAvailableUsers(): Promise<User[]> {
     return new Promise((resolve, reject) => {
       this.http.get<User[]>(`${this.apiurl}/users`).subscribe((res) => {

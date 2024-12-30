@@ -30,6 +30,7 @@ import { environment } from '../environments/environment';
 import { ApiInterceptor } from './api.interceptor';
 import { NbRoleProvider, NbSecurityModule } from '@nebular/security';
 import { RoleProvider } from './services/role.provider';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -56,7 +57,7 @@ export const appConfig: ApplicationConfig = {
             view: ['/admin'],
           },
           poweruser: {
-            view: ['/overview'],
+            view: ['/overview', '/users'],
           },
         },
       }),
@@ -89,5 +90,6 @@ export const appConfig: ApplicationConfig = {
         },
       }),
     ),
+    provideAnimationsAsync(),
   ],
 };

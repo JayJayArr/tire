@@ -1,3 +1,7 @@
 .device-column {
   white-space: nowrap;
 }
+
+.row:hover {
+  background-color: #192038;
+}

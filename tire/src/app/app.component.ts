@@ -43,7 +43,7 @@ export class AppComponent implements AfterContentChecked {
   user: User = {
     cardno: '',
     email: '',
-    role: '',
+    role: [],
     active: false,
   };
   items: NbMenuItem[] = [
@@ -51,6 +51,11 @@ export class AppComponent implements AfterContentChecked {
     {
       title: 'Overview',
       link: 'overview',
+      icon: 'activity-outline',
+    },
+    {
+      title: 'Users',
+      link: 'users',
       icon: 'person-outline',
     },
     { title: 'Global Settings', link: 'admin', icon: 'settings-2-outline' },
@@ -70,7 +75,7 @@ export class AppComponent implements AfterContentChecked {
         this.user = {
           cardno: '',
           email: '',
-          role: '',
+          role: [],
           active: false,
         };
       }

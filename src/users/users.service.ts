@@ -11,16 +11,16 @@ export class UsersService implements OnModuleInit {
     private usersRepository: Repository<User>,
     @InjectEntityManager('ProWatchConnection')
     private pwEntityManager: EntityManager,
-  ) { }
+  ) {}
   private readonly logger = new Logger(UsersService.name);
   private readonly users: User[] = [
-    // {
-    //   email: 'jakob.janus@nutz.com',
-    //   password: 'changeme',
-    //   cardno: '10490',
-    //   roles: [Role.Admin, Role.PowerUser, Role.User],
-    //   active: true,
-    // },
+    {
+      email: 'jakob.janus@nutz.com',
+      password: 'changeme',
+      cardno: '10490',
+      roles: [Role.Admin, Role.PowerUser, Role.User],
+      active: true,
+    },
     // {
     //   email: 'dennis.molleker@nutz.com',
     //   password: 'guess',

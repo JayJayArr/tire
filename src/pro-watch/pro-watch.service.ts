@@ -53,7 +53,7 @@ export class ProWatchService implements OnModuleInit {
       `Searching for events between ${connector.timestamp.toISOString()} and ${runbegin.toISOString()}`,
     );
 
-    let querystring = `SELECT TOP 2000 EVNT_DAT, REC_DAT, BADGE_C.CARDNO, LOGDEVDESCRP 
+    let querystring = `SELECT TOP 5000 EVNT_DAT, REC_DAT, BADGE_C.CARDNO, LOGDEVDESCRP 
       FROM EV_LOG 
       INNER JOIN BADGE_C on EV_LOG.BADGENO = BADGE_C.ID
       WHERE EVNT_ADDR=500 
