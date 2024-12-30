@@ -15,7 +15,7 @@ export class ProWatchService implements OnModuleInit {
     private usersRepository: Repository<User>,
     @InjectRepository(TimeEntry, 'TireConnection')
     private timeEntryRepository: Repository<TimeEntry>,
-  ) { }
+  ) {}
   @InjectEntityManager('ProWatchConnection')
   private pwEntityManager: EntityManager;
 
@@ -49,6 +49,7 @@ export class ProWatchService implements OnModuleInit {
       });
 
     this.logger.log(`Found ${usedCardnos.length} active cards`);
+    console.log('Timestamp before>', connector.timestamp);
     this.logger.log(
       `Searching for events between ${connector.timestamp.toISOString()} and ${runbegin.toISOString()}`,
     );
@@ -58,11 +59,10 @@ export class ProWatchService implements OnModuleInit {
       INNER JOIN BADGE_C on EV_LOG.BADGENO = BADGE_C.ID
       WHERE EVNT_ADDR=500 
         AND ISNUMERIC(BADGE_C.CARDNO) = 1
-        AND REC_DAT > CAST('${connector.timestamp.toISOString()}' as datetime) 
-        AND REC_DAT <= CAST('${runbegin.toISOString()}' as datetime) 
+        AND REC_DAT > CAST('${connector.timestamp.toISOString()}' as datetime2) 
+        AND REC_DAT <= CAST('${runbegin.toISOString()}' as datetime2) 
         AND CAST(BADGE_C.CARDNO as bigint) IN (${usedCardnos.toString()})
         ORDER BY EVNT_DAT ASC`;
-    console.log(querystring);
     const pwEvents = await this.pwEntityManager.query(querystring);
     if (!pwEvents.length) {
       this.logger.log(`No events found`);
@@ -77,8 +77,9 @@ export class ProWatchService implements OnModuleInit {
           }),
         ),
       );
-      console.log(pwEvents);
-      console.log(maxeventtimestamp);
+      // console.log(maxeventtimestamp);
+      maxeventtimestamp = new Date(maxeventtimestamp.toISOString());
+      console.log('Timestamp after>', maxeventtimestamp);
       connector.timestamp = maxeventtimestamp;
       await this.connectorRepository.save(connector);
     }
