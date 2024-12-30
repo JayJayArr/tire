@@ -1,0 +1,11 @@
+.input {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  margin-right: 1rem;
+  break-before: always;
+  display: block;
+}
+
+.card {
+  width: 25rem;
+}

@@ -22,7 +22,7 @@ export interface TimeDiff {
 export interface User {
   email: string;
   cardno: string;
-  role: Role[];
+  roles: Role[];
   active: boolean;
 }
 

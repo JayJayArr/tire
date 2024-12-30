@@ -9,6 +9,10 @@
   float: right;
 }
 
+.reset-button {
+  margin-left: auto;
+}
+
 .mat-row {
   background-color: #222b45;
 }

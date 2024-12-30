@@ -2,13 +2,20 @@
   <nb-card-header>
     <h3>Users</h3>
     <input
-      type=""
-      name=""
-      placeholder="Search users"
+      placeholder="Filter {{ dataSource.data.length }} users"
       nbInput
       [(ngModel)]="filterstring"
       class="input"
+      (keyup)="applyFilter(filterstring)"
     />
+    <button
+      nbButton
+      status="primary"
+      class="reset-button"
+      (click)="resetFilter()"
+    >
+      Reset Filter
+    </button>
     <button
       nbButton
       status="primary"
@@ -19,7 +26,7 @@
     </button>
   </nb-card-header>
   <nb-card-body>
-    <table mat-table [dataSource]="data" class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <!-- email Column -->
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef>Email</th>
@@ -38,7 +45,7 @@
       <ng-container matColumnDef="role">
         <th mat-header-cell *matHeaderCellDef>Roles</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.role }}
+          {{ element.roles }}
         </td>
       </ng-container>
       <!-- active Column -->
@@ -56,6 +63,7 @@
         mat-row
         *matRowDef="let row; columns: displayedColumns"
         class="mat-row"
+        (click)="opendialog(row)"
       ></tr>
     </table>
   </nb-card-body>

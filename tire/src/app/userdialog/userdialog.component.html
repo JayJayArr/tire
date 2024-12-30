@@ -1,0 +1,27 @@
+<nb-card size="medium" class="card">
+  <nb-card-header>Edit User</nb-card-header>
+  <nb-card-body>
+    <input
+      nbInput
+      fullWidth
+      type="text"
+      placeholder="email"
+      class="input"
+      [value]="user.email"
+    />
+    <input
+      nbInput
+      fullWidth
+      type="text"
+      placeholder="cardno"
+      class="input"
+      [value]="user.cardno"
+    />
+    <nb-toggle class="input" [(ngModel)]="user.roles">User</nb-toggle>
+    <nb-toggle class="input">Poweruser</nb-toggle>
+    <nb-toggle class="input">Admin</nb-toggle>
+  </nb-card-body>
+  <nb-card-footer>
+    <button nbButton status="danger" (click)="close()">Cancel</button>
+  </nb-card-footer>
+</nb-card>

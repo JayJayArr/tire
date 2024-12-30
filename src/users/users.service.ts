@@ -32,7 +32,7 @@ export class UsersService implements OnModuleInit {
       email: 'admin@admin.com',
       password: 'admin',
       cardno: '0000',
-      roles: [Role.User, Role.PowerUser, Role.Admin],
+      roles: [Role.Admin, Role.PowerUser, Role.User],
       active: true,
     },
   ];
