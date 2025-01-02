@@ -56,10 +56,10 @@ export const appConfig: ApplicationConfig = {
             view: ['/personal'],
           },
           admin: {
-            view: ['/admin'],
+            view: ['/admin', '/readers'],
           },
           poweruser: {
-            view: ['/overview', '/users'],
+            view: ['/overview', '/users', '/readers'],
           },
         },
       }),

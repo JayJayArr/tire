@@ -15,7 +15,7 @@ export class ProWatchService implements OnModuleInit {
     private usersRepository: Repository<User>,
     @InjectRepository(TimeEntry, 'TireConnection')
     private timeEntryRepository: Repository<TimeEntry>,
-  ) {}
+  ) { }
   @InjectEntityManager('ProWatchConnection')
   private pwEntityManager: EntityManager;
 
@@ -27,7 +27,6 @@ export class ProWatchService implements OnModuleInit {
     let connector = await this.connectorRepository.findOneBy({
       name: 'ProWatch',
     });
-    //TODO: check for the existence of a connector value and handle the error appropriately
 
     if (!connector.active) {
       this.logger.log(
@@ -167,7 +166,6 @@ export class ProWatchService implements OnModuleInit {
     //   this.timeEntryRepository.save(value);
     // });
     //
-    //TODO: Set all entries as faulty where the intime is older than 12 hours before the timestamp
   }
 
   async onModuleInit() {

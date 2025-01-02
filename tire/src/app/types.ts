@@ -31,6 +31,12 @@ export interface Connector {
   active: boolean;
 }
 
+export interface Reader {
+  id: String;
+  name: String;
+  active: boolean;
+}
+
 export enum Role {
   User = 'user',
   Admin = 'admin',

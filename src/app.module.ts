@@ -13,6 +13,8 @@ import { ConnectorModule } from './connector/connector.module';
 import { User } from './entities/user.entity';
 import { TimeEntry } from './entities/timeentry.entity';
 import { Connector } from './entities/connector.entity';
+import { Reader } from './entities/reader.entity';
+import { ReaderModule } from './reader/reader.module';
 
 @Module({
   imports: [
@@ -35,7 +37,7 @@ import { Connector } from './entities/connector.entity';
       },
     }),
     TypeOrmModule.forRoot({
-      entities: [User, TimeEntry, Connector],
+      entities: [User, TimeEntry, Connector, Reader],
       // migrations: ['../migrations/*.ts'],
       migrationsRun: process.env.DEVELOPMENT == 'true',
       type: 'mssql',
@@ -63,6 +65,7 @@ import { Connector } from './entities/connector.entity';
     ProWatchModule,
     ScheduleModule.forRoot(),
     ConnectorModule,
+    ReaderModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: RolesGuard }],
 })

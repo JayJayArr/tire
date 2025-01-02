@@ -51,12 +51,17 @@ export class AppComponent implements AfterContentChecked {
     {
       title: 'Overview',
       link: 'overview',
-      icon: 'activity-outline',
+      icon: 'list',
     },
     {
       title: 'Users',
       link: 'users',
       icon: 'person-outline',
+    },
+    {
+      title: 'Readers',
+      link: 'readers',
+      icon: 'credit-card-outline',
     },
     { title: 'Global Settings', link: 'admin', icon: 'settings-2-outline' },
     { title: 'Log out', link: 'auth/logout', icon: 'unlock-outline' },

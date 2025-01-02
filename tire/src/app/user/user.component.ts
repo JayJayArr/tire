@@ -66,7 +66,11 @@ export class UserComponent implements OnInit {
       .open(UserdialogComponent, {
         context: { user },
       })
-      .onClose.subscribe((user) => this.saveUser(user));
+      .onClose.subscribe((user) => {
+        if (user) {
+          this.saveUser(user);
+        }
+      });
   }
 
   saveUser(user: User) {

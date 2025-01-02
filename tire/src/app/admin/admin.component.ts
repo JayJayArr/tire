@@ -10,6 +10,7 @@ import {
 import { UsersService } from '../services/users.service';
 import { ConnectorsService } from '../services/connectors.service';
 import { Connector } from '../types';
+import { ReaderService } from '../services/reader.service';
 
 @Component({
   selector: 'app-admin',
@@ -29,6 +30,7 @@ export class AdminComponent implements OnInit {
     private usersService: UsersService,
     private toastrService: NbToastrService,
     private connectorService: ConnectorsService,
+    private readerService: ReaderService,
   ) {
     this.ProWatchConnectoractive =
       this.connectors.find((element) => {
@@ -51,6 +53,20 @@ export class AdminComponent implements OnInit {
       .then((response) => {
         this.loading = false;
         this.toastrService.success(`Synced ${response} users`, 'Success');
+      });
+  }
+
+  async syncReaders() {
+    this.loading = true;
+    await this.readerService
+      .triggerSyncFromAC()
+      .catch((err) => {
+        console.log(err);
+        this.loading = false;
+      })
+      .then((response) => {
+        this.loading = false;
+        this.toastrService.success(`Synced ${response} readers`, 'Success');
       });
   }
 

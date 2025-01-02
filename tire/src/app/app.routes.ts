@@ -12,6 +12,7 @@ import { AuthGuard } from './services/auth-guard.service';
 import { HomeComponent } from './home/home.component';
 import { RoleGuard } from './services/role-guard.service';
 import { UserComponent } from './user/user.component';
+import { ReaderComponent } from './reader/reader.component';
 
 export const routes: Routes = [
   {
@@ -37,6 +38,12 @@ export const routes: Routes = [
   {
     path: 'users',
     component: UserComponent,
+    canActivate: [AuthGuard, RoleGuard],
+  },
+
+  {
+    path: 'readers',
+    component: ReaderComponent,
     canActivate: [AuthGuard, RoleGuard],
   },
   {

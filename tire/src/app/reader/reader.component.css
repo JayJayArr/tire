@@ -1,0 +1,26 @@
+.input {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  margin-right: 1rem;
+}
+
+.refresh-button {
+  margin-left: auto;
+  float: right;
+}
+
+.reset-button {
+  margin-left: auto;
+}
+
+.mat-row {
+  background-color: #222b45;
+}
+
+.mat-row:hover {
+  background-color: #192038;
+}
+
+.mat-header {
+  background-color: #151a30;
+}

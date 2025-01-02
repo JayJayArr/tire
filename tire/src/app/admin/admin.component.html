@@ -19,5 +19,15 @@
     >
       Sync users from Access Control<nb-icon icon="refresh-outline"></nb-icon>
     </button>
+    <button
+      nbButton
+      status="primary"
+      class="refresh-button"
+      (click)="syncReaders()"
+      [nbSpinner]="loading"
+      class="spaced-button"
+    >
+      Sync readers from Access Control<nb-icon icon="refresh-outline"></nb-icon>
+    </button>
   </nb-card-body>
 </nb-card>
