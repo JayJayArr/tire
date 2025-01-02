@@ -11,7 +11,7 @@ export class UsersService implements OnModuleInit {
     private usersRepository: Repository<User>,
     @InjectEntityManager('ProWatchConnection')
     private pwEntityManager: EntityManager,
-  ) {}
+  ) { }
   private readonly logger = new Logger(UsersService.name);
   private readonly users: User[] = [
     {
@@ -31,7 +31,7 @@ export class UsersService implements OnModuleInit {
   ];
 
   async findOne(email: string): Promise<User | undefined> {
-    return this.usersRepository.findOneBy({ email });
+    return this.usersRepository.findOneBy({ email, active: true });
   }
 
   async findAll(): Promise<User[] | undefined> {
