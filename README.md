@@ -13,6 +13,7 @@ Ti Re => Time Recording
 - [x] Role based Visibility
 - [x] Display Personal Time Data
 - [x] Display All Time Data for Powerusers
-- [ ] User synchronisation from an Access Control (In Progress)
-- [x] User management (email, cardno, roles) (In Progress)
-- [ ] Correct time entries
+- [x] User synchronisation from an Access Control
+- [x] Reader synchronisation from an Access Control
+- [x] User management (email, cardno, roles)
+- [ ] Correction time entries

@@ -9,12 +9,12 @@ export class User {
   @Column()
   cardno: string;
 
-  @Column()
+  @Column({ default: '1234' })
   password: string;
 
-  @Column('simple-array')
+  @Column({ type: 'simple-array', default: [Role.User] })
   roles: Role[];
 
-  @Column()
+  @Column({ default: true })
   active: boolean;
 }

@@ -58,12 +58,9 @@ export class UsersService implements OnModuleInit {
         .query(querystring)
         .then(async (response) => {
           response.forEach(async (user) => {
-            let createUser: User = {
+            let createUser = {
               email: user.email,
               cardno: user.cardno,
-              password: user.cardno,
-              roles: [Role.User],
-              active: user.status == 'A',
             };
             this.usersRepository.save(createUser);
           });
