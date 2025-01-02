@@ -32,12 +32,11 @@ export class ProWatchService implements OnModuleInit {
     });
 
     if (!connector.active) {
-      this.logger.log(
-        'Connector deactivated, synchronization will not run until activated',
-      );
+      this.logger.log('Connector deactivated, aborting');
       return;
     }
     this.logger.log('Starting Pull from ProWatch');
+
     let usedCardnos = []; // get the cardnumbers of all active users out of the Repository
     await this.usersRepository
       .createQueryBuilder('user')
@@ -62,6 +61,10 @@ export class ProWatchService implements OnModuleInit {
         });
       });
 
+    if (!usedCardnos.length || !activeReaders.length) {
+      this.logger.log('Either no card or no Reader found, aborting');
+      return;
+    }
     let prefix = '0x'; //needed for the correct ID creation of each Reader-ID
     this.logger.log(`Active cards: ${usedCardnos.length}`);
     this.logger.log(`Active readers: ${activeReaders.length}`);
@@ -81,6 +84,7 @@ export class ProWatchService implements OnModuleInit {
       return prefix.concat(element.toString('hex'));
     })})
         ORDER BY EVNT_DAT ASC`;
+    console.log(querystring);
     const pwEvents = await this.pwEntityManager.query(querystring);
     if (!pwEvents.length) {
       this.logger.log(`No events found`);
