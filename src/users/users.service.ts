@@ -11,7 +11,7 @@ export class UsersService implements OnModuleInit {
     private usersRepository: Repository<User>,
     @InjectEntityManager('ProWatchConnection')
     private pwEntityManager: EntityManager,
-  ) { }
+  ) {}
   private readonly logger = new Logger(UsersService.name);
   private readonly users: User[] = [
     {
@@ -21,13 +21,6 @@ export class UsersService implements OnModuleInit {
       roles: [Role.Admin, Role.PowerUser, Role.User],
       active: true,
     },
-    // {
-    //   email: 'dennis.molleker@nutz.com',
-    //   password: 'guess',
-    //   cardno: '10635',
-    //   roles: [Role.User],
-    //   active: true,
-    // },
     {
       email: 'admin@admin.com',
       password: 'admin',
@@ -45,7 +38,11 @@ export class UsersService implements OnModuleInit {
     return this.usersRepository.find();
   }
 
-  //TODO: update the users if something changes, do not update if the users already exist in the db
+  async saveUser(user: User): Promise<User | undefined> {
+    return this.usersRepository.save(user);
+  }
+
+  //TODO: update the users in the db in this function
   async pullFromProWatch(): Promise<number | undefined> {
     this.logger.log('Pulling Users from Access Control');
     return new Promise(async (resolve, reject) => {

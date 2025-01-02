@@ -33,7 +33,7 @@ export class UserComponent implements OnInit {
     private usersService: UsersService,
     private toastrService: NbToastrService,
     private dialogService: NbDialogService,
-  ) {}
+  ) { }
   dataSource: MatTableDataSource<User> = new MatTableDataSource();
 
   filterstring = '';
@@ -62,8 +62,21 @@ export class UserComponent implements OnInit {
 
   opendialog(user: User) {
     console.log(user);
-    this.dialogService.open(UserdialogComponent, {
-      context: { user },
-    });
+    this.dialogService
+      .open(UserdialogComponent, {
+        context: { user },
+      })
+      .onClose.subscribe((user) => this.saveUser(user));
+  }
+
+  saveUser(user: User) {
+    this.usersService
+      .saveUser(user)
+      .then((res) => {
+        this.toastrService.success('User saved to database', 'Success');
+      })
+      .catch((error) => {
+        this.toastrService.danger(error, 'Error');
+      });
   }
 }

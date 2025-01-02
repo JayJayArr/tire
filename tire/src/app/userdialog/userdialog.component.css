@@ -7,5 +7,11 @@
 }
 
 .card {
+  margin: auto;
+  display: flex;
   width: 25rem;
+}
+
+.save-button {
+  float: right;
 }
