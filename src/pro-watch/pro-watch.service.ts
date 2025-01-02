@@ -2,6 +2,7 @@ import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 import { Connector } from 'src/entities/connector.entity';
+import { Reader } from 'src/entities/reader.entity';
 import { TimeEntry } from 'src/entities/timeentry.entity';
 import { User } from 'src/entities/user.entity';
 import { EntityManager, IsNull, Repository } from 'typeorm';
@@ -15,6 +16,8 @@ export class ProWatchService implements OnModuleInit {
     private usersRepository: Repository<User>,
     @InjectRepository(TimeEntry, 'TireConnection')
     private timeEntryRepository: Repository<TimeEntry>,
+    @InjectRepository(Reader, 'TireConnection')
+    private readerRepository: Repository<Reader>,
   ) { }
   @InjectEntityManager('ProWatchConnection')
   private pwEntityManager: EntityManager;
@@ -47,12 +50,26 @@ export class ProWatchService implements OnModuleInit {
         });
       });
 
-    this.logger.log(`Found ${usedCardnos.length} active cards`);
+    let activeReaders = []; // get the cardnumbers of all active users out of the Repository
+    await this.readerRepository
+      .createQueryBuilder('reader')
+      .select('reader.id')
+      .where('reader.active = 1')
+      .getMany()
+      .then((result) => {
+        result.forEach((row) => {
+          activeReaders.push(row.id);
+        });
+      });
+
+    let prefix = '0x'; //needed for the correct ID creation of each Reader-ID
+    this.logger.log(`Active cards: ${usedCardnos.length}`);
+    this.logger.log(`Active readers: ${activeReaders.length}`);
     this.logger.log(
       `Searching for events between ${connector.timestamp.toISOString()} and ${runbegin.toISOString()}`,
     );
 
-    let querystring = `SELECT TOP 5000 EVNT_DAT, REC_DAT, BADGE_C.CARDNO, LOGDEVDESCRP 
+    let querystring = `SELECT TOP 2000 EVNT_DAT, REC_DAT, BADGE_C.CARDNO, LOGDEVDESCRP 
       FROM EV_LOG 
       INNER JOIN BADGE_C on EV_LOG.BADGENO = BADGE_C.ID
       WHERE EVNT_ADDR=500 
@@ -60,6 +77,9 @@ export class ProWatchService implements OnModuleInit {
         AND REC_DAT > CAST('${connector.timestamp.toISOString()}' as datetime) 
         AND REC_DAT <= CAST('${runbegin.toISOString()}' as datetime) 
         AND CAST(BADGE_C.CARDNO as bigint) IN (${usedCardnos.toString()})
+        AND LOGDEVID IN (${activeReaders.map((element) => {
+      return prefix.concat(element.toString('hex'));
+    })})
         ORDER BY EVNT_DAT ASC`;
     const pwEvents = await this.pwEntityManager.query(querystring);
     if (!pwEvents.length) {

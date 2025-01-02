@@ -18,14 +18,14 @@ export class UsersService implements OnModuleInit {
       email: 'jakob.janus@nutz.com',
       password: 'changeme',
       cardno: '10490',
-      roles: [Role.Admin, Role.PowerUser, Role.User],
+      roles: [Role.User, Role.PowerUser, Role.Admin],
       active: true,
     },
     {
       email: 'admin@admin.com',
       password: 'admin',
       cardno: '0000',
-      roles: [Role.Admin, Role.PowerUser, Role.User],
+      roles: [Role.User, Role.PowerUser, Role.Admin],
       active: true,
     },
   ];
