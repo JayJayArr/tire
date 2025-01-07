@@ -84,7 +84,6 @@ export class ProWatchService implements OnModuleInit {
       return prefix.concat(element.toString('hex'));
     })})
         ORDER BY EVNT_DAT ASC`;
-    console.log(querystring);
     const pwEvents = await this.pwEntityManager.query(querystring);
     if (!pwEvents.length) {
       this.logger.log(`No events found`);

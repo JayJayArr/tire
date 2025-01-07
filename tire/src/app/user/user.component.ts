@@ -33,11 +33,11 @@ export class UserComponent implements OnInit {
     private usersService: UsersService,
     private toastrService: NbToastrService,
     private dialogService: NbDialogService,
-  ) { }
+  ) {}
   dataSource: MatTableDataSource<User> = new MatTableDataSource();
 
   filterstring = '';
-  displayedColumns: string[] = ['email', 'cardno', 'role', 'active'];
+  displayedColumns: string[] = ['email', 'cardno', 'role', 'active', 'edit'];
   async refresh() {
     //TODO: paginate the users
     this.dataSource.data = await this.usersService.getUsers().catch((error) => {

@@ -11,7 +11,7 @@ export class UsersService implements OnModuleInit {
     private usersRepository: Repository<User>,
     @InjectEntityManager('ProWatchConnection')
     private pwEntityManager: EntityManager,
-  ) { }
+  ) {}
   private readonly logger = new Logger(UsersService.name);
   private readonly users: User[] = [
     {
@@ -61,6 +61,7 @@ export class UsersService implements OnModuleInit {
             let createUser = {
               email: user.email,
               cardno: user.cardno,
+              roles: [Role.User],
             };
             this.usersRepository.save(createUser);
           });
