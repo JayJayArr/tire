@@ -7,7 +7,7 @@ import { User } from 'src/entities/user.entity';
 
 @Controller('users')
 export class UsersController {
-  constructor(private usersService: UsersService) { }
+  constructor(private usersService: UsersService) {}
   @UseGuards(AuthGuard)
   @Roles(Role.PowerUser)
   @Get()

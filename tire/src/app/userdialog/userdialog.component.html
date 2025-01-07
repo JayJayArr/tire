@@ -1,13 +1,13 @@
 <nb-card size="medium" class="card">
   <nb-card-header>Edit User</nb-card-header>
-  <nb-card-body>
+  <nb-card-body class="card-body">
     <input
       nbInput
       fullWidth
       type="text"
       placeholder="email"
       class="input"
-      [value]="user.email"
+      [(ngModel)]="user.email"
     />
     <input
       nbInput
@@ -15,7 +15,7 @@
       type="text"
       placeholder="cardno"
       class="input"
-      [value]="user.cardno"
+      [(ngModel)]="user.cardno"
     />
     <nb-toggle class="input" [(ngModel)]="userrole">User</nb-toggle>
     <nb-toggle class="input" [(ngModel)]="poweruserrole">Poweruser</nb-toggle>

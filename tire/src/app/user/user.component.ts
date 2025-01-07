@@ -75,7 +75,7 @@ export class UserComponent implements OnInit {
 
   saveUser(user: User) {
     this.usersService
-      .saveUser(user)
+      .updateUser(user)
       .then((res) => {
         this.toastrService.success('User saved to database', 'Success');
       })

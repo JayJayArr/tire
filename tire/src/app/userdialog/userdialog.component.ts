@@ -1,12 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Role, User } from '../types';
 import {
   NbButtonModule,
@@ -31,11 +23,13 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './userdialog.component.css',
 })
 export class UserdialogComponent implements OnInit {
-  constructor(protected dialogRef: NbDialogRef<any>) { }
+  constructor(protected dialogRef: NbDialogRef<any>) {}
   @Input() user: User = { email: '', cardno: '', roles: [], active: false };
   adminrole = this.user.roles.includes(Role.Admin);
   userrole = this.user.roles.includes(Role.User);
   poweruserrole = this.user.roles.includes(Role.PowerUser);
+  email = this.user.email;
+  cardno = this.user.cardno;
 
   close() {
     this.dialogRef.close();

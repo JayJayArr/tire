@@ -1,9 +1,12 @@
 import { Role } from 'src/types';
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('user', { orderBy: { cardno: 'ASC' }, name: 'user' })
 export class User {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
+  id?: string;
+
+  @Column()
   email: string;
 
   @Column()

@@ -43,7 +43,7 @@ export class UsersService {
     });
   }
 
-  public saveUser(user: User): Promise<User> {
+  public updateUser(user: User): Promise<User> {
     return new Promise((resolve, reject) => {
       this.http.post<User>(`${this.apiurl}/users`, user).subscribe((res) => {
         if (!res) {
