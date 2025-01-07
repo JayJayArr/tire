@@ -1,0 +1,48 @@
+<nb-card size="large" class="card">
+  <nb-card-header>Edit User</nb-card-header>
+  <nb-card-body class="card-body">
+    <input
+      nbInput
+      fullWidth
+      type="text"
+      placeholder="Inbound Device"
+      class="input"
+      [(ngModel)]="timeentry.indevice"
+    />
+    <input
+      nbInput
+      fullWidth
+      type="text"
+      placeholder="Outbound Device"
+      class="input"
+      [(ngModel)]="timeentry.outdevice"
+    />
+    <input
+      nbInput
+      placeholder="Pick a Time"
+      [nbDatepicker]="indateTimePicker"
+      [(ngModel)]="timeentry.intime"
+      class="input"
+    />
+    <nb-date-timepicker withSeconds #indateTimePicker></nb-date-timepicker>
+    <input
+      nbInput
+      placeholder="Pick a Time"
+      [nbDatepicker]="outdateTimePicker"
+      [(ngModel)]="timeentry.outtime"
+      class="input"
+    />
+    <nb-date-timepicker withSeconds #outdateTimePicker></nb-date-timepicker>
+  </nb-card-body>
+  <nb-card-footer>
+    <button nbButton status="danger" (click)="close()">Cancel</button>
+    <button
+      nbButton
+      status="success"
+      (click)="saveTimeEntry()"
+      class="save-button"
+    >
+      Save
+    </button>
+  </nb-card-footer>
+</nb-card>

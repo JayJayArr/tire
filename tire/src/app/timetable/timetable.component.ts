@@ -1,13 +1,18 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import {
+  NbDialogService,
   NbSortDirection,
   NbSortRequest,
+  NbToastrService,
   NbTreeGridDataSource,
   NbTreeGridDataSourceBuilder,
   NbTreeGridModule,
+  NbTreeGridPresentationNode,
 } from '@nebular/theme';
 import { TimeEntry, TreeNode } from '../types';
 import { getDataDiff } from '../helpers';
+import { TimedialogComponent } from '../timedialog/timedialog.component';
+import { TimesService } from '../services/times.service';
 
 @Component({
   selector: 'app-timetable',
@@ -19,6 +24,9 @@ import { getDataDiff } from '../helpers';
 export class TimetableComponent implements OnChanges {
   constructor(
     private dataSourceBuilder: NbTreeGridDataSourceBuilder<TimeEntry>,
+    private dialogService: NbDialogService,
+    private timesService: TimesService,
+    private toastrService: NbToastrService,
   ) {
     this.dataSource = this.dataSourceBuilder.create(this.data);
   }
@@ -27,6 +35,7 @@ export class TimetableComponent implements OnChanges {
   allColumns = [this.customColumn, ...this.defaultColumns];
 
   @Input() data: TreeNode<TimeEntry>[] = [];
+  @Input() allowEdit: boolean = false;
   dataSource: NbTreeGridDataSource<any>;
 
   sortColumn: string = 'intime';
@@ -53,5 +62,29 @@ export class TimetableComponent implements OnChanges {
       return this.sortDirection;
     }
     return NbSortDirection.NONE;
+  }
+
+  opendialog(timeentry: NbTreeGridPresentationNode<TimeEntry>) {
+    console.log(timeentry);
+    this.dialogService
+      .open(TimedialogComponent, {
+        context: { timeentry: timeentry.data },
+      })
+      .onClose.subscribe((user) => {
+        if (user) {
+          this.saveTimeEntry(user);
+        }
+      });
+  }
+
+  saveTimeEntry(timeentry: TimeEntry) {
+    this.timesService
+      .updateTimeEntry(timeentry)
+      .then((res) => {
+        this.toastrService.success('TimeEntry saved to database', 'Success');
+      })
+      .catch((error) => {
+        this.toastrService.danger(error, 'Error');
+      });
   }
 }

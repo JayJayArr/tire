@@ -52,4 +52,17 @@ export class TimesService {
         });
     });
   }
+
+  public updateTimeEntry(timeentry: TimeEntry): Promise<TimeEntry | undefined> {
+    return new Promise((resolve, reject) => {
+      this.http
+        .put<TimeEntry>(`${this.apiurl}/times`, timeentry)
+        .subscribe((res) => {
+          if (!res) {
+            reject([]);
+          }
+          resolve(res);
+        });
+    });
+  }
 }
