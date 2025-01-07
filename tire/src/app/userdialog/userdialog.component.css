@@ -15,3 +15,7 @@
 .save-button {
   float: right;
 }
+
+.card-body {
+  height: 50rem;
+}

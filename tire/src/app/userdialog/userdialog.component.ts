@@ -34,6 +34,7 @@ export class UserdialogComponent implements OnInit {
   close() {
     this.dialogRef.close();
   }
+
   ngOnInit(): void {
     this.adminrole = this.user.roles.includes(Role.Admin);
     this.userrole = this.user.roles.includes(Role.User);
@@ -50,6 +51,7 @@ export class UserdialogComponent implements OnInit {
       ),
     );
   }
+
   constructUser(
     user: User,
     userrole?: boolean,

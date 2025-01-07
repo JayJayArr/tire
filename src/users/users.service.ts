@@ -15,6 +15,7 @@ export class UsersService implements OnModuleInit {
   private readonly logger = new Logger(UsersService.name);
   private readonly users: User[] = [
     {
+      id: 1,
       email: 'jakob.janus@nutz.com',
       password: 'changeme',
       cardno: '10490',
@@ -22,6 +23,7 @@ export class UsersService implements OnModuleInit {
       active: true,
     },
     {
+      id: 2,
       email: 'admin@admin.com',
       password: 'admin',
       cardno: '0000',
@@ -63,7 +65,17 @@ export class UsersService implements OnModuleInit {
               cardno: user.cardno,
               roles: [Role.User],
             };
-            this.usersRepository.save(createUser);
+            let savedUser = await this.usersRepository.findOneBy({
+              email: user.email,
+            });
+            if (savedUser) {
+              this.usersRepository.update(
+                { id: savedUser.id },
+                { email: user.email, cardno: user.cardno },
+              );
+            } else {
+              this.usersRepository.save(createUser);
+            }
           });
           this.logger.log(`Synced ${response.length} users`);
           resolve(response.length);

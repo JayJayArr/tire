@@ -4,7 +4,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity('user', { orderBy: { cardno: 'ASC' }, name: 'user' })
 export class User {
   @PrimaryGeneratedColumn()
-  id?: string;
+  id?: number;
 
   @Column()
   email: string;
