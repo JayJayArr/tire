@@ -7,10 +7,12 @@ import { RouterModule } from '@angular/router';
 import {
   NbContextMenuModule,
   NbDatepickerModule,
+  NbDateTimePickerComponent,
   NbDialogModule,
   NbMenuModule,
   NbSidebarModule,
   NbThemeModule,
+  NbTimepickerModule,
   NbToastrModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
@@ -39,6 +41,8 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(NbMenuModule.forRoot()),
     importProvidersFrom(RouterModule.forRoot(routes, { useHash: false })),
     importProvidersFrom(NbThemeModule.forRoot({ name: 'dark' })),
+    importProvidersFrom(NbDatepickerModule.forRoot()),
+    importProvidersFrom(NbTimepickerModule.forRoot()),
     importProvidersFrom(NbEvaIconsModule),
     importProvidersFrom(BrowserAnimationsModule),
     provideHttpClient(withFetch(), withInterceptors([ApiInterceptor])),
@@ -46,7 +50,6 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(NbContextMenuModule),
     importProvidersFrom(NbToastrModule.forRoot()),
     importProvidersFrom(NbSidebarModule.forRoot()),
-    importProvidersFrom(NbDatepickerModule.forRoot()),
     importProvidersFrom(NbDialogModule.forRoot({ hasBackdrop: true })),
     { provide: NbRoleProvider, useClass: RoleProvider },
     importProvidersFrom(

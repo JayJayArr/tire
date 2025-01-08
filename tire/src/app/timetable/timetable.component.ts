@@ -65,16 +65,17 @@ export class TimetableComponent implements OnChanges {
   }
 
   opendialog(timeentry: NbTreeGridPresentationNode<TimeEntry>) {
-    console.log(timeentry);
-    this.dialogService
-      .open(TimedialogComponent, {
-        context: { timeentry: timeentry.data },
-      })
-      .onClose.subscribe((user) => {
-        if (user) {
-          this.saveTimeEntry(user);
-        }
-      });
+    if (this.allowEdit) {
+      this.dialogService
+        .open(TimedialogComponent, {
+          context: { timeentry: timeentry.data },
+        })
+        .onClose.subscribe((user) => {
+          if (user) {
+            this.saveTimeEntry(user);
+          }
+        });
+    }
   }
 
   saveTimeEntry(timeentry: TimeEntry) {

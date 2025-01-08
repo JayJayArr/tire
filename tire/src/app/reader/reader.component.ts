@@ -61,7 +61,6 @@ export class ReaderComponent {
 
   saveReader(reader: Reader, status: boolean) {
     reader.active = status;
-    console.log(reader);
     this.readerService.postReader(reader);
   }
 }

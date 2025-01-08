@@ -70,7 +70,7 @@
       Difference (hh:mm:ss)
     </th>
     <td nbTreeGridCell *nbTreeGridCellDef="let row">
-      @if (row.data.outtime) {
+      @if (row.data.diff) {
         {{ row.data.diff.hour || '00' }}:{{ row.data.diff.minute || '00' }}:{{
           row.data.diff.second || '00'
         }}

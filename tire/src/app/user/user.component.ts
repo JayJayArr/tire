@@ -33,7 +33,7 @@ export class UserComponent implements OnInit {
     private usersService: UsersService,
     private toastrService: NbToastrService,
     private dialogService: NbDialogService,
-  ) {}
+  ) { }
   dataSource: MatTableDataSource<User> = new MatTableDataSource();
 
   filterstring = '';
@@ -61,7 +61,6 @@ export class UserComponent implements OnInit {
   }
 
   opendialog(user: User) {
-    console.log(user);
     this.dialogService
       .open(UserdialogComponent, {
         context: { user },

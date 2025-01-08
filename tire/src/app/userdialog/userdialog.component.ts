@@ -31,7 +31,7 @@ export class UserdialogComponent implements OnInit {
   email = this.user.email;
   cardno = this.user.cardno;
 
-  close() {
+  close(): void {
     this.dialogRef.close();
   }
 
