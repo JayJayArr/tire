@@ -20,6 +20,7 @@ export interface TimeDiff {
   second: number;
 }
 export interface User {
+  id: number;
   email: string;
   cardno: string;
   roles: Role[];

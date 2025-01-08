@@ -25,7 +25,13 @@ import { FormsModule } from '@angular/forms';
 export class UserdialogComponent implements OnInit {
   constructor(protected dialogRef: NbDialogRef<any>) { }
   @Input() title: String = '';
-  @Input() user: User = { email: '', cardno: '', roles: [], active: false };
+  @Input() user: User = {
+    id: 0,
+    email: '',
+    cardno: '',
+    roles: [],
+    active: false,
+  };
   adminrole = this.user.roles.includes(Role.Admin);
   userrole = this.user.roles.includes(Role.User);
   poweruserrole = this.user.roles.includes(Role.PowerUser);

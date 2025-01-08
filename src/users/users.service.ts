@@ -2,7 +2,7 @@ import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
 import { Role } from 'src/types';
-import { EntityManager, Repository } from 'typeorm';
+import { DeleteResult, EntityManager, Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService implements OnModuleInit {
@@ -11,7 +11,7 @@ export class UsersService implements OnModuleInit {
     private usersRepository: Repository<User>,
     @InjectEntityManager('ProWatchConnection')
     private pwEntityManager: EntityManager,
-  ) {}
+  ) { }
   private readonly logger = new Logger(UsersService.name);
   private readonly users: User[] = [
     {
@@ -42,6 +42,10 @@ export class UsersService implements OnModuleInit {
 
   async saveUser(user: User): Promise<User | undefined> {
     return this.usersRepository.save(user);
+  }
+
+  async deleteUser(id: number): Promise<DeleteResult> {
+    return this.usersRepository.delete(id);
   }
 
   //TODO: update the users in the db in this function

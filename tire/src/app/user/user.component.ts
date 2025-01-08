@@ -12,6 +12,7 @@ import { Role, User } from '../types';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { UsersService } from '../services/users.service';
 import { UserdialogComponent } from '../userdialog/userdialog.component';
+import { ConfirmdialogComponent } from '../confirmdialog/confirmdialog.component';
 
 @Component({
   selector: 'app-user',
@@ -37,7 +38,14 @@ export class UserComponent implements OnInit {
   dataSource: MatTableDataSource<User> = new MatTableDataSource();
 
   filterstring = '';
-  displayedColumns: string[] = ['email', 'cardno', 'role', 'active', 'edit'];
+  displayedColumns: string[] = [
+    'email',
+    'cardno',
+    'role',
+    'active',
+    'edit',
+    'delete',
+  ];
   async refresh() {
     //TODO: paginate the users
     this.dataSource.data = await this.usersService.getUsers().catch((error) => {
@@ -60,7 +68,7 @@ export class UserComponent implements OnInit {
     this.dataSource.filter = '';
   }
 
-  opendialog(user: User) {
+  editdialog(user: User) {
     this.dialogService
       .open(UserdialogComponent, {
         context: { user, title: 'Edit User' },
@@ -76,7 +84,13 @@ export class UserComponent implements OnInit {
     this.dialogService
       .open(UserdialogComponent, {
         context: {
-          user: { email: '', cardno: '', roles: [Role.User], active: true },
+          user: {
+            id: 0,
+            email: '',
+            cardno: '',
+            roles: [Role.User],
+            active: true,
+          },
           title: 'Add User',
         },
       })
@@ -87,11 +101,34 @@ export class UserComponent implements OnInit {
       });
   }
 
+  deletedialog(user: User) {
+    this.dialogService
+      .open(ConfirmdialogComponent, {
+        context: {},
+      })
+      .onClose.subscribe((confirm) => {
+        if (confirm) {
+          this.deleteUser(user);
+        }
+      });
+  }
+
   saveUser(user: User) {
     this.usersService
       .updateUser(user)
       .then((res) => {
         this.toastrService.success('User saved to database', 'Success');
+      })
+      .catch((error) => {
+        this.toastrService.danger(error, 'Error');
+      });
+  }
+
+  deleteUser(user: User) {
+    this.usersService
+      .deleteUser(user)
+      .then((res) => {
+        this.toastrService.success('User deleted', 'Success');
       })
       .catch((error) => {
         this.toastrService.danger(error, 'Error');

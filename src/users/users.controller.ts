@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { Roles } from 'src/roles/roles.decorator';
 import { Role } from 'src/types';
@@ -7,7 +16,7 @@ import { User } from 'src/entities/user.entity';
 
 @Controller('users')
 export class UsersController {
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService) { }
   @UseGuards(AuthGuard)
   @Roles(Role.PowerUser)
   @Get()
@@ -20,6 +29,13 @@ export class UsersController {
   @Post()
   postUser(@Body() user: User) {
     return this.usersService.saveUser(user);
+  }
+
+  @UseGuards(AuthGuard)
+  @Roles(Role.PowerUser)
+  @Delete(':id')
+  deleteUser(@Param() id: number) {
+    return this.usersService.deleteUser(id);
   }
 
   @UseGuards(AuthGuard)

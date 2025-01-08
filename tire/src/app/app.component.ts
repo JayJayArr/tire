@@ -41,11 +41,13 @@ export class AppComponent implements AfterContentChecked {
   title = 'tire';
   sidebarstatus: NbSidebarState = 'expanded';
   user: User = {
+    id: 0,
     cardno: '',
     email: '',
     roles: [],
     active: false,
   };
+
   items: NbMenuItem[] = [
     { title: 'Personal times', link: 'personal', icon: 'clock-outline' },
     {
@@ -78,6 +80,7 @@ export class AppComponent implements AfterContentChecked {
         this.user = token.getPayload();
       } else {
         this.user = {
+          id: 0,
           cardno: '',
           email: '',
           roles: [],

@@ -54,6 +54,19 @@ export class UsersService {
     });
   }
 
+  public deleteUser(user: User): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.http
+        .delete<boolean>(`${this.apiurl}/users/${user.id}`)
+        .subscribe((res) => {
+          if (!res) {
+            reject([]);
+          }
+          resolve(res);
+        });
+    });
+  }
+
   public triggerSyncFromAC(): Promise<number | undefined> {
     return new Promise((resolve, reject) => {
       try {
