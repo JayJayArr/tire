@@ -47,7 +47,6 @@ export class UserComponent implements OnInit {
     'delete',
   ];
   async refresh() {
-    //TODO: paginate the users
     this.dataSource.data = await this.usersService.getUsers().catch((error) => {
       this.toastrService.danger('No users found', 'Error');
       return [];

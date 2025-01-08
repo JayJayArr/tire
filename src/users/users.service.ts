@@ -48,7 +48,6 @@ export class UsersService implements OnModuleInit {
     return this.usersRepository.delete(id);
   }
 
-  //TODO: update the users in the db in this function
   async pullFromProWatch(): Promise<number | undefined> {
     this.logger.log('Pulling Users from Access Control');
     return new Promise(async (resolve, reject) => {

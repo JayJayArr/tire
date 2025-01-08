@@ -22,7 +22,6 @@ export class ReaderService {
 
   async pullFromProWatch(): Promise<number | undefined> {
     return new Promise(async (resolve, reject) => {
-      //TODO: Create an update strategy for this
       let querystring = `select DISTINCT LOGICAL_DEV.id, DESCRP, INSTALLED
         from LOGICAL_DEV
         inner join LOGICAL_DEV_D on LOGICAL_DEV.id = LOGICAL_DEV_D.id
