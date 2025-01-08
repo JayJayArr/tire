@@ -10,14 +10,14 @@ export class ReaderController {
   constructor(private readerService: ReaderService) { }
 
   @UseGuards(AuthGuard)
-  @Roles(Role.PowerUser)
+  @Roles(Role.Admin)
   @Get()
   getReaders() {
     return this.readerService.getReaders();
   }
 
   @UseGuards(AuthGuard)
-  @Roles(Role.PowerUser)
+  @Roles(Role.Admin)
   @Post()
   postReader(@Body() reader: Reader) {
     reader.id = Buffer.from(reader.id);
@@ -25,7 +25,7 @@ export class ReaderController {
   }
 
   @UseGuards(AuthGuard)
-  @Roles(Role.PowerUser)
+  @Roles(Role.Admin)
   @Patch()
   syncUsers() {
     return this.readerService.pullFromProWatch();
