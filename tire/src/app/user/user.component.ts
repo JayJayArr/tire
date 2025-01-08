@@ -8,7 +8,7 @@ import {
   NbInputModule,
   NbToastrService,
 } from '@nebular/theme';
-import { User } from '../types';
+import { Role, User } from '../types';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { UsersService } from '../services/users.service';
 import { UserdialogComponent } from '../userdialog/userdialog.component';
@@ -63,7 +63,22 @@ export class UserComponent implements OnInit {
   opendialog(user: User) {
     this.dialogService
       .open(UserdialogComponent, {
-        context: { user },
+        context: { user, title: 'Edit User' },
+      })
+      .onClose.subscribe((user) => {
+        if (user) {
+          this.saveUser(user);
+        }
+      });
+  }
+
+  adduserDialog() {
+    this.dialogService
+      .open(UserdialogComponent, {
+        context: {
+          user: { email: '', cardno: '', roles: [Role.User], active: true },
+          title: 'Add User',
+        },
       })
       .onClose.subscribe((user) => {
         if (user) {

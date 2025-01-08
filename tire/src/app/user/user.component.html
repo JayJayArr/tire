@@ -24,6 +24,14 @@
     >
       Refresh<nb-icon icon="refresh-outline"></nb-icon>
     </button>
+    <button
+      nbButton
+      status="primary"
+      class="add-button"
+      (click)="adduserDialog()"
+    >
+      Add User<nb-icon icon="plus-outline"></nb-icon>
+    </button>
   </nb-card-header>
   <nb-card-body>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">

@@ -23,7 +23,8 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './userdialog.component.css',
 })
 export class UserdialogComponent implements OnInit {
-  constructor(protected dialogRef: NbDialogRef<any>) {}
+  constructor(protected dialogRef: NbDialogRef<any>) { }
+  @Input() title: String = '';
   @Input() user: User = { email: '', cardno: '', roles: [], active: false };
   adminrole = this.user.roles.includes(Role.Admin);
   userrole = this.user.roles.includes(Role.User);
