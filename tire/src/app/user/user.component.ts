@@ -6,6 +6,7 @@ import {
   NbDialogService,
   NbIconModule,
   NbInputModule,
+  NbSpinnerModule,
   NbToastrService,
 } from '@nebular/theme';
 import { Role, User } from '../types';
@@ -25,6 +26,7 @@ import { ConfirmdialogComponent } from '../confirmdialog/confirmdialog.component
     NbInputModule,
     MatTableModule,
     UserdialogComponent,
+    NbSpinnerModule,
   ],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css',
@@ -37,6 +39,8 @@ export class UserComponent implements OnInit {
   ) { }
   dataSource: MatTableDataSource<User> = new MatTableDataSource();
 
+  loading: boolean = false;
+
   filterstring = '';
   displayedColumns: string[] = [
     'email',
@@ -47,10 +51,12 @@ export class UserComponent implements OnInit {
     'delete',
   ];
   async refresh() {
+    this.loading = true;
     this.dataSource.data = await this.usersService.getUsers().catch((error) => {
       this.toastrService.danger('No users found', 'Error');
       return [];
     });
+    this.loading = false;
   }
   async ngOnInit() {
     await this.refresh();

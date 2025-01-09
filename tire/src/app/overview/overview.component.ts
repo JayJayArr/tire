@@ -6,6 +6,7 @@ import {
   NbIconModule,
   NbInputModule,
   NbSelectModule,
+  NbSpinnerModule,
   NbToastrService,
 } from '@nebular/theme';
 import { TimesService } from '../services/times.service';
@@ -27,6 +28,7 @@ import { UsersService } from '../services/users.service';
     NbDatepickerModule,
     FormsModule,
     TimetableComponent,
+    NbSpinnerModule,
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.css',
@@ -37,7 +39,7 @@ export class OverviewComponent {
     private authService: NbAuthService,
     private usersService: UsersService,
     private toastrService: NbToastrService,
-  ) {}
+  ) { }
 
   data: TreeNode<TimeEntry>[] = [];
 
@@ -47,6 +49,7 @@ export class OverviewComponent {
     email: '',
     role: '',
   };
+  loading: boolean = false;
   availableCardnos: string[] = [];
   date = new Date();
   dateRange = {
@@ -78,6 +81,7 @@ export class OverviewComponent {
   }
 
   async refresh() {
+    this.loading = true;
     this.data = await this.timesService
       .getOverviewTimes(
         this.selectedCardno,
@@ -91,5 +95,6 @@ export class OverviewComponent {
         );
         return [];
       });
+    this.loading = false;
   }
 }

@@ -1,4 +1,8 @@
-<nb-card>
+<nb-card
+  [nbSpinner]="loading"
+  nbSpinnerMessage="Loading"
+  nbSpinnerStatus="primary"
+>
   <nb-card-header>
     <h3>Users</h3>
     <input

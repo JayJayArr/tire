@@ -6,6 +6,7 @@ import {
   NbIconModule,
   NbInputModule,
   NbToastrService,
+  NbSpinnerModule,
 } from '@nebular/theme';
 import { TimeEntry, TreeNode } from '../types';
 import { TimesService } from '../services/times.service';
@@ -23,6 +24,7 @@ import { TimetableComponent } from '../timetable/timetable.component';
     NbButtonModule,
     NbInputModule,
     TimetableComponent,
+    NbSpinnerModule,
   ],
   templateUrl: './personal.component.html',
   styleUrl: './personal.component.css',
@@ -31,7 +33,9 @@ export class PersonalComponent implements OnInit {
   constructor(
     private timesService: TimesService,
     private toastrService: NbToastrService,
-  ) {}
+  ) { }
+  loading: boolean = false;
+
   data: TreeNode<TimeEntry>[] = [];
 
   date = new Date();
@@ -45,11 +49,13 @@ export class PersonalComponent implements OnInit {
   }
 
   async refresh() {
+    this.loading = true;
     this.data = await this.timesService
       .getPersonalTimes(this.dateRange.start, this.dateRange.end)
       .catch((error) => {
         this.toastrService.danger('No data found for this timeframe', 'Error');
         return [];
       });
+    this.loading = false;
   }
 }

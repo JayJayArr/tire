@@ -5,6 +5,7 @@ import {
   NbCardModule,
   NbIconModule,
   NbInputModule,
+  NbSpinnerModule,
   NbToastrService,
   NbToggleModule,
 } from '@nebular/theme';
@@ -23,6 +24,7 @@ import { FormsModule } from '@angular/forms';
     MatTableModule,
     NbButtonModule,
     NbToggleModule,
+    NbSpinnerModule,
   ],
   templateUrl: './reader.component.html',
   styleUrl: './reader.component.css',
@@ -32,17 +34,21 @@ export class ReaderComponent {
     private readerService: ReaderService,
     private toastrService: NbToastrService,
   ) { }
+  loading: boolean = false;
+
   dataSource: MatTableDataSource<Reader> = new MatTableDataSource();
 
   filterstring = '';
   displayedColumns: string[] = ['name', 'active'];
   async refresh() {
+    this.loading = true;
     this.dataSource.data = await this.readerService
       .getReaders()
       .catch((error) => {
         this.toastrService.danger('No readers found', 'Error');
         return [];
       });
+    this.loading = false;
   }
   async ngOnInit() {
     await this.refresh();
