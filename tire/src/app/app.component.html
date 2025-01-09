@@ -19,7 +19,19 @@
               [name]="user.email"
               [title]="user.cardno"
               showInitials="true"
+              [nbContextMenu]="contextItems"
             ></nb-user>
+          </nb-action>
+        </nb-actions>
+      </div>
+    }
+    @if (user.email == '') {
+      <div class="header-container">
+        <nb-actions>
+          <nb-action>
+            <button nbButton status="primary" routerLink="auth/login">
+              Login
+            </button>
           </nb-action>
         </nb-actions>
       </div>

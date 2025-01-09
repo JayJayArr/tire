@@ -86,11 +86,33 @@ export const appConfig: ApplicationConfig = {
             logout: {
               endpoint: '',
             },
+            resetPass: {
+              endpoint: '/auth/reset-pass',
+            },
+            register: {
+              endpoint: '/auth/sign-up',
+            },
           }),
         ],
         forms: {
+          register: { terms: false },
           login: {
             rememberMe: false,
+          },
+          validation: {
+            password: {
+              required: true,
+              minLength: 8,
+              maxLength: 72,
+            },
+            email: {
+              required: true,
+            },
+            fullName: {
+              required: false,
+              minLength: 0,
+              maxLength: 72,
+            },
           },
         },
       }),

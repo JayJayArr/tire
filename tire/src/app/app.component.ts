@@ -3,7 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
 } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import {
   NbButtonModule,
   NbContextMenuModule,
@@ -33,6 +33,7 @@ import { environment } from '../environments/environment';
     NbMenuModule,
     NbSidebarModule,
     NbActionsModule,
+    RouterLink,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -47,6 +48,19 @@ export class AppComponent implements AfterContentChecked {
     roles: [],
     active: false,
   };
+
+  contextItems: NbMenuItem[] = [
+    {
+      title: 'Change password',
+      link: 'auth/reset-password',
+      icon: 'edit-outline',
+    },
+    {
+      title: 'Logout',
+      link: 'auth/logout',
+      icon: 'lock-outline',
+    },
+  ];
 
   items: NbMenuItem[] = [
     { title: 'Personal times', link: 'personal', icon: 'clock-outline' },
@@ -66,7 +80,7 @@ export class AppComponent implements AfterContentChecked {
       icon: 'credit-card-outline',
     },
     { title: 'Global Settings', link: 'admin', icon: 'settings-2-outline' },
-    { title: 'Log out', link: 'auth/logout', icon: 'unlock-outline' },
+    // { title: 'Log out', link: 'auth/logout', icon: 'unlock-outline' },
   ];
 
   constructor(

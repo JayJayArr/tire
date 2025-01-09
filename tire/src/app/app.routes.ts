@@ -7,6 +7,7 @@ import {
   NbLoginComponent,
   NbLogoutComponent,
   NbRegisterComponent,
+  NbResetPasswordComponent,
 } from '@nebular/auth';
 import { AuthGuard } from './services/auth-guard.service';
 import { HomeComponent } from './home/home.component';
@@ -23,6 +24,7 @@ export const routes: Routes = [
       { path: 'login', component: NbLoginComponent },
       { path: 'logout', component: NbLogoutComponent },
       { path: 'register', component: NbRegisterComponent },
+      { path: 'reset-password', component: NbResetPasswordComponent },
     ],
   },
   {
