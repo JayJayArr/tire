@@ -74,7 +74,11 @@ export class UserComponent implements OnInit {
       })
       .onClose.subscribe((user) => {
         if (user) {
-          this.saveUser(user);
+          if (!user.cardno) {
+            this.toastrService.danger('Card number cannot be empty', 'Error');
+          } else {
+            this.saveUser(user);
+          }
         }
       });
   }
@@ -95,7 +99,14 @@ export class UserComponent implements OnInit {
       })
       .onClose.subscribe((user) => {
         if (user) {
-          this.saveUser(user);
+          if (!user.cardno || !user.email) {
+            this.toastrService.danger(
+              'Card number and mail cannot be empty',
+              'Error',
+            );
+          } else {
+            this.saveUser(user);
+          }
         }
       });
   }

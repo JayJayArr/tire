@@ -1,6 +1,7 @@
 <nb-card size="large" class="card">
   <nb-card-header>Edit Time Entry</nb-card-header>
   <nb-card-body class="card-body">
+    <h3>In</h3>
     <input
       nbInput
       fullWidth
@@ -8,14 +9,6 @@
       placeholder="Inbound Device"
       class="input"
       [(ngModel)]="timeentry.indevice"
-    />
-    <input
-      nbInput
-      fullWidth
-      type="text"
-      placeholder="Outbound Device"
-      class="input"
-      [(ngModel)]="timeentry.outdevice"
     />
     <input
       nbInput
@@ -29,6 +22,15 @@
       [max]="max"
       #indateTimePicker
     ></nb-date-timepicker>
+    <h3>Out</h3>
+    <input
+      nbInput
+      fullWidth
+      type="text"
+      placeholder="Outbound Device"
+      class="input"
+      [(ngModel)]="timeentry.outdevice"
+    />
     <input
       nbInput
       placeholder="Pick a Time"
