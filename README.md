@@ -15,5 +15,7 @@ Ti Re => Time Recording
 - [x] Display All Time Data for Powerusers
 - [x] User synchronisation from an Access Control
 - [x] Reader synchronisation from an Access Control
-- [x] User management (email, cardno, roles)
-- [ ] Correction time entries
+- [x] User management (email, cardno, roles), user creation, deletion
+- [ ] User self sign up
+- [x] Correction time entries
+- [ ] Creating Time Entries
