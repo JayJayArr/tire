@@ -42,6 +42,8 @@ export class ProWatchService implements OnModuleInit {
       .createQueryBuilder('user')
       .select('user.cardno')
       .where('user.active = 1')
+      .andWhere('user.cardno is not null')
+      .andWhere("user.cardno <> ''")
       .getMany()
       .then((result) => {
         result.forEach((row) => {
