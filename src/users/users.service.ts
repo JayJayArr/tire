@@ -1,5 +1,6 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
+import * as argon2 from 'argon2';
 import { User } from 'src/entities/user.entity';
 import { Role } from 'src/types';
 import { DeleteResult, EntityManager, Repository } from 'typeorm';
@@ -77,7 +78,7 @@ export class UsersService implements OnModuleInit {
                 email: user.email,
                 cardno: user.cardno,
                 roles: [Role.User],
-                password: user.cardno,
+                password: await this.hashPassword(user.cardno),
               };
               this.usersRepository.save(createUser);
             }
@@ -88,9 +89,24 @@ export class UsersService implements OnModuleInit {
         .catch((err) => reject(err));
     });
   }
+  async hashPassword(password: string) {
+    //see OWASP
+    return await argon2.hash(password, {
+      type: argon2.argon2id,
+      memoryCost: 47104,
+      parallelism: 1,
+      timeCost: 2,
+    });
+  }
 
-  onModuleInit() {
-    this.users.forEach((user) => {
+  async verifyPassword(hash: string, password: string) {
+    //see OWASP
+    return await argon2.verify(hash, password);
+  }
+
+  async onModuleInit() {
+    this.users.forEach(async (user) => {
+      user.password = await this.hashPassword(user.password);
       this.usersRepository.save(user);
     });
   }

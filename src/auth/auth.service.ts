@@ -13,8 +13,7 @@ export class AuthService {
 
   async signIn(username: string, pass: string): Promise<any> {
     const user = await this.usersService.findOne(username);
-    // TODO: Encrypt passwords at rest and compare encrypted passwords, use argon2.verify
-    if (user?.password !== pass) {
+    if (!(await this.usersService.verifyPassword(user.password, pass))) {
       throw new UnauthorizedException();
     }
     const { password, ...jwtinfo } = user;
@@ -25,12 +24,16 @@ export class AuthService {
     };
   }
 
-  async changePassword(username: string, password: string) {
-    //change the password in the db
-    //TODO: change the password in the db
+  async changePassword(email: string, password: string) {
+    let user = await this.usersService.findOne(email);
+    user.password = await this.usersService.hashPassword(password);
+    return await this.usersService.saveUser(user);
   }
 
   async signUp(signUpDto: SignUpDto) {
+    signUpDto.password = await this.usersService.hashPassword(
+      signUpDto.password,
+    );
     let user: User = {
       roles: [],
       active: true,
