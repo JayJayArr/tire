@@ -63,11 +63,7 @@ export class UsersService implements OnModuleInit {
         .query(querystring)
         .then(async (response) => {
           response.forEach(async (user) => {
-            let createUser = {
-              email: user.email,
-              cardno: user.cardno,
-              roles: [Role.User],
-            };
+            //check if the mail is already in the db, in that case update based on the mail address
             let savedUser = await this.usersRepository.findOneBy({
               email: user.email,
             });
@@ -77,6 +73,12 @@ export class UsersService implements OnModuleInit {
                 { email: user.email, cardno: user.cardno },
               );
             } else {
+              let createUser = {
+                email: user.email,
+                cardno: user.cardno,
+                roles: [Role.User],
+                password: user.cardno,
+              };
               this.usersRepository.save(createUser);
             }
           });

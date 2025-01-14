@@ -88,9 +88,17 @@ export const appConfig: ApplicationConfig = {
             },
             resetPass: {
               endpoint: '/auth/reset-pass',
+              redirect: {
+                success: 'personal',
+                failure: null,
+              },
             },
             register: {
               endpoint: '/auth/sign-up',
+              redirect: {
+                success: 'personal',
+                failure: null,
+              },
             },
           }),
         ],

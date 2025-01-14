@@ -80,7 +80,6 @@ export class AppComponent implements AfterContentChecked {
       icon: 'credit-card-outline',
     },
     { title: 'Global Settings', link: 'admin', icon: 'settings-2-outline' },
-    // { title: 'Log out', link: 'auth/logout', icon: 'unlock-outline' },
   ];
 
   constructor(
