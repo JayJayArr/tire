@@ -15,6 +15,7 @@ import { TimeEntry } from './entities/timeentry.entity';
 import { Connector } from './entities/connector.entity';
 import { Reader } from './entities/reader.entity';
 import { ReaderModule } from './reader/reader.module';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -58,7 +59,7 @@ import { ReaderModule } from './reader/reader.module';
         min: 0,
       },
     }),
-
+    ThrottlerModule.forRoot([{ ttl: 60000, limit: 10 }]),
     AuthModule,
     UsersModule,
     TimesModule,
@@ -67,6 +68,9 @@ import { ReaderModule } from './reader/reader.module';
     ConnectorModule,
     ReaderModule,
   ],
-  providers: [{ provide: APP_GUARD, useClass: RolesGuard }],
+  providers: [
+    { provide: APP_GUARD, useClass: RolesGuard },
+    { provide: APP_GUARD, useClass: ThrottlerGuard },
+  ],
 })
 export class AppModule { }
