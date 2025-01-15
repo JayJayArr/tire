@@ -35,7 +35,6 @@ export class AuthController {
     }
   }
 
-  //TODO: /auth/reset-pass needs to update the password for an authorized user
   @UseGuards(AuthGuard)
   @Put('reset-pass')
   resetpass(@User() user, @Body() resetPassDto: ResetPassDto) {
