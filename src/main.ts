@@ -9,6 +9,7 @@ async function bootstrap() {
   app.setGlobalPrefix('/api/v1');
   app.enableCors();
   app.use(helmet());
+  app.enableShutdownHooks();
   await app.listen(process.env.PORT ?? 3000);
   logger.debug(process.env.DEVELOPMENT, 'DEVELOPMENT ENVIRONMENT');
   logger.debug(await app.getUrl(), 'Application running on');
