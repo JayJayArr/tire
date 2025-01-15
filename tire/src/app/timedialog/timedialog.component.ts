@@ -34,8 +34,7 @@ export class TimedialogComponent {
     outtime: new Date(),
     outdevice: '',
   };
-  max: Date = new Date();
-  min: Date = new Date();
+  @Input() title: string = '';
 
   close() {
     this.dialogRef.close();

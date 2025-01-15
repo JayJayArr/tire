@@ -30,6 +30,14 @@
     >
       Refresh<nb-icon icon="refresh-outline"></nb-icon>
     </button>
+    <button
+      nbButton
+      status="primary"
+      class="create-button"
+      (click)="opendialog()"
+    >
+      Create Entry for this Card<nb-icon icon="plus-outline"></nb-icon>
+    </button>
   </nb-card-header>
   <nb-card-body>
     <app-timetable [data]="data" [allowEdit]="true"></app-timetable>

@@ -1,5 +1,7 @@
 <nb-card size="large" class="card">
-  <nb-card-header>Edit Time Entry</nb-card-header>
+  <nb-card-header
+    >{{ title }} Time Entry for {{ timeentry.cardno }}</nb-card-header
+  >
   <nb-card-body class="card-body">
     <h3>In</h3>
     <input
@@ -17,11 +19,7 @@
       [(ngModel)]="timeentry.intime"
       class="input"
     />
-    <nb-date-timepicker
-      withSeconds
-      [max]="max"
-      #indateTimePicker
-    ></nb-date-timepicker>
+    <nb-date-timepicker withSeconds #indateTimePicker></nb-date-timepicker>
     <h3>Out</h3>
     <input
       nbInput
@@ -38,11 +36,7 @@
       [(ngModel)]="timeentry.outtime"
       class="input"
     />
-    <nb-date-timepicker
-      withSeconds
-      [max]="max"
-      #outdateTimePicker
-    ></nb-date-timepicker>
+    <nb-date-timepicker withSeconds #outdateTimePicker></nb-date-timepicker>
   </nb-card-body>
   <nb-card-footer>
     <button nbButton status="danger" (click)="close()">Cancel</button>

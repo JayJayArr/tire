@@ -64,9 +64,26 @@ export class TimesService {
     });
   }
 
-  public updateTimeEntry(timeentry: TimeEntry): Promise<TimeEntry | undefined> {
+  public createTimeEntry(timeentry: TimeEntry): Promise<TimeEntry | undefined> {
     return new Promise((resolve, reject) => {
       this.http.put<TimeEntry>(`${this.apiurl}/times`, timeentry).subscribe({
+        next: (data) => {
+          if (!data) {
+            reject([]);
+          }
+          resolve(data);
+        },
+        error: (error) => {
+          console.log(error);
+          reject([]);
+        },
+      });
+    });
+  }
+
+  public updateTimeEntry(timeentry: TimeEntry): Promise<TimeEntry | undefined> {
+    return new Promise((resolve, reject) => {
+      this.http.patch<TimeEntry>(`${this.apiurl}/times`, timeentry).subscribe({
         next: (data) => {
           if (!data) {
             reject([]);

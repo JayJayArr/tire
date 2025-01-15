@@ -3,11 +3,13 @@ import {
   NbButtonModule,
   NbCardModule,
   NbDatepickerModule,
+  NbDialogService,
   NbIconModule,
   NbInputModule,
   NbSelectModule,
   NbSpinnerModule,
   NbToastrService,
+  NbTreeGridPresentationNode,
 } from '@nebular/theme';
 import { TimesService } from '../services/times.service';
 import { TimeEntry, TreeNode, User } from '../types';
@@ -15,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { TimetableComponent } from '../timetable/timetable.component';
 import { NbAuthService } from '@nebular/auth';
 import { UsersService } from '../services/users.service';
+import { TimedialogComponent } from '../timedialog/timedialog.component';
 
 @Component({
   selector: 'app-overview',
@@ -39,6 +42,7 @@ export class OverviewComponent {
     private authService: NbAuthService,
     private usersService: UsersService,
     private toastrService: NbToastrService,
+    private dialogService: NbDialogService,
   ) { }
 
   data: TreeNode<TimeEntry>[] = [];
@@ -49,9 +53,10 @@ export class OverviewComponent {
     email: '',
     role: '',
   };
+  allowEdit: boolean = true;
   loading: boolean = false;
   availableCardnos: string[] = [];
-  date = new Date();
+  date = new Date(Date.now());
   dateRange = {
     start: new Date(this.date.getFullYear(), this.date.getMonth()),
     end: this.date,
@@ -80,8 +85,42 @@ export class OverviewComponent {
     );
   }
 
+  opendialog() {
+    if (this.allowEdit) {
+      this.dialogService
+        .open(TimedialogComponent, {
+          context: {
+            timeentry: {
+              cardno: this.selectedCardno,
+              indevice: '',
+              intime: new Date(),
+            },
+            title: 'Create',
+          },
+        })
+        .onClose.subscribe((user) => {
+          if (user) {
+            this.createTimeEntry(user);
+          }
+        });
+    }
+  }
+
+  async createTimeEntry(timeentry: TimeEntry) {
+    await this.timesService
+      .createTimeEntry(timeentry)
+      .then((res) => {
+        this.toastrService.success('TimeEntry saved to database', 'Success');
+      })
+      .catch((error) => {
+        this.toastrService.danger(error, 'Error');
+      });
+    await this.refresh();
+  }
+
   async refresh() {
     this.loading = true;
+    this.dateRange.end = new Date(Date.now());
     this.data = await this.timesService
       .getOverviewTimes(
         this.selectedCardno,

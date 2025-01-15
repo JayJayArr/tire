@@ -1,4 +1,12 @@
-import { Body, Controller, Param, Post, Put, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Param,
+  Patch,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { TimesService } from './times.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { Roles } from 'src/roles/roles.decorator';
@@ -8,7 +16,7 @@ import { TimeEntry } from 'src/entities/timeentry.entity';
 
 @Controller('times')
 export class TimesController {
-  constructor(private timesService: TimesService) {}
+  constructor(private timesService: TimesService) { }
 
   @UseGuards(AuthGuard)
   @Roles(Role.User)
@@ -27,6 +35,13 @@ export class TimesController {
   @UseGuards(AuthGuard)
   @Roles(Role.PowerUser)
   @Put()
+  createTimeEntry(@Body() timeentry: TimeEntry) {
+    return this.timesService.createTimeEntry(timeentry);
+  }
+
+  @UseGuards(AuthGuard)
+  @Roles(Role.PowerUser)
+  @Patch()
   updateTimeEntry(@Body() timeentry: TimeEntry) {
     return this.timesService.updatetime(timeentry);
   }

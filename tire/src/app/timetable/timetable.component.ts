@@ -68,7 +68,7 @@ export class TimetableComponent implements OnChanges {
     if (this.allowEdit) {
       this.dialogService
         .open(TimedialogComponent, {
-          context: { timeentry: timeentry.data },
+          context: { timeentry: timeentry.data, title: 'Edit' },
         })
         .onClose.subscribe((user) => {
           if (user) {
@@ -78,8 +78,8 @@ export class TimetableComponent implements OnChanges {
     }
   }
 
-  saveTimeEntry(timeentry: TimeEntry) {
-    this.timesService
+  async saveTimeEntry(timeentry: TimeEntry) {
+    await this.timesService
       .updateTimeEntry(timeentry)
       .then((res) => {
         this.toastrService.success('TimeEntry saved to database', 'Success');

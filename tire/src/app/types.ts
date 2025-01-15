@@ -5,7 +5,7 @@ export interface TreeNode<T> {
 }
 
 export interface TimeEntry {
-  id: number;
+  id?: number;
   cardno: string;
   indevice: string;
   outdevice?: string;
