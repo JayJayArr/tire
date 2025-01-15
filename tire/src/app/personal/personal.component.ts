@@ -53,6 +53,7 @@ export class PersonalComponent implements OnInit {
     this.data = await this.timesService
       .getPersonalTimes(this.dateRange.start, this.dateRange.end)
       .catch((error) => {
+        console.error(error);
         this.toastrService.danger('No data found for this timeframe', 'Error');
         return [];
       });

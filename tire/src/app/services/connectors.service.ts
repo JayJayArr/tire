@@ -9,20 +9,24 @@ import { Connector } from '../types';
 export class ConnectorsService {
   apiurl = environment.apiBaseUrl;
   connectors: Connector[] = [];
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   public getConnectors(): Promise<Connector[]> {
     return new Promise((resolve, reject) => {
-      this.http
-        .get<Connector[]>(`${this.apiurl}/connector`)
-        .subscribe((res) => {
-          if (res.length === 0) {
+      this.http.get<Connector[]>(`${this.apiurl}/connector`).subscribe({
+        next: (data) => {
+          if (data.length === 0) {
             reject([]);
           }
-          this.connectors = res;
-          console.log(res);
-          resolve(res);
-        });
+          this.connectors = data;
+          console.log(data);
+          resolve(data);
+        },
+        error: (error) => {
+          console.error(error);
+          reject([]);
+        },
+      });
     });
   }
 
@@ -30,11 +34,17 @@ export class ConnectorsService {
     return new Promise((resolve, reject) => {
       this.http
         .put<Connector[]>(`${this.apiurl}/connector`, connector)
-        .subscribe((res) => {
-          if (res.length === 0) {
+        .subscribe({
+          next: (data) => {
+            if (data.length === 0) {
+              reject([]);
+            }
+            resolve(data);
+          },
+          error: (error) => {
+            console.error(error);
             reject([]);
-          }
-          resolve(res);
+          },
         });
     });
   }

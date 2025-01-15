@@ -12,33 +12,47 @@ export class ReaderService {
 
   public getReaders(): Promise<Reader[]> {
     return new Promise((resolve, reject) => {
-      this.http.get<Reader[]>(`${this.apiurl}/reader`).subscribe((res) => {
-        if (res.length === 0) {
+      this.http.get<Reader[]>(`${this.apiurl}/reader`).subscribe({
+        next: (data) => {
+          if (data.length === 0) {
+            reject([]);
+          }
+          resolve(data);
+        },
+        error: (err) => {
+          console.error(err);
           reject([]);
-        }
-        resolve(res);
+        },
       });
     });
   }
 
   public postReader(reader: Reader): Promise<Reader> {
     return new Promise((resolve, reject) => {
-      this.http
-        .post<Reader>(`${this.apiurl}/reader`, reader)
-        .subscribe((res) => {
-          resolve(res);
-        });
+      this.http.post<Reader>(`${this.apiurl}/reader`, reader).subscribe({
+        next(data) {
+          resolve(data);
+        },
+        error: (err) => {
+          console.error(err);
+          reject([]);
+        },
+      });
     });
   }
 
   public triggerSyncFromAC(): Promise<number | undefined> {
     return new Promise((resolve, reject) => {
       try {
-        this.http
-          .patch<number>(`${this.apiurl}/reader`, {})
-          .subscribe((res) => {
-            resolve(res);
-          });
+        this.http.patch<number>(`${this.apiurl}/reader`, {}).subscribe({
+          next: (data) => {
+            resolve(data);
+          },
+          error: (err) => {
+            console.error(err);
+            reject([]);
+          },
+        });
       } catch (error) {
         reject(error);
       }
