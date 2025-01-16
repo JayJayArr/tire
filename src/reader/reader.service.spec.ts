@@ -62,11 +62,10 @@ describe('ReaderService', () => {
     const result = await service.updateReader(reader);
 
     expect(result).toEqual(reader);
-    expect(mockReaderRepository.find).toHaveBeenCalled();
+    expect(mockReaderRepository.save).toHaveBeenCalled();
   });
 
   it('pullfromProWatch => should start a pull from access control ProWatch', async () => {
-    const mockCallback = jest.fn((x) => x.length);
     jest.enableAutomock();
     const readers = [
       {
@@ -85,7 +84,7 @@ describe('ReaderService', () => {
     const result = await service.pullFromProWatch();
 
     expect(result).toBe(2);
-    expect(mockPwEntityManager.query).toHaveBeenCalled();
-    expect(mockReaderRepository.save).toHaveBeenCalled();
+    expect(mockPwEntityManager.query).toHaveBeenCalledTimes(1);
+    expect(mockReaderRepository.save).toHaveBeenCalledTimes(2);
   });
 });

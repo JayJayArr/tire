@@ -8,15 +8,15 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { Roles } from 'src/roles/roles.decorator';
-import { Role } from 'src/types';
+import { AuthGuard } from '../auth/auth.guard';
+import { Roles } from '../roles/roles.decorator';
+import { Role } from '../types';
 import { UsersService } from './users.service';
-import { User } from 'src/entities/user.entity';
+import { User } from '../entities/user.entity';
 
 @Controller('users')
 export class UsersController {
-  constructor(private usersService: UsersService) { }
+  constructor(private usersService: UsersService) {}
   @UseGuards(AuthGuard)
   @Roles(Role.PowerUser)
   @Get()
@@ -27,8 +27,8 @@ export class UsersController {
   @UseGuards(AuthGuard)
   @Roles(Role.PowerUser)
   @Post()
-  postUser(@Body() user: User) {
-    return this.usersService.saveUser(user);
+  updateUser(@Body() user: User) {
+    return this.usersService.updateUser(user);
   }
 
   @UseGuards(AuthGuard)

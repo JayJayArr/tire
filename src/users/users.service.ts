@@ -1,8 +1,8 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 import * as argon2 from 'argon2';
-import { User } from 'src/entities/user.entity';
-import { Role } from 'src/types';
+import { User } from '../entities/user.entity';
+import { Role } from '../types';
 import { DeleteResult, EntityManager, Repository } from 'typeorm';
 
 @Injectable()
@@ -12,19 +12,11 @@ export class UsersService implements OnModuleInit {
     private usersRepository: Repository<User>,
     @InjectEntityManager('ProWatchConnection')
     private pwEntityManager: EntityManager,
-  ) { }
+  ) {}
   private readonly logger = new Logger(UsersService.name);
   private readonly users: User[] = [
     {
       id: 1,
-      email: 'jakob.janus@nutz.com',
-      password: 'changeme',
-      cardno: '10490',
-      roles: [Role.User, Role.PowerUser, Role.Admin],
-      active: true,
-    },
-    {
-      id: 2,
       email: 'admin@admin.com',
       password: 'admin',
       cardno: '0000',
@@ -41,7 +33,7 @@ export class UsersService implements OnModuleInit {
     return this.usersRepository.find();
   }
 
-  async saveUser(user: User): Promise<User | undefined> {
+  async updateUser(user: User): Promise<User | undefined> {
     return this.usersRepository.save(user);
   }
 
