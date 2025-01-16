@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
-import { Reader } from 'src/entities/reader.entity';
+import { Reader } from '../entities/reader.entity';
 import { EntityManager, Repository } from 'typeorm';
 
 @Injectable()
@@ -8,7 +8,7 @@ export class ReaderService {
   constructor(
     @InjectRepository(Reader, 'TireConnection')
     private readerRepository: Repository<Reader>,
-  ) { }
+  ) {}
 
   @InjectEntityManager('ProWatchConnection')
   private pwEntityManager: EntityManager;
@@ -16,7 +16,7 @@ export class ReaderService {
     return this.readerRepository.find();
   }
 
-  async putReader(reader: Reader): Promise<Reader | undefined> {
+  async updateReader(reader: Reader): Promise<Reader | undefined> {
     return this.readerRepository.save(reader);
   }
 

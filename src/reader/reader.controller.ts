@@ -1,13 +1,13 @@
 import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
 import { ReaderService } from './reader.service';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { Role } from 'src/types';
-import { Roles } from 'src/roles/roles.decorator';
-import { Reader } from 'src/entities/reader.entity';
+import { AuthGuard } from '../auth/auth.guard';
+import { Role } from '../types';
+import { Roles } from '../roles/roles.decorator';
+import { Reader } from '../entities/reader.entity';
 
 @Controller('reader')
 export class ReaderController {
-  constructor(private readerService: ReaderService) { }
+  constructor(private readerService: ReaderService) {}
 
   @UseGuards(AuthGuard)
   @Roles(Role.Admin)
@@ -19,9 +19,9 @@ export class ReaderController {
   @UseGuards(AuthGuard)
   @Roles(Role.Admin)
   @Post()
-  postReader(@Body() reader: Reader) {
+  updateReader(@Body() reader: Reader) {
     reader.id = Buffer.from(reader.id);
-    return this.readerService.putReader(reader);
+    return this.readerService.updateReader(reader);
   }
 
   @UseGuards(AuthGuard)
