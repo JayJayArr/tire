@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Connector } from 'src/entities/connector.entity';
+import { Connector } from '../entities/connector.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -8,7 +8,7 @@ export class ConnectorService {
   constructor(
     @InjectRepository(Connector, 'TireConnection')
     private connectorRepository: Repository<Connector>,
-  ) { }
+  ) {}
   async getConnectors() {
     return await this.connectorRepository.find();
   }

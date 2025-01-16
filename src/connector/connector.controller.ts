@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Put, UseGuards } from '@nestjs/common';
 import { ConnectorService } from './connector.service';
-import { Roles } from 'src/roles/roles.decorator';
-import { Role } from 'src/types';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { Connector } from 'src/entities/connector.entity';
+import { Roles } from '../roles/roles.decorator';
+import { Role } from '../types';
+import { AuthGuard } from '../auth/auth.guard';
+import { Connector } from '../entities/connector.entity';
 
 @Controller('connector')
 export class ConnectorController {
@@ -19,7 +19,7 @@ export class ConnectorController {
   @UseGuards(AuthGuard)
   @Roles(Role.Admin)
   @Put()
-  putConnector(@Body() body: Connector) {
+  updateConnector(@Body() body: Connector) {
     return this.connectorService.updateConnector(body);
   }
 }
