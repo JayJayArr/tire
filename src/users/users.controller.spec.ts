@@ -53,6 +53,7 @@ describe('UsersController', () => {
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
+
   it('getAvailableUsers => should return active Users', async () => {
     jest.spyOn(mockUserService, 'findAll').mockReturnValue(users);
 
@@ -61,6 +62,7 @@ describe('UsersController', () => {
     expect(result).toBe(users);
     expect(mockUserService.findAll).toHaveBeenCalledTimes(1);
   });
+
   it('updateUser => should return active Users', async () => {
     jest.spyOn(mockUserService, 'updateUser').mockReturnValue(users[1]);
 
@@ -70,6 +72,7 @@ describe('UsersController', () => {
     expect(mockUserService.updateUser).toHaveBeenCalledTimes(1);
     expect(mockUserService.updateUser).toHaveBeenCalledWith(users[1]);
   });
+
   it('deleteUser => should return active Users', async () => {
     jest.spyOn(mockUserService, 'deleteUser').mockReturnValue(users[1]);
 
@@ -79,6 +82,7 @@ describe('UsersController', () => {
     expect(mockUserService.deleteUser).toHaveBeenCalledTimes(1);
     expect(mockUserService.deleteUser).toHaveBeenCalledWith(users[1].id);
   });
+
   it('triggerProWatchUserPull => should return active Users', async () => {
     jest.spyOn(mockUserService, 'pullFromProWatch').mockReturnValue(2);
 
