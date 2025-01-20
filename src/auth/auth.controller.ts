@@ -10,15 +10,15 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { SignInDto } from 'src/pipes/signInDto';
+import { SignInDto } from '../pipes/signInDto';
 import { AuthGuard } from './auth.guard';
-import { User } from 'src/users/users.decorator';
-import { SignUpDto } from 'src/pipes/signUpDto';
-import { ResetPassDto } from 'src/pipes/resetPassDto';
+import { User } from '../users/users.decorator';
+import { SignUpDto } from '../pipes/signUpDto';
+import { ResetPassDto } from '../pipes/resetPassDto';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
@@ -37,8 +37,7 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Put('reset-pass')
-  resetpass(@User() user, @Body() resetPassDto: ResetPassDto) {
-    console.log(resetPassDto);
+  changePassword(@User() user, @Body() resetPassDto: ResetPassDto) {
     if (resetPassDto.password == resetPassDto.confirmPassword) {
       return this.authService.changePassword(user.email, resetPassDto.password);
     } else {

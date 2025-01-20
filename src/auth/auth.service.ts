@@ -1,15 +1,19 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User } from 'src/entities/user.entity';
-import { SignUpDto } from 'src/pipes/signUpDto';
-import { UsersService } from 'src/users/users.service';
+import { User } from '../entities/user.entity';
+import { SignUpDto } from '../pipes/signUpDto';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-  ) { }
+  ) {}
 
   async signIn(username: string, pass: string): Promise<any> {
     const user = await this.usersService.findOne(username);
@@ -27,7 +31,7 @@ export class AuthService {
   async changePassword(email: string, password: string) {
     let user = await this.usersService.findOne(email);
     user.password = await this.usersService.hashPassword(password);
-    return await this.usersService.saveUser(user);
+    return await this.usersService.updateUser(user);
   }
 
   async signUp(signUpDto: SignUpDto) {
@@ -40,7 +44,10 @@ export class AuthService {
       cardno: '',
       ...signUpDto,
     };
-    this.usersService.saveUser(user);
+    if (await this.usersService.findOne(signUpDto.email)) {
+      throw new ConflictException();
+    }
+    this.usersService.updateUser(user);
     const { password, ...jwtinfo } = user;
     return {
       data: {
