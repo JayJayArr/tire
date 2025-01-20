@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ProWatchService } from './pro-watch.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'src/entities/user.entity';
-import { TimeEntry } from 'src/entities/timeentry.entity';
-import { Connector } from 'src/entities/connector.entity';
-import { Reader } from 'src/entities/reader.entity';
+import { User } from '../entities/user.entity';
+import { TimeEntry } from '../entities/timeentry.entity';
+import { Connector } from '../entities/connector.entity';
+import { Reader } from '../entities/reader.entity';
 
 @Module({
   imports: [
@@ -16,4 +16,4 @@ import { Reader } from 'src/entities/reader.entity';
   ],
   providers: [ProWatchService],
 })
-export class ProWatchModule { }
+export class ProWatchModule {}
