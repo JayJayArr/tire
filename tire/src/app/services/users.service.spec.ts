@@ -72,10 +72,61 @@ describe('UsersService', () => {
     );
     expect(req.request.method).toBe('GET');
     req.flush(users);
-    expect(await availableUsersPromise).toBe(users[0]);
+    expect(await availableUsersPromise).toEqual([users[0]]);
 
     httpTesting.verify();
 
     expect(service.getAvailableUsers).toHaveBeenCalledTimes(1);
+  });
+
+  it('updateUser => should post an update to a user', async () => {
+    jest.spyOn(service, 'updateUser');
+    const updateUsersPromise = service.updateUser(users[0]);
+
+    const req = httpTesting.expectOne(
+      'http://localhost:3000/api/v1/users',
+      'Request to update the users',
+    );
+    expect(req.request.method).toBe('POST');
+    req.flush([users[0]]);
+    expect(await updateUsersPromise).toEqual([users[0]]);
+
+    httpTesting.verify();
+
+    expect(service.updateUser).toHaveBeenCalledTimes(1);
+  });
+
+  it('deleteUser => should delete a user', async () => {
+    jest.spyOn(service, 'deleteUser');
+    const deleteUsersPromise = service.deleteUser(users[0]);
+
+    const req = httpTesting.expectOne(
+      'http://localhost:3000/api/v1/users/1',
+      'Request to delete the users',
+    );
+    expect(req.request.method).toBe('DELETE');
+    req.flush([users[0]]);
+    expect(await deleteUsersPromise).toEqual([users[0]]);
+
+    httpTesting.verify();
+
+    expect(service.deleteUser).toHaveBeenCalledTimes(1);
+  });
+
+  it('trigger sync from AC => should request a sync', async () => {
+    jest.spyOn(service, 'triggerSyncFromAC');
+    const deleteUsersPromise = service.triggerSyncFromAC();
+
+    const req = httpTesting.expectOne(
+      'http://localhost:3000/api/v1/users',
+      'Request to delete the users',
+    );
+    expect(req.request.method).toBe('PATCH');
+    req.flush(5);
+    expect(await deleteUsersPromise).toEqual(5);
+
+    httpTesting.verify();
+
+    expect(service.triggerSyncFromAC).toHaveBeenCalledTimes(1);
   });
 });

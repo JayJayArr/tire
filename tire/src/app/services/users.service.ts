@@ -43,9 +43,7 @@ export class UsersService {
           if (data.length === 0) {
             resolve([]);
           }
-          data.filter((user) => {
-            user.active;
-          });
+          data = data.filter((user) => user.active == true);
           resolve(data);
         },
         error: (error) => {
@@ -95,7 +93,6 @@ export class UsersService {
       try {
         this.http.patch<number>(`${this.apiurl}/users`, {}).subscribe({
           next: (data) => {
-            console.log('Synced users: ', data);
             resolve(data);
           },
           error: (error) => {
