@@ -9,17 +9,16 @@ import { Connector } from '../types';
 export class ConnectorsService {
   apiurl = environment.apiBaseUrl;
   connectors: Connector[] = [];
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   public getConnectors(): Promise<Connector[]> {
     return new Promise((resolve, reject) => {
       this.http.get<Connector[]>(`${this.apiurl}/connector`).subscribe({
         next: (data) => {
           if (data.length === 0) {
-            reject([]);
+            resolve([]);
           }
           this.connectors = data;
-          console.log(data);
           resolve(data);
         },
         error: (error) => {
@@ -37,7 +36,7 @@ export class ConnectorsService {
         .subscribe({
           next: (data) => {
             if (data.length === 0) {
-              reject([]);
+              resolve([]);
             }
             resolve(data);
           },

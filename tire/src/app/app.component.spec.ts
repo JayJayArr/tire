@@ -1,10 +1,23 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { NbAuthService } from '@nebular/auth';
+import { EMPTY } from 'rxjs';
+import { NbSpinnerService, NbThemeService } from '@nebular/theme';
 
 describe('AppComponent', () => {
+  let mockNbAuthService = {
+    onTokenChange: () => EMPTY,
+  };
+  let mockNbThemeService = {};
+  let mockNbSpinnerService = {};
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
+      providers: [
+        { provide: NbAuthService, useValue: mockNbAuthService },
+        { provide: NbThemeService, useValue: mockNbThemeService },
+        { provide: NbSpinnerService, useValue: mockNbSpinnerService },
+      ],
     }).compileComponents();
   });
 

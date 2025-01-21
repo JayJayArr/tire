@@ -110,7 +110,7 @@ export const appConfig: ApplicationConfig = {
           validation: {
             password: {
               required: true,
-              minLength: 8,
+              minLength: 5,
               maxLength: 72,
             },
             email: {

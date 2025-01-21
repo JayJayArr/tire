@@ -86,8 +86,6 @@ export class AppComponent implements AfterContentChecked {
     private authService: NbAuthService,
     private ref: ChangeDetectorRef,
   ) {
-    console.log(environment);
-
     this.authService.onTokenChange().subscribe((token) => {
       if (token.isValid()) {
         this.user = token.getPayload();

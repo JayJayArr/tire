@@ -8,15 +8,16 @@ import { User } from '../types';
 })
 export class UsersService {
   apiurl = environment.apiBaseUrl;
+
   constructor(private http: HttpClient) {
-    this.getAvailableUsers();
+    // this.getAvailableUsers();
   }
   public getUsers(): Promise<User[]> {
     return new Promise((resolve, reject) => {
       this.http.get<User[]>(`${this.apiurl}/users`).subscribe({
         next: (data) => {
           if (data.length === 0) {
-            reject([]);
+            resolve([]);
           }
           data.sort(function (a, b) {
             if (a.email.toLowerCase() > b.email.toLowerCase()) {
@@ -40,7 +41,7 @@ export class UsersService {
       this.http.get<User[]>(`${this.apiurl}/users`).subscribe({
         next: (data) => {
           if (data.length === 0) {
-            reject([]);
+            resolve([]);
           }
           data.filter((user) => {
             user.active;
@@ -55,12 +56,12 @@ export class UsersService {
     });
   }
 
-  public updateUser(user: User): Promise<User> {
+  public updateUser(user: User): Promise<User | void> {
     return new Promise((resolve, reject) => {
       this.http.post<User>(`${this.apiurl}/users`, user).subscribe({
         next: (data) => {
           if (!data) {
-            reject([]);
+            resolve();
           }
           resolve(data);
         },
@@ -77,7 +78,7 @@ export class UsersService {
       this.http.delete<boolean>(`${this.apiurl}/users/${user.id}`).subscribe({
         next: (data) => {
           if (!data) {
-            reject([]);
+            resolve(false);
           }
           resolve(data);
         },

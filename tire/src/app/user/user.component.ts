@@ -36,7 +36,7 @@ export class UserComponent implements OnInit {
     private usersService: UsersService,
     private toastrService: NbToastrService,
     private dialogService: NbDialogService,
-  ) { }
+  ) {}
   dataSource: MatTableDataSource<User> = new MatTableDataSource();
 
   loading: boolean = false;
@@ -52,10 +52,20 @@ export class UserComponent implements OnInit {
   ];
   async refresh() {
     this.loading = true;
-    this.dataSource.data = await this.usersService.getUsers().catch((error) => {
-      this.toastrService.danger('No users found', 'Error');
-      return [];
-    });
+    this.dataSource.data = await this.usersService
+      .getUsers()
+      .then((data) => {
+        if (data.length === 0) {
+          this.toastrService.danger('No Data found', 'Error');
+          return [];
+        } else {
+          return data;
+        }
+      })
+      .catch((error) => {
+        this.toastrService.danger('No users found', 'Error');
+        return [];
+      });
     this.loading = false;
   }
   async ngOnInit() {

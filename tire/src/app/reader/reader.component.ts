@@ -33,7 +33,7 @@ export class ReaderComponent {
   constructor(
     private readerService: ReaderService,
     private toastrService: NbToastrService,
-  ) { }
+  ) {}
   loading: boolean = false;
 
   dataSource: MatTableDataSource<Reader> = new MatTableDataSource();
@@ -44,6 +44,15 @@ export class ReaderComponent {
     this.loading = true;
     this.dataSource.data = await this.readerService
       .getReaders()
+      .then((data) => {
+        if (data.length === 0) {
+          this.toastrService.danger('No readers found', 'Error');
+          return [];
+        } else {
+          return data;
+        }
+      })
+
       .catch((error) => {
         this.toastrService.danger('No readers found', 'Error');
         return [];

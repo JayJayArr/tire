@@ -79,7 +79,20 @@ export class AdminComponent implements OnInit {
   }
 
   async refreshConnectors() {
-    this.connectors = await this.connectorService.getConnectors();
+    this.connectors = await this.connectorService
+      .getConnectors()
+      .then((data) => {
+        if (data.length === 0) {
+          this.toastrService.danger('Could not get connectors', 'Error');
+          return [];
+        } else {
+          return data;
+        }
+      })
+      .catch((error) => {
+        this.toastrService.danger('Could not get connectors', 'Error');
+        return [];
+      });
     let PWConnector = this.connectors.find((element) => {
       return element?.name == 'ProWatch';
     });

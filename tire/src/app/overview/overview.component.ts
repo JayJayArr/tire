@@ -43,7 +43,7 @@ export class OverviewComponent {
     private usersService: UsersService,
     private toastrService: NbToastrService,
     private dialogService: NbDialogService,
-  ) { }
+  ) {}
 
   data: TreeNode<TimeEntry>[] = [];
 
@@ -127,6 +127,17 @@ export class OverviewComponent {
         this.dateRange.start,
         this.dateRange.end,
       )
+      .then((data) => {
+        if (data.length === 0) {
+          this.toastrService.danger(
+            'No data found for this timeframe',
+            'Error',
+          );
+          return [];
+        } else {
+          return data;
+        }
+      })
       .catch((error) => {
         this.toastrService.danger(
           'No Data found for this card number and time frame',

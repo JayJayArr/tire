@@ -33,7 +33,7 @@ export class PersonalComponent implements OnInit {
   constructor(
     private timesService: TimesService,
     private toastrService: NbToastrService,
-  ) { }
+  ) {}
   loading: boolean = false;
 
   data: TreeNode<TimeEntry>[] = [];
@@ -52,6 +52,17 @@ export class PersonalComponent implements OnInit {
     this.loading = true;
     this.data = await this.timesService
       .getPersonalTimes(this.dateRange.start, this.dateRange.end)
+      .then((data) => {
+        if (data.length === 0) {
+          this.toastrService.danger(
+            'No data found for this timeframe',
+            'Error',
+          );
+          return [];
+        } else {
+          return data;
+        }
+      })
       .catch((error) => {
         console.error(error);
         this.toastrService.danger('No data found for this timeframe', 'Error');
