@@ -57,7 +57,7 @@ describe('TimesService', () => {
     const usersPromise = service.getPersonalTimes();
 
     const req = httpTesting.expectOne(
-      'http://localhost:3000/api/v1/times',
+      service.apiurl + '/times',
       'Request to load the users',
     );
     expect(req.request.method).toBe('POST');
@@ -78,7 +78,7 @@ describe('TimesService', () => {
     const usersPromise = service.getOverviewTimes('69420');
 
     const req = httpTesting.expectOne(
-      'http://localhost:3000/api/v1/times/69420',
+      service.apiurl + '/times/69420',
       'Request to load the users',
     );
     expect(req.request.method).toBe('POST');
@@ -99,7 +99,7 @@ describe('TimesService', () => {
     const usersPromise = service.createTimeEntry(timeEntries[0]);
 
     const req = httpTesting.expectOne(
-      'http://localhost:3000/api/v1/times',
+      service.apiurl + '/times',
       'Request to load the users',
     );
     expect(req.request.method).toBe('PUT');
@@ -116,7 +116,7 @@ describe('TimesService', () => {
     const usersPromise = service.updateTimeEntry(timeEntries[0]);
 
     const req = httpTesting.expectOne(
-      'http://localhost:3000/api/v1/times',
+      service.apiurl + '/times',
       'Request to load the users',
     );
     expect(req.request.method).toBe('PATCH');

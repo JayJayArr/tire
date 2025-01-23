@@ -50,7 +50,7 @@ describe('UsersService', () => {
     const usersPromise = service.getUsers();
 
     const req = httpTesting.expectOne(
-      'http://localhost:3000/api/v1/users',
+      service.apiurl + '/users',
       'Request to load the users',
     );
     expect(req.request.method).toBe('GET');
@@ -67,7 +67,7 @@ describe('UsersService', () => {
     const availableUsersPromise = service.getAvailableUsers();
 
     const req = httpTesting.expectOne(
-      'http://localhost:3000/api/v1/users',
+      service.apiurl + '/users',
       'Request to load the users',
     );
     expect(req.request.method).toBe('GET');
@@ -84,7 +84,7 @@ describe('UsersService', () => {
     const updateUsersPromise = service.updateUser(users[0]);
 
     const req = httpTesting.expectOne(
-      'http://localhost:3000/api/v1/users',
+      service.apiurl + '/users',
       'Request to update the users',
     );
     expect(req.request.method).toBe('POST');
@@ -101,7 +101,7 @@ describe('UsersService', () => {
     const deleteUsersPromise = service.deleteUser(users[0]);
 
     const req = httpTesting.expectOne(
-      'http://localhost:3000/api/v1/users/1',
+      service.apiurl + '/users/1',
       'Request to delete the users',
     );
     expect(req.request.method).toBe('DELETE');
@@ -118,7 +118,7 @@ describe('UsersService', () => {
     const deleteUsersPromise = service.triggerSyncFromAC();
 
     const req = httpTesting.expectOne(
-      'http://localhost:3000/api/v1/users',
+      service.apiurl + '/users',
       'Request to delete the users',
     );
     expect(req.request.method).toBe('PATCH');
