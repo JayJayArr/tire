@@ -16,7 +16,9 @@
             "outputPath": "dist/tire",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
@@ -48,6 +50,7 @@
               "outputHashing": "all"
             },
             "development": {
+              "aot": false,
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,

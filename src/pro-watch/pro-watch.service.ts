@@ -67,11 +67,6 @@ export class ProWatchService implements OnModuleInit {
         resolve(0);
       }
       let prefix = '0x'; //needed for the correct ID creation of each Reader-ID
-      this.logger.log(`Active cards: ${usedCardnos.length}`);
-      this.logger.log(`Active readers: ${activeReaders.length}`);
-      this.logger.log(
-        `Searching for events between ${connector.timestamp.toISOString()} and ${runbegin.toISOString()}`,
-      );
 
       let querystring = `SELECT TOP 2000 EVNT_DAT, REC_DAT, BADGE_C.CARDNO, LOGDEVDESCRP 
       FROM EV_LOG 
@@ -88,8 +83,7 @@ export class ProWatchService implements OnModuleInit {
       const pwEvents = await this.pwEntityManager.query(querystring);
       let result: number = 0;
       if (!pwEvents.length) {
-        this.logger.log(`No events found`);
-        resolve(56);
+        resolve(result);
       } else {
         result = await this.parseEntries(pwEvents);
         //Update the timestamp in the DB

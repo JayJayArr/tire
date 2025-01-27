@@ -7,6 +7,7 @@ import {
   NbInputModule,
   NbToastrService,
   NbSpinnerModule,
+  NbLayoutModule,
 } from '@nebular/theme';
 import { TimeEntry, TreeNode } from '../types';
 import { TimesService } from '../services/times.service';
@@ -25,6 +26,7 @@ import { TimetableComponent } from '../timetable/timetable.component';
     NbInputModule,
     TimetableComponent,
     NbSpinnerModule,
+    NbLayoutModule,
   ],
   templateUrl: './personal.component.html',
   styleUrl: './personal.component.css',
@@ -33,7 +35,7 @@ export class PersonalComponent implements OnInit {
   constructor(
     private timesService: TimesService,
     private toastrService: NbToastrService,
-  ) {}
+  ) { }
   loading: boolean = false;
 
   data: TreeNode<TimeEntry>[] = [];
@@ -54,17 +56,18 @@ export class PersonalComponent implements OnInit {
       .getPersonalTimes(this.dateRange.start, this.dateRange.end)
       .then((data) => {
         if (data.length === 0) {
+          this.loading = false;
           this.toastrService.danger(
             'No data found for this timeframe',
             'Error',
           );
           return [];
         } else {
+          this.loading = false;
           return data;
         }
       })
       .catch((error) => {
-        console.error(error);
         this.toastrService.danger('No data found for this timeframe', 'Error');
         return [];
       });

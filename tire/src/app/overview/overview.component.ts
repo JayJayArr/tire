@@ -6,6 +6,7 @@ import {
   NbDialogService,
   NbIconModule,
   NbInputModule,
+  NbLayoutModule,
   NbSelectModule,
   NbSpinnerModule,
   NbToastrService,
@@ -32,6 +33,7 @@ import { TimedialogComponent } from '../timedialog/timedialog.component';
     FormsModule,
     TimetableComponent,
     NbSpinnerModule,
+    NbLayoutModule,
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.css',
@@ -43,7 +45,7 @@ export class OverviewComponent {
     private usersService: UsersService,
     private toastrService: NbToastrService,
     private dialogService: NbDialogService,
-  ) {}
+  ) { }
 
   data: TreeNode<TimeEntry>[] = [];
 

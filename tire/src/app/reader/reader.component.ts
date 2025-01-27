@@ -5,6 +5,7 @@ import {
   NbCardModule,
   NbIconModule,
   NbInputModule,
+  NbLayoutModule,
   NbSpinnerModule,
   NbToastrService,
   NbToggleModule,
@@ -25,6 +26,7 @@ import { FormsModule } from '@angular/forms';
     NbButtonModule,
     NbToggleModule,
     NbSpinnerModule,
+    NbLayoutModule,
   ],
   templateUrl: './reader.component.html',
   styleUrl: './reader.component.css',
@@ -33,7 +35,7 @@ export class ReaderComponent {
   constructor(
     private readerService: ReaderService,
     private toastrService: NbToastrService,
-  ) {}
+  ) { }
   loading: boolean = false;
 
   dataSource: MatTableDataSource<Reader> = new MatTableDataSource();

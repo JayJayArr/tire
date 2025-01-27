@@ -6,6 +6,7 @@ import {
   NbDialogService,
   NbIconModule,
   NbInputModule,
+  NbLayoutModule,
   NbSpinnerModule,
   NbToastrService,
 } from '@nebular/theme';
@@ -27,6 +28,7 @@ import { ConfirmdialogComponent } from '../confirmdialog/confirmdialog.component
     MatTableModule,
     UserdialogComponent,
     NbSpinnerModule,
+    NbLayoutModule,
   ],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css',
@@ -36,7 +38,7 @@ export class UserComponent implements OnInit {
     private usersService: UsersService,
     private toastrService: NbToastrService,
     private dialogService: NbDialogService,
-  ) {}
+  ) { }
   dataSource: MatTableDataSource<User> = new MatTableDataSource();
 
   loading: boolean = false;

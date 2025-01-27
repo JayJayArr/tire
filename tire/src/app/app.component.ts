@@ -95,6 +95,7 @@ export class AppComponent implements AfterContentChecked {
           cardno: '',
           email: '',
           roles: [],
+
           active: false,
         };
       }

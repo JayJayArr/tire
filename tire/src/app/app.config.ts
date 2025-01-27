@@ -48,7 +48,9 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch(), withInterceptors([ApiInterceptor])),
     importProvidersFrom(AuthGuard),
     importProvidersFrom(NbContextMenuModule),
-    importProvidersFrom(NbToastrModule.forRoot()),
+    importProvidersFrom(
+      NbToastrModule.forRoot({ duplicatesBehaviour: 'all', limit: 3 }),
+    ),
     importProvidersFrom(NbSidebarModule.forRoot()),
     importProvidersFrom(NbDialogModule.forRoot({ hasBackdrop: true })),
     { provide: NbRoleProvider, useClass: RoleProvider },
