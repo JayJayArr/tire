@@ -45,6 +45,9 @@ lerna-debug.log*
 # certificates
 /cert
 
+# migrations
+/migrations
+
 # temp directory
 .temp
 .tmp

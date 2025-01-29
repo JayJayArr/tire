@@ -35,6 +35,7 @@ export class ProWatchService implements OnModuleInit {
       if (!connector.active) {
         this.logger.log('Connector deactivated, aborting');
         resolve(0);
+        return;
       }
 
       let usedCardnos = []; // get the cardnumbers of all active users out of the Repository

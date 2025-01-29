@@ -41,7 +41,7 @@ import { HealthModule } from './health/health.module';
     TypeOrmModule.forRoot({
       entities: [User, TimeEntry, Connector, Reader],
       // migrations: ['../migrations/*.ts'],
-      migrationsRun: process.env.DEVELOPMENT == 'true',
+      // migrationsRun: process.env.DEVELOPMENT == 'true',
       type: 'mssql',
       name: 'TireConnection',
       port: parseInt(process.env.TIRE_PORT),
@@ -75,4 +75,4 @@ import { HealthModule } from './health/health.module';
     { provide: APP_GUARD, useClass: ThrottlerGuard },
   ],
 })
-export class AppModule { }
+export class AppModule {}

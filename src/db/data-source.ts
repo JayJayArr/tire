@@ -1,4 +1,4 @@
-import { Connector } from 'src/entities/connector.entity';
+import { Connector } from '../entities/connector.entity';
 import { TimeEntry } from '../entities/timeentry.entity';
 import { User } from '../entities/user.entity';
 import { DataSource, DataSourceOptions } from 'typeorm';
@@ -6,7 +6,7 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 export const dataSourceOptions: DataSourceOptions[] = [
   {
     entities: [User, TimeEntry, Connector],
-    // migrations: ['../migrations/*.ts'],
+    migrations: ['../migrations/*.ts'],
     migrationsRun: process.env.DEVELOPMENT == 'true',
     type: 'mssql',
     name: 'TireConnection',
@@ -43,4 +43,4 @@ export const dataSourceOptions: DataSourceOptions[] = [
   },
 ];
 
-// export const dataSource = new DataSource(dataSourceOptions);
+export const dataSource = new DataSource(dataSourceOptions[0]);
