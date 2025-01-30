@@ -44,6 +44,7 @@ export const dataSourceOptions: DataSourceOptions[] = [
 ];
 
 export const config = new DataSource({
+  migrations: ['../migrations/*.ts'],
   entities: [User, TimeEntry, Connector],
   username: 'tire',
   type: 'mssql',
