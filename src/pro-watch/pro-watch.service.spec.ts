@@ -201,5 +201,6 @@ describe('ProWatchService', () => {
 
     expect(result).toBe(0);
     expect(mockConnectorRepository.findOneBy).toHaveBeenCalledTimes(1);
+    expect(mockPwEntityManager.query).toHaveBeenCalledTimes(0);
   });
 });

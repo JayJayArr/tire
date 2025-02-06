@@ -20,7 +20,7 @@ export class ProWatchService implements OnModuleInit {
     private readerRepository: Repository<Reader>,
     @InjectEntityManager('ProWatchConnection')
     private pwEntityManager: EntityManager,
-  ) {}
+  ) { }
 
   private readonly logger = new Logger(ProWatchService.name);
 
@@ -64,8 +64,10 @@ export class ProWatchService implements OnModuleInit {
           });
         });
 
-      if (!usedCardnos.length || !activeReaders.length) {
+      if (usedCardnos.length < 1 || activeReaders.length < 1) {
+        this.logger.log('No cards or no readers available, aborting');
         resolve(0);
+        return;
       }
       let prefix = '0x'; //needed for the correct ID creation of each Reader-ID
 
@@ -78,8 +80,8 @@ export class ProWatchService implements OnModuleInit {
         AND REC_DAT <= CAST('${runbegin.toISOString()}' as datetime) 
         AND CAST(BADGE_C.CARDNO as bigint) IN (${usedCardnos.toString()})
         AND LOGDEVID IN (${activeReaders.map((element) => {
-          return prefix.concat(element.toString('hex'));
-        })})
+        return prefix.concat(element.toString('hex'));
+      })})
         ORDER BY EVNT_DAT ASC`;
       const pwEvents = await this.pwEntityManager.query(querystring);
       let result: number = 0;
