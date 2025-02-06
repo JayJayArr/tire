@@ -17,6 +17,7 @@ import { Reader } from './entities/reader.entity';
 import { ReaderModule } from './reader/reader.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { HealthModule } from './health/health.module';
+import { FileModule } from './file/file.module';
 
 @Module({
   imports: [
@@ -69,6 +70,7 @@ import { HealthModule } from './health/health.module';
     ConnectorModule,
     ReaderModule,
     HealthModule,
+    FileModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: RolesGuard },
