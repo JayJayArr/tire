@@ -22,6 +22,14 @@
     >
       Refresh<nb-icon icon="refresh-outline"></nb-icon>
     </button>
+    <button
+      nbButton
+      status="primary"
+      class="download-button"
+      (click)="getFile()"
+    >
+      Download<nb-icon icon="download-outline"></nb-icon>
+    </button>
   </nb-card-header>
   <nb-card-body>
     <app-timetable [data]="data" [allowEdit]="false"></app-timetable>

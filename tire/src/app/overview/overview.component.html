@@ -33,6 +33,14 @@
     <button
       nbButton
       status="primary"
+      class="download-button"
+      (click)="getFile()"
+    >
+      Download<nb-icon icon="download-outline"></nb-icon>
+    </button>
+    <button
+      nbButton
+      status="primary"
       class="create-button"
       (click)="opendialog()"
     >

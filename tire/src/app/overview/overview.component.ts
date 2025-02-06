@@ -19,6 +19,7 @@ import { TimetableComponent } from '../timetable/timetable.component';
 import { NbAuthService } from '@nebular/auth';
 import { UsersService } from '../services/users.service';
 import { TimedialogComponent } from '../timedialog/timedialog.component';
+import { FileService } from '../services/file.service';
 
 @Component({
   selector: 'app-overview',
@@ -45,7 +46,8 @@ export class OverviewComponent {
     private usersService: UsersService,
     private toastrService: NbToastrService,
     private dialogService: NbDialogService,
-  ) { }
+    private fileService: FileService,
+  ) {}
 
   data: TreeNode<TimeEntry>[] = [];
 
@@ -148,5 +150,23 @@ export class OverviewComponent {
         return [];
       });
     this.loading = false;
+  }
+
+  async getFile() {
+    console.log(this.dateRange);
+    await this.fileService
+      .getOverviewTimesFile(
+        this.selectedCardno,
+        this.dateRange.start,
+        this.dateRange.end,
+      )
+      .then((data) => {
+        console.log('file download started');
+      })
+      .catch((error) => {
+        this.toastrService.danger('No Data to Download', 'Error', {
+          icon: 'download-outline',
+        });
+      });
   }
 }

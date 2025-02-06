@@ -13,6 +13,7 @@ import { TimeEntry, TreeNode } from '../types';
 import { TimesService } from '../services/times.service';
 import { FormsModule } from '@angular/forms';
 import { TimetableComponent } from '../timetable/timetable.component';
+import { FileService } from '../services/file.service';
 
 @Component({
   selector: 'app-personal',
@@ -35,7 +36,8 @@ export class PersonalComponent implements OnInit {
   constructor(
     private timesService: TimesService,
     private toastrService: NbToastrService,
-  ) { }
+    private fileService: FileService,
+  ) {}
   loading: boolean = false;
 
   data: TreeNode<TimeEntry>[] = [];
@@ -72,5 +74,17 @@ export class PersonalComponent implements OnInit {
         return [];
       });
     this.loading = false;
+  }
+  async getFile() {
+    await this.fileService
+      .getPersonalTimesFile(this.dateRange.start, this.dateRange.end)
+      .then((data) => {
+        console.log('file download started');
+      })
+      .catch((error) => {
+        this.toastrService.danger('No Data to Download', 'Error', {
+          icon: 'download-outline',
+        });
+      });
   }
 }
