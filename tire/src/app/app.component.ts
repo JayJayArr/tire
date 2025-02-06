@@ -40,6 +40,7 @@ import { environment } from '../environments/environment';
 })
 export class AppComponent implements AfterContentChecked {
   title = 'tire';
+  appVersion = environment.appVersion;
   sidebarstatus: NbSidebarState = 'expanded';
   user: User = {
     id: 0,
@@ -59,6 +60,11 @@ export class AppComponent implements AfterContentChecked {
       title: 'Logout',
       link: 'auth/logout',
       icon: 'lock-outline',
+    },
+    {
+      title: this.appVersion,
+      icon: 'hash-outline',
+      group: true,
     },
   ];
 
