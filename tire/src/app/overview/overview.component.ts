@@ -143,6 +143,7 @@ export class OverviewComponent {
         }
       })
       .catch((error) => {
+        console.error(error);
         this.toastrService.danger(
           'No Data found for this card number and time frame',
           'Error',
@@ -153,17 +154,15 @@ export class OverviewComponent {
   }
 
   async getFile() {
-    console.log(this.dateRange);
     await this.fileService
       .getOverviewTimesFile(
         this.selectedCardno,
         this.dateRange.start,
         this.dateRange.end,
       )
-      .then((data) => {
-        console.log('file download started');
-      })
+      .then((data) => {})
       .catch((error) => {
+        console.error(error);
         this.toastrService.danger('No Data to Download', 'Error', {
           icon: 'download-outline',
         });

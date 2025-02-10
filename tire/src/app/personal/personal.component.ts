@@ -70,6 +70,7 @@ export class PersonalComponent implements OnInit {
         }
       })
       .catch((error) => {
+        console.error(error);
         this.toastrService.danger('No data found for this timeframe', 'Error');
         return [];
       });
@@ -82,6 +83,7 @@ export class PersonalComponent implements OnInit {
         console.log('file download started');
       })
       .catch((error) => {
+        console.error(error);
         this.toastrService.danger('No Data to Download', 'Error', {
           icon: 'download-outline',
         });
