@@ -9,30 +9,6 @@ export class FileService {
   apiurl = environment.apiBaseUrl;
   constructor(private http: HttpClient) {}
 
-  getFile() {
-    this.http
-      .get(`${this.apiurl}/file`, { responseType: 'arraybuffer' })
-      .subscribe({
-        next: async (data: any) => {
-          let blob = new Blob([data], { type: 'text/csv' });
-          let url = URL.createObjectURL(blob);
-          // let pwa = window.open(url);
-
-          const a: HTMLAnchorElement = document.createElement(
-            'a',
-          ) as HTMLAnchorElement;
-          let downloadLink = document.createElement('a');
-          a.href = url;
-          a.download = '10635.csv';
-          document.body.appendChild(a);
-          a.click();
-
-          document.body.removeChild(a);
-          URL.revokeObjectURL(url);
-        },
-      });
-  }
-
   public getPersonalTimesFile(start?: Date, end?: Date): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.http
@@ -66,12 +42,14 @@ export class FileService {
 
               document.body.removeChild(a);
               URL.revokeObjectURL(url);
-              resolve(true);
+              return resolve(true);
+            } else {
+              return reject(false);
             }
           },
           error: (error) => {
             console.error(error);
-            reject(false);
+            return reject(false);
           },
         });
     });
@@ -117,12 +95,14 @@ export class FileService {
 
               document.body.removeChild(a);
               URL.revokeObjectURL(url);
-              resolve(true);
+              return resolve(true);
+            } else {
+              return reject(false);
             }
           },
           error: (error) => {
             console.error(error);
-            reject(false);
+            return reject(false);
           },
         });
     });
