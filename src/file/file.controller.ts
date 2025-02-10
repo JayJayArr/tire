@@ -8,43 +8,31 @@ import {
   StreamableFile,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { Roles } from 'src/roles/roles.decorator';
-import { TimesService } from 'src/times/times.service';
-import { Role } from 'src/types';
-import { User } from 'src/users/users.decorator';
+import { AuthGuard } from '../auth/auth.guard';
+import { Roles } from '../roles/roles.decorator';
+import { TimesService } from '../times/times.service';
+import { Role } from '../types';
+import { User } from '../users/users.decorator';
 
 @Controller('file')
 export class FileController {
-  constructor(private timesService: TimesService) {}
-
-  //For Testing purposes only:
-  // @Get()
-  // async getTimes() {
-  //   console.log('got file request');
-  //   let cardno = '10635';
-  //   let data = await this.timesService.getTimeEntries(cardno);
-  //   console.log(data);
-  //   let buffer = Buffer.from(this.convertToCSV(data));
-  //   return new StreamableFile(buffer, {
-  //     type: 'text/plain',
-  //     disposition: 'attachment; filename="' + cardno + '.csv"',
-  //   });
-  // }
+  constructor(private timesService: TimesService) { }
 
   @UseGuards(AuthGuard)
   @Roles(Role.User)
   @Post()
   async getPersonalTimes(@User('cardno') cardno: string, @Body() body: any) {
-    console.log('got file request');
-    const data = await this.timesService.getTimeEntries(
+    const data = (await this.timesService.getTimeEntries(
       cardno,
       body.start,
       body.end,
-    );
+    )) as any;
     if (data.length) {
       data.forEach((row) => {
         delete row.faulty;
+        if (row.outtime && row.intime) {
+          row.diff = (row.outtime - row.intime) / 1000;
+        }
       });
       let buffer = Buffer.from(this.convertToCSV(data));
       return new StreamableFile(buffer, {
@@ -60,17 +48,19 @@ export class FileController {
   @Roles(Role.PowerUser)
   @Post(':cardno')
   async getOverviewTimes(@Param() params: any, @Body() body: any) {
-    let data = await this.timesService.getTimeEntries(
+    let data = (await this.timesService.getTimeEntries(
       params.cardno,
       body.start,
       body.end,
-    );
+    )) as any;
     if (data.length) {
       data.forEach((row) => {
         delete row.faulty;
+        if (row.outtime && row.intime) {
+          row.diff = (row.outtime - row.intime) / 1000;
+        }
       });
       let buffer = Buffer.from(this.convertToCSV(data));
-      console.log(buffer);
       return new StreamableFile(buffer, {
         type: 'text/plain',
         disposition: 'attachment; filename="' + params.cardno + '.csv"',
