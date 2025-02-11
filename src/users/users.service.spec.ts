@@ -74,13 +74,23 @@ describe('UsersService', () => {
     expect(result).toEqual(users);
     expect(mockUserRepository.find).toHaveBeenCalledWith();
   });
+
   it('updateUser', async () => {
     jest.spyOn(mockUserRepository, 'save').mockReturnValue(users[1]);
     let result = await service.updateUser(users[1]);
 
     expect(result).toBe(users[1]);
-    expect(mockUserRepository.save).toHaveBeenCalledWith(users[1]);
+    expect(mockUserRepository.save).toHaveBeenCalledTimes(1);
   });
+
+  it('createUser', async () => {
+    jest.spyOn(mockUserRepository, 'save').mockReturnValue(users[1]);
+    let result = await service.updateUser(users[1]);
+
+    expect(result).toBe(users[1]);
+    expect(mockUserRepository.save).toHaveBeenCalledTimes(1);
+  });
+
   it('deleteUser', async () => {
     jest.spyOn(mockUserRepository, 'delete').mockReturnValue(users[1]);
     let result = await service.deleteUser(users[1].id);

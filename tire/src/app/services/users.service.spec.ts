@@ -96,6 +96,23 @@ describe('UsersService', () => {
     expect(service.updateUser).toHaveBeenCalledTimes(1);
   });
 
+  it('createUser => should post an update to a user', async () => {
+    jest.spyOn(service, 'createUser');
+    const updateUsersPromise = service.createUser(users[0]);
+
+    const req = httpTesting.expectOne(
+      service.apiurl + '/users',
+      'Request to update the users',
+    );
+    expect(req.request.method).toBe('PUT');
+    req.flush([users[0]]);
+    expect(await updateUsersPromise).toEqual([users[0]]);
+
+    httpTesting.verify();
+
+    expect(service.createUser).toHaveBeenCalledTimes(1);
+  });
+
   it('deleteUser => should delete a user', async () => {
     jest.spyOn(service, 'deleteUser');
     const deleteUsersPromise = service.deleteUser(users[0]);
@@ -111,6 +128,23 @@ describe('UsersService', () => {
     httpTesting.verify();
 
     expect(service.deleteUser).toHaveBeenCalledTimes(1);
+  });
+
+  it('requestPassword => should reset the password for a user', async () => {
+    jest.spyOn(service, 'requestPassword');
+    const deleteUsersPromise = service.requestPassword(users[0]);
+
+    const req = httpTesting.expectOne(
+      service.apiurl + '/auth/request-pass/1',
+      'request for a password reset',
+    );
+    expect(req.request.method).toBe('POST');
+    req.flush(false);
+    expect(await deleteUsersPromise).toBeUndefined();
+
+    httpTesting.verify();
+
+    expect(service.requestPassword).toHaveBeenCalledTimes(1);
   });
 
   it('trigger sync from AC => should request a sync', async () => {

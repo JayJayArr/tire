@@ -12,7 +12,7 @@ export class UsersService implements OnModuleInit {
     private usersRepository: Repository<User>,
     @InjectEntityManager('ProWatchConnection')
     private pwEntityManager: EntityManager,
-  ) {}
+  ) { }
   private readonly logger = new Logger(UsersService.name);
   private readonly users: User[] = [
     {
@@ -34,6 +34,16 @@ export class UsersService implements OnModuleInit {
   }
 
   async updateUser(user: User): Promise<User | undefined> {
+    let createUser = {
+      email: user.email,
+      cardno: user.cardno,
+      roles: [Role.User],
+      password: await this.hashPassword(user.cardno),
+    };
+    return this.usersRepository.save(createUser);
+  }
+
+  async createUser(user: User): Promise<User | undefined> {
     return this.usersRepository.save(user);
   }
 

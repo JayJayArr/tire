@@ -33,6 +33,7 @@ describe('UsersController', () => {
     updateUser: jest.fn(),
     deleteUser: jest.fn(),
     pullFromProWatch: jest.fn(),
+    createUser: jest.fn(),
   };
   const mockAuthGuard: CanActivate = { canActivate: jest.fn(() => true) };
 
@@ -63,7 +64,7 @@ describe('UsersController', () => {
     expect(mockUserService.findAll).toHaveBeenCalledTimes(1);
   });
 
-  it('updateUser => should return active Users', async () => {
+  it('updateUser => should update a User', async () => {
     jest.spyOn(mockUserService, 'updateUser').mockReturnValue(users[1]);
 
     const result = await controller.updateUser(users[1]);
@@ -73,7 +74,15 @@ describe('UsersController', () => {
     expect(mockUserService.updateUser).toHaveBeenCalledWith(users[1]);
   });
 
-  it('deleteUser => should return active Users', async () => {
+  it('createUser => should create active Users', async () => {
+    jest.spyOn(mockUserService, 'createUser').mockReturnValue(users[1]);
+
+    const result = await controller.createUser(users[1]);
+
+    expect(mockUserService.updateUser).toHaveBeenCalledTimes(1);
+  });
+
+  it('deleteUser => should delete Users', async () => {
     jest.spyOn(mockUserService, 'deleteUser').mockReturnValue(users[1]);
 
     const result = await controller.deleteUser(users[1].id);

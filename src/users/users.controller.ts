@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '../auth/auth.guard';
@@ -16,7 +17,7 @@ import { User } from '../entities/user.entity';
 
 @Controller('users')
 export class UsersController {
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService) { }
   @UseGuards(AuthGuard)
   @Roles(Role.PowerUser)
   @Get()
@@ -28,6 +29,13 @@ export class UsersController {
   @Roles(Role.PowerUser)
   @Post()
   updateUser(@Body() user: User) {
+    return this.usersService.updateUser(user);
+  }
+
+  @UseGuards(AuthGuard)
+  @Roles(Role.PowerUser)
+  @Put()
+  createUser(@Body() user: User) {
     return this.usersService.updateUser(user);
   }
 
