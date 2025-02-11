@@ -50,6 +50,7 @@ export class UserComponent implements OnInit {
     'role',
     'active',
     'edit',
+    'resetPass',
     'delete',
   ];
   async refresh() {
@@ -141,6 +142,18 @@ export class UserComponent implements OnInit {
       });
   }
 
+  resetdialog(user: User) {
+    this.dialogService
+      .open(ConfirmdialogComponent, {
+        context: {},
+      })
+      .onClose.subscribe((confirm) => {
+        if (confirm) {
+          this.resetPass(user);
+        }
+      });
+  }
+
   saveUser(user: User) {
     this.usersService
       .updateUser(user)
@@ -157,6 +170,20 @@ export class UserComponent implements OnInit {
       .deleteUser(user)
       .then((res) => {
         this.toastrService.success('User deleted', 'Success');
+      })
+      .catch((error) => {
+        this.toastrService.danger(error, 'Error');
+      });
+  }
+
+  resetPass(user: User) {
+    this.usersService
+      .requestPassword(user)
+      .then((res) => {
+        this.toastrService.success(
+          'Password for ' + user.email + ' reset to card number',
+          'Success',
+        );
       })
       .catch((error) => {
         this.toastrService.danger(error, 'Error');

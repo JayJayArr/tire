@@ -20,6 +20,7 @@ describe('AuthController', () => {
     signIn: jest.fn(),
     signUp: jest.fn(),
     changePassword: jest.fn(),
+    resetPassword: jest.fn(),
   };
   const response = {
     data: {
@@ -102,5 +103,25 @@ describe('AuthController', () => {
 
     expect(result).toBe(users[0]);
     expect(mockAuthService.changePassword).toHaveBeenCalledTimes(1);
+  });
+
+  it('resetPassword => should reset a password', async () => {
+    jest.spyOn(mockAuthService, 'resetPassword').mockResolvedValue(users[0]);
+
+    let result = await controller.resetPassword(users[0]);
+
+    expect(result).toBeUndefined();
+
+    expect(mockAuthService.resetPassword).toHaveBeenCalledTimes(1);
+  });
+
+  it('resetOtherUserPassword => should reset another users password', async () => {
+    jest.spyOn(mockAuthService, 'resetPassword').mockResolvedValue(users[0]);
+
+    let result = await controller.resetOtherUserPassword(users[0]);
+
+    expect(result).toBeUndefined();
+
+    expect(mockAuthService.resetPassword).toHaveBeenCalledTimes(1);
   });
 });

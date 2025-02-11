@@ -13,7 +13,7 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-  ) {}
+  ) { }
 
   async signIn(username: string, pass: string): Promise<any> {
     const user = await this.usersService.findOne(username);
@@ -31,6 +31,12 @@ export class AuthService {
   async changePassword(email: string, password: string) {
     let user = await this.usersService.findOne(email);
     user.password = await this.usersService.hashPassword(password);
+    return await this.usersService.updateUser(user);
+  }
+
+  async resetPassword(email: string) {
+    let user = await this.usersService.findOne(email);
+    user.password = await this.usersService.hashPassword(user.cardno);
     return await this.usersService.updateUser(user);
   }
 

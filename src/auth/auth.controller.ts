@@ -4,6 +4,7 @@ import {
   Controller,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   Put,
   UseGuards,
@@ -15,10 +16,13 @@ import { AuthGuard } from './auth.guard';
 import { User } from '../users/users.decorator';
 import { SignUpDto } from '../pipes/signUpDto';
 import { ResetPassDto } from '../pipes/resetPassDto';
+import { Roles } from '../roles/roles.decorator';
+import { Role } from '../types';
+import { RequestPassDto } from '../pipes/request-passDto';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
@@ -33,6 +37,24 @@ export class AuthController {
     } else {
       throw new BadRequestException("passwords don't match");
     }
+  }
+
+  @Post('request-pass')
+  @HttpCode(HttpStatus.OK)
+  async resetPassword(
+    @Body(new ValidationPipe()) requestPassDto: RequestPassDto,
+  ) {
+    await this.authService.resetPassword(requestPassDto.email);
+  }
+
+  @UseGuards(AuthGuard)
+  @Roles(Role.PowerUser)
+  @Post('request-pass/:userid')
+  @HttpCode(HttpStatus.OK)
+  async resetOtherUserPassword(
+    @Body(new ValidationPipe()) requestPassDto: RequestPassDto,
+  ) {
+    this.authService.resetPassword(requestPassDto.email);
   }
 
   @UseGuards(AuthGuard)

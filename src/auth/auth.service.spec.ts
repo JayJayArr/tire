@@ -146,4 +146,16 @@ describe('AuthService', () => {
     expect(mockUserService.updateUser).toHaveBeenCalledTimes(1);
     expect(mockUserService.hashPassword).toHaveBeenCalledTimes(1);
   });
+
+  it('resetPassword => should reset a password to a users cardno', async () => {
+    jest.spyOn(mockUserService, 'findOne').mockReturnValue(users[0]);
+    jest.spyOn(mockUserService, 'updateUser').mockResolvedValue(users[0]);
+
+    let result = await service.resetPassword(users[0].password);
+
+    expect(result).toBe(users[0]);
+    expect(mockUserService.findOne).toHaveBeenCalledTimes(1);
+    expect(mockUserService.updateUser).toHaveBeenCalledTimes(1);
+    expect(mockUserService.hashPassword).toHaveBeenCalledTimes(1);
+  });
 });
