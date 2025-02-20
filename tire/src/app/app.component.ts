@@ -21,22 +21,21 @@ import { NbAuthService } from '@nebular/auth';
 import { environment } from '../environments/environment';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [
-    RouterOutlet,
-    NbLayoutModule,
-    NbUserModule,
-    NbIconModule,
-    NbButtonModule,
-    NbContextMenuModule,
-    NbMenuModule,
-    NbSidebarModule,
-    NbActionsModule,
-    RouterLink,
-  ],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+    selector: 'app-root',
+    imports: [
+        RouterOutlet,
+        NbLayoutModule,
+        NbUserModule,
+        NbIconModule,
+        NbButtonModule,
+        NbContextMenuModule,
+        NbMenuModule,
+        NbSidebarModule,
+        NbActionsModule,
+        RouterLink,
+    ],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.css'
 })
 export class AppComponent implements AfterContentChecked {
   title = 'tire';

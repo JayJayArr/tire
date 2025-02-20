@@ -17,21 +17,20 @@ import { UserdialogComponent } from '../userdialog/userdialog.component';
 import { ConfirmdialogComponent } from '../confirmdialog/confirmdialog.component';
 
 @Component({
-  selector: 'app-user',
-  standalone: true,
-  imports: [
-    NbCardModule,
-    FormsModule,
-    NbIconModule,
-    NbButtonModule,
-    NbInputModule,
-    MatTableModule,
-    UserdialogComponent,
-    NbSpinnerModule,
-    NbLayoutModule,
-  ],
-  templateUrl: './user.component.html',
-  styleUrl: './user.component.css',
+    selector: 'app-user',
+    imports: [
+        NbCardModule,
+        FormsModule,
+        NbIconModule,
+        NbButtonModule,
+        NbInputModule,
+        MatTableModule,
+        UserdialogComponent,
+        NbSpinnerModule,
+        NbLayoutModule,
+    ],
+    templateUrl: './user.component.html',
+    styleUrl: './user.component.css'
 })
 export class UserComponent implements OnInit {
   constructor(

@@ -15,11 +15,10 @@ import { TimedialogComponent } from '../timedialog/timedialog.component';
 import { TimesService } from '../services/times.service';
 
 @Component({
-  selector: 'app-timetable',
-  standalone: true,
-  imports: [NbTreeGridModule],
-  templateUrl: './timetable.component.html',
-  styleUrl: './timetable.component.css',
+    selector: 'app-timetable',
+    imports: [NbTreeGridModule],
+    templateUrl: './timetable.component.html',
+    styleUrl: './timetable.component.css'
 })
 export class TimetableComponent implements OnChanges {
   constructor(

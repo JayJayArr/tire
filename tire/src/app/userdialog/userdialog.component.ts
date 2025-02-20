@@ -10,17 +10,16 @@ import {
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-userdialog',
-  standalone: true,
-  imports: [
-    NbCardModule,
-    FormsModule,
-    NbInputModule,
-    NbButtonModule,
-    NbToggleModule,
-  ],
-  templateUrl: './userdialog.component.html',
-  styleUrl: './userdialog.component.css',
+    selector: 'app-userdialog',
+    imports: [
+        NbCardModule,
+        FormsModule,
+        NbInputModule,
+        NbButtonModule,
+        NbToggleModule,
+    ],
+    templateUrl: './userdialog.component.html',
+    styleUrl: './userdialog.component.css'
 })
 export class UserdialogComponent implements OnInit {
   constructor(protected dialogRef: NbDialogRef<any>) { }

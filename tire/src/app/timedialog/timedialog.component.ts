@@ -11,18 +11,17 @@ import {
 import { TimeEntry } from '../types';
 
 @Component({
-  selector: 'app-timedialog',
-  standalone: true,
-  imports: [
-    NbCardModule,
-    FormsModule,
-    NbButtonModule,
-    NbInputModule,
-    NbDatepickerModule,
-    NbTimepickerModule,
-  ],
-  templateUrl: './timedialog.component.html',
-  styleUrl: './timedialog.component.css',
+    selector: 'app-timedialog',
+    imports: [
+        NbCardModule,
+        FormsModule,
+        NbButtonModule,
+        NbInputModule,
+        NbDatepickerModule,
+        NbTimepickerModule,
+    ],
+    templateUrl: './timedialog.component.html',
+    styleUrl: './timedialog.component.css'
 })
 export class TimedialogComponent {
   constructor(protected dialogRef: NbDialogRef<any>) { }

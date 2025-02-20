@@ -14,18 +14,17 @@ import { Connector } from '../types';
 import { ReaderService } from '../services/reader.service';
 
 @Component({
-  selector: 'app-admin',
-  standalone: true,
-  imports: [
-    NbButtonModule,
-    NbCardModule,
-    NbIconModule,
-    NbSpinnerModule,
-    NbToggleModule,
-    NbLayoutModule,
-  ],
-  templateUrl: './admin.component.html',
-  styleUrl: './admin.component.css',
+    selector: 'app-admin',
+    imports: [
+        NbButtonModule,
+        NbCardModule,
+        NbIconModule,
+        NbSpinnerModule,
+        NbToggleModule,
+        NbLayoutModule,
+    ],
+    templateUrl: './admin.component.html',
+    styleUrl: './admin.component.css'
 })
 export class AdminComponent implements OnInit {
   constructor(

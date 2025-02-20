@@ -16,21 +16,20 @@ import { TimetableComponent } from '../timetable/timetable.component';
 import { FileService } from '../services/file.service';
 
 @Component({
-  selector: 'app-personal',
-  standalone: true,
-  imports: [
-    NbCardModule,
-    NbDatepickerModule,
-    FormsModule,
-    NbIconModule,
-    NbButtonModule,
-    NbInputModule,
-    TimetableComponent,
-    NbSpinnerModule,
-    NbLayoutModule,
-  ],
-  templateUrl: './personal.component.html',
-  styleUrl: './personal.component.css',
+    selector: 'app-personal',
+    imports: [
+        NbCardModule,
+        NbDatepickerModule,
+        FormsModule,
+        NbIconModule,
+        NbButtonModule,
+        NbInputModule,
+        TimetableComponent,
+        NbSpinnerModule,
+        NbLayoutModule,
+    ],
+    templateUrl: './personal.component.html',
+    styleUrl: './personal.component.css'
 })
 export class PersonalComponent implements OnInit {
   constructor(

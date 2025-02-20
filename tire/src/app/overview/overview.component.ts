@@ -22,22 +22,21 @@ import { TimedialogComponent } from '../timedialog/timedialog.component';
 import { FileService } from '../services/file.service';
 
 @Component({
-  selector: 'app-overview',
-  standalone: true,
-  imports: [
-    NbCardModule,
-    NbInputModule,
-    NbSelectModule,
-    NbButtonModule,
-    NbIconModule,
-    NbDatepickerModule,
-    FormsModule,
-    TimetableComponent,
-    NbSpinnerModule,
-    NbLayoutModule,
-  ],
-  templateUrl: './overview.component.html',
-  styleUrl: './overview.component.css',
+    selector: 'app-overview',
+    imports: [
+        NbCardModule,
+        NbInputModule,
+        NbSelectModule,
+        NbButtonModule,
+        NbIconModule,
+        NbDatepickerModule,
+        FormsModule,
+        TimetableComponent,
+        NbSpinnerModule,
+        NbLayoutModule,
+    ],
+    templateUrl: './overview.component.html',
+    styleUrl: './overview.component.css'
 })
 export class OverviewComponent {
   constructor(

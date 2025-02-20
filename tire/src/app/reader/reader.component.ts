@@ -15,21 +15,20 @@ import { ReaderService } from '../services/reader.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-reader',
-  standalone: true,
-  imports: [
-    NbCardModule,
-    NbInputModule,
-    NbIconModule,
-    FormsModule,
-    MatTableModule,
-    NbButtonModule,
-    NbToggleModule,
-    NbSpinnerModule,
-    NbLayoutModule,
-  ],
-  templateUrl: './reader.component.html',
-  styleUrl: './reader.component.css',
+    selector: 'app-reader',
+    imports: [
+        NbCardModule,
+        NbInputModule,
+        NbIconModule,
+        FormsModule,
+        MatTableModule,
+        NbButtonModule,
+        NbToggleModule,
+        NbSpinnerModule,
+        NbLayoutModule,
+    ],
+    templateUrl: './reader.component.html',
+    styleUrl: './reader.component.css'
 })
 export class ReaderComponent {
   constructor(
