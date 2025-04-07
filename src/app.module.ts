@@ -61,7 +61,7 @@ import { FileModule } from './file/file.module';
         min: 0,
       },
     }),
-    ThrottlerModule.forRoot([{ ttl: 60000, limit: 10 }]),
+    ThrottlerModule.forRoot([{ ttl: 60000, limit: 60 }]),
     AuthModule,
     UsersModule,
     TimesModule,
