@@ -5,6 +5,7 @@ import { User } from '../entities/user.entity';
 import { TimeEntry } from '../entities/timeentry.entity';
 import { Connector } from '../entities/connector.entity';
 import { Reader } from '../entities/reader.entity';
+import { ProWatchWorker } from './pro-watch.worker';
 
 @Module({
   imports: [
@@ -14,6 +15,6 @@ import { Reader } from '../entities/reader.entity';
     ),
     TypeOrmModule.forFeature([], 'ProWatchConnection'),
   ],
-  providers: [ProWatchService],
+  providers: [ProWatchService, ProWatchWorker],
 })
 export class ProWatchModule {}

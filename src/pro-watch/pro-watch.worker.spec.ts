@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ProWatchService } from './pro-watch.service';
 import { getEntityManagerToken, getRepositoryToken } from '@nestjs/typeorm';
 import { TimeEntry } from '../entities/timeentry.entity';
 import { Connector } from '../entities/connector.entity';
@@ -7,9 +6,10 @@ import { Reader } from '../entities/reader.entity';
 import { User } from '../entities/user.entity';
 import { Role } from '../types';
 import { Logger } from '@nestjs/common';
+import { ProWatchWorker } from './pro-watch.worker';
 
 describe('ProWatchService', () => {
-  let service: ProWatchService;
+  let worker: ProWatchWorker;
   let mockTimeEntryRepository = {
     findBy: jest.fn(),
     insert: jest.fn(),
@@ -110,7 +110,7 @@ describe('ProWatchService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        ProWatchService,
+        ProWatchWorker,
         {
           provide: getRepositoryToken(TimeEntry, 'TireConnection'),
           useValue: mockTimeEntryRepository,
@@ -134,11 +134,11 @@ describe('ProWatchService', () => {
       ],
     }).compile();
 
-    service = module.get<ProWatchService>(ProWatchService);
+    worker = module.get<ProWatchWorker>(ProWatchWorker);
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(worker).toBeDefined();
   });
 
   it('proWatchPuller => should abort on a deactivated connector', async () => {
@@ -151,7 +151,7 @@ describe('ProWatchService', () => {
     jest.spyOn(mockTimeEntryRepository, 'update').mockReturnThis();
     jest.spyOn(mockTimeEntryRepository, 'insert').mockReturnThis();
 
-    let result = await service.proWatchPuller();
+    let result = await worker.proWatchPuller();
 
     expect(result).toBe(0);
     expect(mockConnectorRepository.findOneBy).toHaveBeenCalledTimes(1);
@@ -174,7 +174,7 @@ describe('ProWatchService', () => {
     jest.spyOn(mockTimeEntryRepository, 'update').mockReturnThis();
     jest.spyOn(mockTimeEntryRepository, 'insert').mockReturnThis();
 
-    let result = await service.proWatchPuller();
+    let result = await worker.proWatchPuller();
 
     expect(result).toBe(0);
     expect(mockConnectorRepository.findOneBy).toHaveBeenCalledTimes(1);
@@ -197,7 +197,7 @@ describe('ProWatchService', () => {
     jest.spyOn(mockTimeEntryRepository, 'update').mockReturnThis();
     jest.spyOn(mockTimeEntryRepository, 'insert').mockReturnThis();
 
-    let result = await service.proWatchPuller();
+    let result = await worker.proWatchPuller();
 
     expect(result).toBe(0);
     expect(mockConnectorRepository.findOneBy).toHaveBeenCalledTimes(1);
