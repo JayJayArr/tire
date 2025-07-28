@@ -140,7 +140,7 @@ describe('ProWatchService', () => {
           useValue: mockPwEntityManager,
         },
         {
-          provide: getDataSourceToken(),
+          provide: getDataSourceToken('TireConnection'),
           useValue: mockDataSource,
         },
       ],
