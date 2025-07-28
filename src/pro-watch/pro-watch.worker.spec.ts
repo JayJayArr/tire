@@ -1,5 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { getEntityManagerToken, getRepositoryToken } from '@nestjs/typeorm';
+import {
+  getDataSourceToken,
+  getEntityManagerToken,
+  getRepositoryToken,
+} from '@nestjs/typeorm';
 import { TimeEntry } from '../entities/timeentry.entity';
 import { Connector } from '../entities/connector.entity';
 import { Reader } from '../entities/reader.entity';
@@ -23,6 +27,10 @@ describe('ProWatchService', () => {
       andWhere: jest.fn().mockReturnThis(),
       getMany: jest.fn().mockResolvedValue(users),
     })),
+  };
+
+  let mockDataSource = {
+    createQueryRunner: jest.fn(() => ({})),
   };
 
   let mockReaderRepository = {
@@ -130,6 +138,10 @@ describe('ProWatchService', () => {
         {
           provide: getEntityManagerToken('ProWatchConnection'),
           useValue: mockPwEntityManager,
+        },
+        {
+          provide: getDataSourceToken(),
+          useValue: mockDataSource,
         },
       ],
     }).compile();
