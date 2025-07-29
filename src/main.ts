@@ -5,7 +5,11 @@ import helmet from 'helmet';
 
 async function bootstrap() {
   const logger = Logger;
-  const app = await NestFactory.create(AppModule);
+  // logger.log('Environment: ', process.env);
+
+  const app = await NestFactory.create(AppModule, {
+    logger: process.env.Development === 'true' ? ['log'] : ['debug', 'verbose'],
+  });
   app.setGlobalPrefix('/api/v1');
   app.enableCors();
   app.use(helmet());
