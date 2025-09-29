@@ -21,7 +21,9 @@ export class ProWatchService implements OnModuleInit, OnModuleDestroy {
 
   async startWorker() {
     if (isMainThread) {
-      this.worker = new Worker(join(__dirname, './pro-watch.worker'));
+      this.worker = new Worker(join(__dirname, './pro-watch.worker'), {
+        execArgv: ['--require', 'ts-node/register'],
+      });
       this.worker.on('message', (message) => {
         this.logger.log('Message from ProWatch Worker: ', message);
       });

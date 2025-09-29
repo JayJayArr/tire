@@ -11,6 +11,7 @@ jobs:
           node-version: lts/jod
       - run: npm ci
       - run: npm test
+      - run: npm run test:e2e
 
   test-backend-latest:
     runs-on: ubuntu-latest
